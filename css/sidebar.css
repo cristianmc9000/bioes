@@ -1,0 +1,57 @@
+:root{
+	--primary:  #34495e;
+	--light:  #ffffff;
+	--grey:  #efefef;
+}
+
+body{
+	/*overflow: hidden;*/
+	font-family: 'Muli', sans-serif;
+	font-weight: 300;
+	color:  #2c3e50;
+}
+
+#sidebar-container{
+	min-height: 100vh;
+}
+
+#sidebar-container .logo{
+	padding: .875rem 1.25rem;
+}
+
+#sidebar-container .menu{
+	width: 18rem;
+}
+
+.bg-primary{
+	background-color: var(--primary) !important;
+}
+
+a:hover{
+	text-decoration: none;
+}
+
+a{
+	text-decoration: none;
+}
+
+/*.material-icons-outlined{
+	display: inline-flex;
+    vertical-align: top;
+}*/
+
+/*.txt-align{
+ font-size:21px;
+ line-height:24px;
+}*/
+
+.inline-icon {
+   vertical-align: middle;
+   font-size: 18px !important;
+}
+
+#cuerpo {
+	overflow-y: auto;
+	height: 100vh;
+	padding-bottom: 5rem;
+}

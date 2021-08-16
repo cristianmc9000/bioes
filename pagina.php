@@ -48,16 +48,18 @@ while($arr = $Busq2->fetch_array())
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" >
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/datatable.css"> -->
-  <link rel="stylesheet" type="text/css" href="css/materialize.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/materialize.css"> -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="js/materialize.js"></script>
+  <!-- <script src="js/materialize.js"></script> -->
   <!-- <script src="js/datatable.js"></script> -->
 
   <!-- Datatables CDN downloaded -->
 <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css"/>
 <link rel="stylesheet" type="text/css" href="css/buttons.dataTables.css"/>
- 
+<link rel="stylesheet" type="text/css" href="css/sidebar.css">
 <script type="text/javascript" src="js/jszip.js"></script>
 <script type="text/javascript" src="js/pdfmake.js"></script>
 <script type="text/javascript" src="js/vfs_fonts.js"></script>
@@ -65,22 +67,23 @@ while($arr = $Busq2->fetch_array())
 <script type="text/javascript" src="js/dataTables.buttons.js"></script>
 <script type="text/javascript" src="js/buttons.html5.js"></script>
 <script type="text/javascript" src="js/buttons.print.js"></script>
+<script type="text/javascript" src="js/bootstrapGrawl.js"></script>
 
 <title>Arbell</title>
 <style>
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #919191;
-  opacity: 1; /* Firefox */
+  /*color: #919191;*/
+  /*opacity: 1; /* Firefox */*/
 }
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
-	font-family: Homestead Display;
-	color: #ffffff;
+/*	font-family: Homestead Display;
+	color: #ffffff;*/
 }
 .fuente{
   font-family: Segoe UI Light;
 }
-@media only screen and (max-width: 1000px) {
+/*@media only screen and (max-width: 1000px) {
 	  #titulo1{
 	  	display: none;
 	  }
@@ -92,33 +95,8 @@ while($arr = $Busq2->fetch_array())
 	  #titulo2{
 	  	display: none;
 	  }
-}
-.color-nav{
-  background-color: #1abc9c;
-}
-nav ul a:hover {
-  background-color: rgba(0, 0, 0, 0.3) !important;
-}
-nav ul li a:hover {
-  background-color: rgba(c, c, 0, 0.3) !important;
-}
+}*/
 
-.embed-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-}
-.embed-container iframe {
-    position: absolute;
-    top:0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-table.highlight > tbody > tr:hover {
-  background-color: #a0aaf0 !important;
-}
 .color-amarillo{
   background-color:  #FFFF01 !important;
 }
@@ -130,153 +108,147 @@ table.highlight > tbody > tr:hover {
     height: auto;
     object-fit: cover;
 }
-table.dataTable tbody th, table.dataTable tbody td {
-    padding: 5px 5px;
+
+#table_ini_1 tbody th, #table_ini_1 tbody td, #table_ini_2 tbody th, #table_ini_2 tbody td{
+  padding: 0;
 }
-  .dataTables_wrapper .dataTables_filter input {
-    border: 1px solid #aaa;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-left-width: 1px;
-    border-radius: 3px;
-    padding: 5px;
-    background-color: transparent;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-top: 0px;
-    padding-right: 0px;
-    border-top-width: 0px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-  }
+
 </style>
 </head>
 
 <body>
-<ul id="dropdown1" class="dropdown-content">
-  <!--<li><a href="#!" onclick="cargar('eliminados');">Productos Activos</a></li>-->
-  <li><a href="#!" onclick="cargar('art_eliminados');">Productos Eliminados</a></li>
-</ul>
 
-<nav class="color-nav">
-  <div class="nav-wrapper" >
-    <ul class="right hide-on-med-and-down">
-      <li><img align="center" width="40px" src="img/divisas2.png" alt=""></li>
-      <li><input style="width: 40px" placeholder="valor del peso en Bs." id="valor" value="0.07" type="text"></li>
-      <li><?php echo $estado; ?></li>
-      <li><?php echo $salir; ?></li>
-    </ul>
-
-    <ul id="dropdown1" class="dropdown-content">
-      <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas.php');">Realizar venta</a></li>
-      <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de ventas</a></li>
-    </ul>
-    <ul id="dropdown2" class="dropdown-content">
-      <li><a href="#!" onclick="cargar_v(event, 'templates/compras/a_compras.php');">Realizar compra</a></li>
-      <li><a href="#!" onclick="cargar_v(event, 'templates/compras/reg_compras.php?ges=<?php echo date('Y') ?>');">Registro de compras</a></li>
-    </ul>
-
-    <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="#!" onclick="location.reload();">INICIO</a></li>
-        <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/usuarios/a_usuarios');">USUARIOS</a></li>
-        <li><a href="#!" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
-        <li><a href="#!" onclick="cargar(event, 'templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
-        <!--  <li><a href="#!" onclick="cargar(event, 'templates/roles/a_roles');">ROLES</a></li> -->
-        <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>>
-          <a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown2">COMPRAS<i class="material-icons right">arrow_drop_down</i></a>
-        </li>
-        <li>
-          <a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a>
-        </li>
-        
-
-        <li><a href="#!" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
-        
-        <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/reportes/sel_fecha');">REPORTES</a></li>
-        <li class="brand-logo"></li>        
-      </ul>
-      <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-
-    <ul class="side-nav" id="mobile-demo">
-      <li><?php echo $estado, $ciUSER; ?></li>
-      <li><a href="#!" onclick="location.reload();">INICIO</a></li>
-      <li><a href="#!" onclick="cargar('productos');">Ventas</a></li>
-      <li><a href="#!" onclick="cargar('inventario');">Productos</a></li>
-      <li><a href="#!" onclick="cargar('clientes');">Clientes</a></li>
-      <li><a href="#!" onclick="cargar('sel_fecha');">Registro de ventas</a></li>
-      <li><a href="#!" onclick="cargar('Prod_vendidos');">Prod. Vendidos</a></li>
-      <!--<li><a href="#!" onclick="cargar('reportes');">Reportes</a></li>-->
-      <li><?php echo $salir; ?></li>
-    </ul>
+<div class="d-flex">
+  <div id="sidebar-container" class="bg-primary">
+    <div class="logo">
+      <h4 class="text-light font-weight-bold">BioEsencia</h4>
     </div>
-</nav>
+    <div class="menu">
+      <span class="txt-align"><a href="#!" class="d-block p-3 text-light" onclick="location.reload();"><i class="inline-icon material-icons-outlined me-2 lead">home</i>Inicio</a></span>
+      <span class="txt-align"><a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/usuarios/a_usuarios');"><i class="inline-icon material-icons-outlined me-2 lead">person</i>Usuarios</a></span>
+      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');"><i class="inline-icon material-icons-outlined me-2 lead">hail</i>Lider/Experta</a>
+      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/productos/a_prod-periodos');"><i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos</a>
+      <a class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> data-beloworigin="true" href="#!" data-activates="dropdown2"><i class="inline-icon material-icons-outlined me-2 lead">local_grocery_store</i>Compras<i class="inline-icon material-icons right">arrow_drop_down</i></a>
+      <a class="d-block p-3 text-light" data-beloworigin="true" href="#!" data-activates="dropdown1"><i class="inline-icon material-icons-outlined me-2 lead">shopify</i>Ventas<i class="material-icons right">arrow_drop_down</i></a>
+      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>
+      <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a>
+    </div>
+  </div>
+  <div id="navbar_bootstrap" class="w-100">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">Bio Esencia</a> -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+     
+            <img align="center" width="40px" src="img/divisas2.png" alt="">
+            <input style="width: 50px" placeholder="valor del peso en Bs." id="valor" value="0.07" type="text">
+          
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-<div class="row">
-    <div id="cuerpo" class="col s12">
-      <div class="col s6">
-        <span class="fuente col s12">
-          <div class="col s12"><h3>Productos escasos</h3></div><br>
-        </span>
-          <!-- TABLA -->
-          <div class="col s11">
-          <table id="" class="tabla1 highlight">
-            <thead>
-              <tr>
-                <th>Código <br> (Producto)</th>
-                <th>Linea</th>
-                <th>Descripción</th>
-                <th>Cantidad</th>
-              </tr>
-            </thead>
-            <!--  -->
-            <tbody>
-            <?php foreach($fila as $a  => $valor){ ?>
-              <tr style="background-color: #F78181">
-                <td><?php echo $valor["id"] ?></td>
-                <td><?php echo $valor["linea"] ?></td>
-                <td><?php echo $valor["descripcion"] ?></td>
-                <td><?php echo $valor["cantidad"] ?></td>
-              </tr>
-              <?php }?>
-            </tbody>
-          </table>
+           
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Opciones
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#"><?php echo $estado; ?></a></li>
+                <li><a class="dropdown-item" href="recursos/salir.php">Salir </a></li>
+                <li><hr class="dropdown-divider"></li>
+
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
+    </nav> 
 
-      <!-- tabla fechas -->
-      <div class="col s6">
-        <span class="fuente col s12">
-          <div class="col s12"><h3>Productos Próximos a Vencer</h3></div><br>
-        </span>
-          <!-- TABLA -->
-          <div class="col s11">
-          <table id="" class="tabla1 highlight">
-            <thead>
-              <tr>
-                <th>Código <br> (Producto)</th>
-                <th>Linea</th>
-                <th>Descripción</th>
-                <th>Fecha de <br>Vencimiento</th>
-              </tr>
-            </thead>
-            <!--  -->
-            <tbody>
-            <?php foreach($fila2 as $a  => $valor){ ?>
-              <tr style="background-color: #FFFF00">
-                <td><?php echo $valor["id"] ?></td>
-                <td><?php echo $valor["linea"] ?></td>
-                <td><?php echo $valor["descripcion"] ?></td>
-                <td><?php echo $valor["fecha"] ?></td>
-              </tr>
-              <?php }?>
-            </tbody>
-          </table>
+    
+    <section class="py-3">
+      <div id="cuerpo">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="fuente col-md-12">
+                <h3>Productos escasos</h3><br>
+              </div>
+
+              <div class="col-md-12">
+                <table id="table_ini_1" class="tabla1 table table-dark table-hover">
+                  <thead>
+                    <tr>
+                      <th>Código <br> (Producto)</th>
+                      <th>Linea</th>
+                      <th>Descripción</th>
+                      <th>Cantidad</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                  <?php foreach($fila as $a  => $valor){ ?>
+                    <tr style="color: #ff7979">
+                      <td><?php echo $valor["id"] ?></td>
+                      <td><?php echo $valor["linea"] ?></td>
+                      <td><?php echo $valor["descripcion"] ?></td>
+                      <td><?php echo $valor["cantidad"] ?></td>
+                    </tr>
+                    <?php }?>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="fuente col-md-12"><h3>Productos Próximos a Vencer</h3></div><br>
+
+              <div class="col-md-12">
+              <table id="table_ini_2" class="tabla1 table table-dark table-hover">
+                <thead>
+                  <tr>
+                    <th>Código <br> (Producto)</th>
+                    <th>Linea</th>
+                    <th>Descripción</th>
+                    <th>Fecha de <br>Vencimiento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php foreach($fila2 as $a  => $valor){ ?>
+                  <tr style="color: #f9ca24">
+                    <td><?php echo $valor["id"] ?></td>
+                    <td><?php echo $valor["linea"] ?></td>
+                    <td><?php echo $valor["descripcion"] ?></td>
+                    <td><?php echo $valor["fecha"] ?></td>
+                  </tr>
+                  <?php }?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
         </div>
       </div>
+    </section>
+  </div>
+</div>
 
+<!-- Bootstrap toast -->
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+  <!-- Position it: -->
+  <!-- - `.toast-container` for spacing between toasts -->
+  <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
+  <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+  <div class="toast-container position-absolute top-0 end-0 p-3">
+    <div id="atoast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div id="btoast" class="toast-body">
+          Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
     </div>
+  </div>
 </div>
 
 
@@ -299,18 +271,28 @@ $(document).ready(function() {
     });
 
   $(".dropdown-button").dropdown({ hover: true, beloworigin: true });
-  $(".button-collapse").sideNav();
+
 
 });
 
+function mtoast(text, color) {
+  //info = azul, danger = rojo, success = verde
+  $(".bootstrap-growl").remove()
+  $.bootstrapGrowl(text,{
+          type: color,
+          delay: 4000,
+          allow_dismiss: true
+        })
+}
+
   function cargar(e, x){
 
-    for (var i = 1; i <= 8; i++) {
+    // for (var i = 1; i <= 8; i++) {
       // console.log(e.target.parentNode.parentNode.children[i])
-      e.target.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
-    }
+      // e.target.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
+    // }
 
-    e.target.parentNode.style.backgroundColor = "#3498db"
+    // e.target.parentNode.style.backgroundColor = "#3498db"
 
     if(x.includes("templates/inventarios")){
       $("#cuerpo").load(x);
@@ -322,9 +304,9 @@ $(document).ready(function() {
   //PARA CARGAR LAS VENTAS 
   function cargar_v(e, x){
     for (var i = 1; i <= 8; i++) {
-      e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
+      // e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
     }
-    e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
+    // e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
     $("#cuerpo").load(x);
         
   }

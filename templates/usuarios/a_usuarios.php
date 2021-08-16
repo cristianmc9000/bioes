@@ -9,54 +9,26 @@ while($arr = $Busq->fetch_array())
         array_push($_SESSION['filas'],$fila); 
     } 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<style>
-  .fuente{
-  	font-family: 'Segoe UI light';
-  	color: red;
-  }
-  table.highlight > tbody > tr:hover {
-    background-color: #a0aaf0 !important;
-  }
-  #tabla1{
-  	border-collapse: separate;
-  	border-radius: 5px;
-  	border-spacing: 1px;
-  	border: solid;
-  	border-color: #1f1f1f;
-  }
-  .fijo{
-    position: fixed !important;
-    right: 10px;
-    bottom: 5%;
-    max-width: 230px;
-    z-index: 10 !important;
-    width: 230px;
-  }
-  .fijo:hover{
-    background: #ffffff;
-    margin-right:40px;
-  }
-</style>
-</head>
-<body>
-<span class="fuente"><h3>Usuarios	
+
+
+<div class="container-fluid">
+<span class="fuente"><h3>Usuarios
   <!-- Modal Trigger -->
-  <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a></h3> 
-</span>
+  <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i  class="material-icons-outlined align-middle">add</i>Agregar</button>
+
+  <!-- <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>  --></h3>
+</span><br>
   <!-- TABLA -->
   <div class="row">
-    <div class="col s11">
-      <table id="tabla1" class="highlight">
-        <thead>
+    <div class="col-md-11">
+      <table id="tabla1" class="table table-dark table-bordered table-hover">
+        <thead class="">
           <tr>
-              <th>CI</th>
-              <th>Nombres y apellidos</th>
-              <th>Telefono</th>
-              <th>Rol</th>
-              <th>Modificar</th>
+              <th scope="col">CI</th> 
+              <th scope="col">Nombres y apellidos</th>
+              <th scope="col">Telefono</th>
+              <th scope="col">Rol</th>
+              <th scope="col">Modificar</th>
               <!-- <th>Borrar</th> -->
           </tr>
         </thead>
@@ -67,7 +39,7 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["nombre"]." ".$valor["apellidos"] ?></td>
             <td><?php echo $valor["telefono"] ?></td>
             <td><?php if($valor['rol'] == '1') {echo 'Administrador';}else{echo 'Vendedor';}?></td>
-            <td><a href="#!" onclick="modificar_usuario('<?php echo $valor['ci']?>','<?php echo $valor['nombre']?>','<?php echo $valor['apellidos']?>','<?php echo $valor['telefono']?>','<?php echo $valor['rol']?>')"><i class="material-icons">build</i></a></td>
+            <td><a href="#!" onclick="modificar_usuario('<?php echo $valor['ci']?>','<?php echo $valor['nombre']?>','<?php echo $valor['apellidos']?>','<?php echo $valor['telefono']?>','<?php echo $valor['rol']?>')"><i class="material-icons-outlined">build</i></a></td>
             <!-- <td><a href="#"><i class="material-icons">delete</i></a></td>         -->
           </tr>
         <?php } ?>	
@@ -75,60 +47,69 @@ while($arr = $Busq->fetch_array())
       </table>
     </div>
   </div>
-<!-- MODAL DATOS -->
-<div class="row">
-  <div id="modal1" class="modal col s4 offset-s4">
+
+<!-- MODAL NUEVO USUARIO DATOS -->
+
+<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
-      <h4>Agregar usuario</h4>
-        <div class="row">
-          <form id="agregar_usuario" class="col s12">
-            <div class="row">
-              <div class="input-field col s6">
-                <input name="ci" type="text" class="validate">
-                <label for="ci">Cédula de Identidad:</label>
+      <div class="modal-header">
+        <h5 class="modal-title" id="titulo_modal1">Agregar usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="agregar_usuario" >
+            <div class="row g-3">
+              <div class="col-sm-12 col-md-6">
+                <label for="ci" class="form-label small text-muted">Cédula de Identidad</label>
+                <input type="text" name="ci" class="form-control">
               </div>
-              <div class="input-field col s6">
-                <input name="telefono" type="number" class="validate">
-                <label for="telefono">Teléfono:</label>
+              <div class="col-sm-12 col-md-6">
+                <label for="telefono" class="form-label small text-muted">Telf./Celular</label>
+                <input type="text" id="telefono" name="telefono" class="form-control">
               </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s6">
-                <input name="nombre" type="text" class="validate">
-                <label for="nombre">Nombre:</label>
+
+              <div class="col-sm-12 col-md-6">
+                <label for="nombre" class="form-label small text-muted">Nombre:</label>
+                <input name="nombre" type="text" class="form-control">
               </div>
-              <div class="input-field col s6">
-                <input name="apellidos" type="text" value="" autocomplete="off">
-                <label for="apellidos">Apellidos:</label>
+              <div class="col-sm-12 col-md-6">
+                <label for="apellidos" class="form-label small text-muted">Apellidos:</label>
+                <input name="apellidos" type="text" class="form-control" autocomplete="off">
+              </div>         
+
+              <div class="col-sm-12 col-md-6">
+                <label for="password" class="form-label small text-muted">Contraseña:</label>
+                <input name="password" type="password" class="form-control" autocomplete="new-password">
               </div>
-            </div>             
-            <div class="row">
-              <div class="input-field col s6">
-                <input name="password" type="password" value="" autocomplete="new-password">
-                <label for="password">Contraseña:</label>
+              <div class="col-sm-12 col-md-6">
+                <label for="password1" class="form-label small text-muted">Repita la contraseña:</label>
+                <input name="password1" class="form-control" type="password">
               </div>
-              <div class="input-field col s6">
-                  <input name="password1" type="password">
-                  <label for="password1">Repita la contraseña:</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s6">
-                <select name="rol" class="browser-default">
+
+              <div class="col-sm-12">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+                  </div>
+                  <select name="rol" class="form-select" id="inputGroupSelect01">
                     <option value="1">Administrador</option>
-                    <option value="2" selected>Vendedor</option>
-                </select>
+                    <option value="2">Vendedor</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-            </div>
+            </div> 
           </form>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button form="agregar_usuario" type="submit" class="btn btn-primary">Aceptar</button>
+      </div>
     </div>
   </div>
 </div>
+
+
 
 <!-- -----------modal modificar usuario------------ -->
 <div class="row">
@@ -185,7 +166,14 @@ while($arr = $Busq->fetch_array())
 </div>
 <div id="mensaje"></div>
 
-
+<!-- <div id="EpicToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="d-flex">
+    <div id="btoast" class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</div>  --> 
 
 <!-- -----------------CRUD DE USUARIOS------------------------ -->
 <script>
@@ -204,7 +192,7 @@ $(document).ready(function() {
       }
       }
     });
-    $('#modal').leanModal();
+    // $('#modal').leanModal();
 });
 var mensaje = $("#mensaje");
 mensaje.hide();
@@ -221,19 +209,12 @@ $("#agregar_usuario").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
-        mensaje.show();
+      mensaje.html(echo);
+      if (echo.includes('success')) {
         $("#cuerpo").load("templates/usuarios/a_usuarios.php");
       }
     });
 });
-
-/* borrar usuario */
-// function borrar_cliente(id){
-//   document.getElementById("datos_borrar").innerHTML ='<input type="text" name="id" value="'+id+'" hidden/>';
-//   $('#modal4').openModal();
-// }
 
 
 function modificar_usuario(ci, nombre, apellidos, telefono, rol){
@@ -247,7 +228,7 @@ function modificar_usuario(ci, nombre, apellidos, telefono, rol){
   else{selve = 'selected'}
   document.getElementById('rol').innerHTML = `<option value="1" ${selad}>Administrador</option><option value="2" ${selve}>Vendedor</option>`;
 
-  $("#modal2").openModal()
+  $("#modal2").modal("open")
 }
 /* agregar usuario */
 $("#modificar_usuario").on("submit", function(e){
@@ -272,5 +253,4 @@ $("#modificar_usuario").on("submit", function(e){
     });
 });
 </script>
-</body>
-</html>
+</div>
