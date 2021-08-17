@@ -248,7 +248,7 @@ $(document).ready(function() {
       }
       }
     });
-    $('#modal').leanModal();
+
     let today = new Date().toISOString().slice(0, 10)
     document.getElementById('fecha_alta').value = today
 
@@ -352,9 +352,9 @@ $("#agregar_cliente").on("submit", function(e){
     });
 });
 
-  $(document).ready(function() {
-    $('select').material_select();
-  });
+  // $(document).ready(function() {
+  //   $('select').material_select();
+  // });
 </script>
 
 </div>
