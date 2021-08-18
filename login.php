@@ -8,18 +8,27 @@ require('recursos/sesiones.php');
 
 <head>
 	<title>login</title>
-	<link rel="icon" href="img/iconobioesencia.ico"></link>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-	<!-- hoja de estilo css -->
-	<link rel="stylesheet" href="style.css">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/x-icon" href="img/iconoarbell.ico" />
+	<link rel="stylesheet" href="css/master.css">
+	<link rel="icon" href="img/iconoarbell.ico"></link>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/datatable.css">
+  	<link rel="stylesheet" type="text/css" href="css/materialize.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script src="js/materialize.js"></script>
+	<script src="js/datatable.js"></script>
 </head>
+<style>
+	.login-box {
+		background-color: transparent !important;
+	}
+</style>
 
-<body class="bg-dark">
-
+<body>
 	<div class="login-box">
 		<img class="avatar" src="img/logoarbell.png" alt="Logo Arbell">
 		<h1>Ingresar al Sistema</h1>
@@ -78,9 +87,6 @@ require('recursos/sesiones.php');
 			});
 		});
 	</script>
-
-<!-- bootstrap js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 </body>
 
 </html>
