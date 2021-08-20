@@ -71,6 +71,7 @@ while($arr = $Busq2->fetch_array())
 
 <title>Arbell</title>
 <style>
+@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   /*color: #919191;*/
   /*opacity: 1; /* Firefox */*/
@@ -82,6 +83,9 @@ while($arr = $Busq2->fetch_array())
 }
 .fuente{
   font-family: Segoe UI Light;
+}
+body {
+  font-family: 'Rubik';
 }
 /*@media only screen and (max-width: 1000px) {
 	  #titulo1{

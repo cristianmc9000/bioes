@@ -113,57 +113,63 @@ while($arr = $Busq->fetch_array())
 
 <!-- -----------modal modificar usuario------------ -->
 <div class="row">
-  <div id="modal2" class="modal col s4 offset-s4">
-    <div class="modal-content">
-      <h4>Modificar usuario</h4>
-        <div class="row">
-          <form id="modificar_usuario" class="col s12">
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="m_ci" name="ci" type="text" class="validate">
-                <label class="active" for="ci">Cédula de Identidad:</label>
-              </div>
-              <div class="input-field col s6">
-                <input id="m_telefono" name="telefono" type="number" class="validate">
-                <label class="active" for="telefono">Teléfono:</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="m_nombre" name="nombre" type="text" class="validate">
-                <label class="active" for="nombre">Nombre:</label>
-              </div>
-              <div class="input-field col s6">
-                <input id="m_apellidos" name="apellidos" type="text" value="" autocomplete="off">
-                <label class="active" for="apellidos">Apellidos:</label>
-              </div>
-            </div>             
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="m_password" name="password" type="password" value="" autocomplete="new-password">
-                <label for="password">Nueva Contraseña:</label>
-                <small class="helper-text" style="color: red">Dejar en blanco si no desea modificar</small>
-              </div>
-              <div class="input-field col s6">
-                  <input id="m_password1" name="password1" type="password">
-                  <label for="password1">Repita la contraseña:</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s6">
-                <select id="rol" name="rol" class="browser-default">
-                </select>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit">Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-            </div>
-          </form>
+  <div id="modal2" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="titulo_modal1">Modificar Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+
+              <form id="modificar_usuario">
+                <div class="row g-3">
+                  <div class="col-sm-12 col-md-6">
+                    <label class="form-label small text-muted" for="ci">Cédula de Identidad:</label>
+                    <input id="m_ci" name="ci" type="text" class="form-control">
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <label class="form-label small text-muted" for="telefono">Teléfono:</label>
+                    <input id="m_telefono" name="telefono" type="number" class="form-control">
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <label class="form-label small text-muted" for="nombre">Nombre:</label>
+                    <input id="m_nombre" name="nombre" type="text" class="form-control">
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <label class="form-label small text-muted" for="apellidos">Apellidos:</label>
+                    <input id="m_apellidos" name="apellidos" type="text" value="" autocomplete="off" class="form-control">
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <label class="form-label small text-muted" for="password">Nueva Contraseña:</label>
+                    <input id="m_password" name="password" type="password" value="" autocomplete="new-password" class="form-control">
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <label class="form-label small text-muted" for="password1">Repita la contraseña:</label>
+                    <input id="m_password1" name="password1" type="password" class="form-control">
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="input-group mb-1">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+                      </div>
+                      <select id="rol" name="rol" class="form-select" id="inputGroupSelect01">
+
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button form="modificar_usuario" type="submit" class="btn btn-primary">Aceptar</button>
+      </div>
+      </div>
     </div>
   </div>
 </div>
+</div> <!-- CONTAINER FUILD END -->
 <div id="mensaje"></div>
 
 <!-- <div id="EpicToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -228,7 +234,7 @@ function modificar_usuario(ci, nombre, apellidos, telefono, rol){
   else{selve = 'selected'}
   document.getElementById('rol').innerHTML = `<option value="1" ${selad}>Administrador</option><option value="2" ${selve}>Vendedor</option>`;
 
-  $("#modal2").modal("open")
+  $("#modal2").modal("show")
 }
 /* agregar usuario */
 $("#modificar_usuario").on("submit", function(e){
