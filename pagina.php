@@ -72,6 +72,47 @@ while($arr = $Busq2->fetch_array())
 <title>Arbell</title>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+
+
+.content-table{
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 00;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.50);
+  border-top-width: 3px;
+  border-top-style: solid;
+}
+.content-table thead tr{
+  background-color: #009879;
+  color: #FFF;
+  text-align: left;
+}
+.content-table th, .content-table td{
+  /*padding: 12px 15px !important;*/
+}
+.content-table tbody tr{
+  border-bottom: 1px solid #dddddd;
+}
+.content-table tbody tr:last-of-type td{
+  border-bottom: 3px solid #00aa79 !important;
+}
+/*TABLAS DE INICIO*/
+.tabla1 thead tr{
+  background-color: #e84118;
+}
+.tabla1 tbody tr:last-of-type td{
+  border-bottom: 3px solid #e84118 !important;
+}
+.tabla2 thead tr{
+  background-color: #fbc531;
+}
+.tabla2 tbody tr:last-of-type td{
+  border-bottom: 3px solid #fbc531 !important;
+}
+
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   /*color: #919191;*/
   /*opacity: 1; /* Firefox */*/
@@ -171,16 +212,16 @@ body {
 
     
     <section class="py-3">
-      <div id="cuerpo">
-        <div class="container-fluid">
+      <div class="container-fluid">
+        <div id="cuerpo">
           <div class="row">
             <div class="col-md-6">
               <div class="fuente col-md-12">
-                <h3>Productos escasos</h3><br>
+                <h3>Productos escasos o agotados</h3><br>
               </div>
 
               <div class="col-md-12">
-                <table id="table_ini_1" class="tabla1 table table-dark table-hover">
+                <table id="table_ini_1" class="datatable tabla1 table content-table table-hover">
                   <thead>
                     <tr>
                       <th>Código <br> (Producto)</th>
@@ -192,7 +233,7 @@ body {
 
                   <tbody>
                   <?php foreach($fila as $a  => $valor){ ?>
-                    <tr style="color: #ff7979">
+                    <tr>
                       <td><?php echo $valor["id"] ?></td>
                       <td><?php echo $valor["linea"] ?></td>
                       <td><?php echo $valor["descripcion"] ?></td>
@@ -207,7 +248,7 @@ body {
               <div class="fuente col-md-12"><h3>Productos Próximos a Vencer</h3></div><br>
 
               <div class="col-md-12">
-              <table id="table_ini_2" class="tabla1 table table-dark table-hover">
+              <table id="table_ini_2" class="datatable tabla2 table content-table table-hover">
                 <thead>
                   <tr>
                     <th>Código <br> (Producto)</th>
@@ -218,7 +259,7 @@ body {
                 </thead>
                 <tbody>
                 <?php foreach($fila2 as $a  => $valor){ ?>
-                  <tr style="color: #f9ca24">
+                  <tr >
                     <td><?php echo $valor["id"] ?></td>
                     <td><?php echo $valor["linea"] ?></td>
                     <td><?php echo $valor["descripcion"] ?></td>
@@ -259,7 +300,7 @@ body {
 <script type="text/javascript">
 
 $(document).ready(function() {
-    $('.tabla1').dataTable({
+    $('.datatable').dataTable({
         "order": [[ 0, "desc" ]],
         "language": {
         "lengthMenu": "Mostrar _MENU_ registros por página",

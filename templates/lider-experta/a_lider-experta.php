@@ -17,10 +17,7 @@ while($arr = $Busq->fetch_array())
 
   <title>Clientes</title>
 <style>
-  .fuente{
-    font-family: 'Segoe UI light';
-    color: red;
-  }
+
   table.dataTable tbody th, table.dataTable tbody td {
     padding: 1px 0px;
   }
@@ -28,7 +25,7 @@ while($arr = $Busq->fetch_array())
   table.highlight > tbody > tr:hover {
     background-color: #a0aaf0 !important;
   }
-
+/*
   #tabla1{
     border-collapse: separate;
     border-radius: 5px;
@@ -36,7 +33,7 @@ while($arr = $Busq->fetch_array())
     border: solid;
     border-color: #1f1f1f;
   }
-
+*/
 
 </style>
 
@@ -48,13 +45,15 @@ while($arr = $Busq->fetch_array())
 <span class="fuente">
   <h3>Nueva Lider/Experta 
     <!-- Modal Trigger -->
-    <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i  class="material-icons align-middle">add</i>Agregar</button>
+    
 </h3> 
 </span>
 
 <!-- TABLA -->
-
-  <table id="tabla1" class="highlight">
+<div class="row">
+  <div class="col-md-11">
+    <table id="tabla1" class="content-table table table-hover">
         <thead>
           <tr>
               <th>Codigo arbell</th>
@@ -94,10 +93,12 @@ while($arr = $Busq->fetch_array())
         <?php } ?> 
         </tbody>
     </table>
+  </div>
+</div>
 
+<!-- TERMINAR MODAL AGREGAR CLIENTE -->
 <!--MODAL AGREGAR CLIENTE-->
-<div class="row">
-<div id="modal1" class="modal col s4 offset-s4">
+<div id="modal1" class="modal">
   <div class="modal-content">
     <h4>Agregar Lider/Experta</h4>  
     <div class="row">
@@ -159,7 +160,7 @@ while($arr = $Busq->fetch_array())
     </div>
   </div>
 </div>
-</div>
+
 
 <!--MODAL MODIFICAR CLIENTE-->
 <div class="row">

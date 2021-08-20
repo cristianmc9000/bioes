@@ -13,7 +13,7 @@ $rol = $_POST['rol'];
 
 
 if($passwordPOST != $password1POST){
-	die('<script> Materialize.toast("Las contraseñas no coinciden", 5000) </script>'); 
+	die('<script> mtoast("Las contraseñas no coinciden", "danger") </script>'); 
 }
 
 

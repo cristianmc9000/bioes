@@ -11,7 +11,6 @@ while($arr = $Busq->fetch_array())
 ?>
 
 
-<div class="container-fluid">
 <span class="fuente"><h3>Usuarios
   <!-- Modal Trigger -->
   <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i  class="material-icons-outlined align-middle">add</i>Agregar</button>
@@ -21,7 +20,7 @@ while($arr = $Busq->fetch_array())
   <!-- TABLA -->
   <div class="row">
     <div class="col-md-11">
-      <table id="tabla1" class="table table-dark table-bordered table-hover">
+      <table id="tabla1" class="table content-table table-hover">
         <thead class="">
           <tr>
               <th scope="col">CI</th> 
@@ -169,7 +168,7 @@ while($arr = $Busq->fetch_array())
     </div>
   </div>
 </div>
-</div> <!-- CONTAINER FUILD END -->
+
 <div id="mensaje"></div>
 
 <!-- <div id="EpicToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -252,8 +251,8 @@ $("#modificar_usuario").on("submit", function(e){
         console.log(echo)
         mensaje.html(echo)
         if (echo == 1) {
-          Materialize.toast("<b>Usuario modificado.</b>",5000)
-          $("#modal2").closeModal()
+          mtoast("<b>Usuario modificado.</b>","success")
+          $("#modal2").modal('toggle')
           $("#cuerpo").load("templates/usuarios/a_usuarios.php")
         }
     });
