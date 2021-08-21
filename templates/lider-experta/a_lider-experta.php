@@ -67,7 +67,7 @@ while($arr = $Busq->fetch_array())
               <th>Nivel</th>
               <th>Modificar</th>
               <th>Borrar</th>
-              <th>Ver</th>
+              <!-- <th>Ver</th> -->
               <!--<th data-field="price">Ver Cliente</th>-->
           </tr>
         </thead>
@@ -88,7 +88,7 @@ while($arr = $Busq->fetch_array())
             <i class="material-icons">build</i></a></td>
             <!--HASTA AQUI-->
             <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a></td>
-            <td><a href="#"><i class="material-icons">search</i></a></td>
+            <!-- <td><a href="#"><i class="material-icons">search</i></a></td> -->
           </tr>
         <?php } ?> 
         </tbody>
@@ -174,82 +174,80 @@ while($arr = $Busq->fetch_array())
 
 <!--MODAL MODIFICAR CLIENTE-->
 <div class="row">
-  <div id="modal3" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="modal3" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modificar Lider/Experta</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-      <div class="modal-body">
-        <form id="modificar_cliente">
-            <div class="row g-3">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modificar Lider/Experta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modificar_cliente">
+                    <div class="row g-3">
+                        <div id="ca" class="col-sm-12 col-md-6"></div>
+                        <div id="nombre" class="col-sm-12 col-md-6"></div>
 
-              <div id="ca" class="col-sm-12 col-md-6"></div>
-              <div id="nombre" class="col-sm-12 col-md-6"></div>
- 
-              <div id="apellidos" class="col-sm-12 col-md-6"></div>
-              <div id="ci" class="col-sm-12 col-md-6"></div>
+                        <div id="apellidos" class="col-sm-12 col-md-6"></div>
+                        <div id="ci" class="col-sm-12 col-md-6"></div>
 
-              <div id="telefono" class="col-sm-12 col-md-6"></div>
-              <div id="lugar" class="col-sm-12 col-md-6"></div>
+                        <div id="telefono" class="col-sm-12 col-md-6"></div>
+                        <div id="lugar" class="col-sm-12 col-md-6"></div>
 
-              <div id="correo" class="col-sm-12 col-md-6"></div>
-              <!-- <div id="tipo" class="col-sm-12 col-md-6"></div> -->
-              <!-- DATOS ANTERIORES -->
-              <div class="col-sm-12 col-md-6" id="datos_anteriores" hidden></div>
-              <!-- FIN DATOS ANTERIORES -->
-              <div class="col-sm-12 col-md-6">
-                <label class="form-label small text-muted" for="fecha_alta_mod">Fecha de alta:</label>
-                <input name="fecha_alta_mod" id="fecha_alta_mod" type="date" value="" class="form-control" required>
-              </div>
+                        <div id="correo" class="col-sm-12 col-md-6"></div>
+                        <!-- <div id="tipo" class="col-sm-12 col-md-6"></div> -->
+                        <!-- DATOS ANTERIORES -->
+                        <div class="col-sm-12 col-md-6" id="datos_anteriores" hidden></div>
+                        <!-- FIN DATOS ANTERIORES -->
+                        <div class="col-sm-12 col-md-6">
+                            <label class="form-label small text-muted" for="fecha_alta_mod">Fecha de alta:</label>
+                            <input name="fecha_alta_mod" id="fecha_alta_mod" type="date" value="" class="form-control" required>
+                        </div>
 
-              <div class="col-sm-12">
-                <div class="input-group mb-1">
-                    <div class="input-group-prepend">
-                      <label class="input-group-text" for="tipo">Nivel</label>
+                        <div class="col-sm-12">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="tipo">Nivel</label>
+                                </div>
+                                <select id="tipo" class="form-select" name="nivel"></select>
+                            </div>
+                        </div>
                     </div>
-                    <select id="tipo" class="form-select" name="nivel"></select>
-                  </div>
-              </div>
+                </form>
             </div>
-
             <div class="modal-footer">
-                <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" form="modificar_cliente" type="submit">Aceptar</button>
             </div>
-          </div>
-        </form>
-      </div>
-
-      </div>
+        </div>
     </div>
-  </div>
+</div>
 </div>
 
 <!--MODAL BORRAR CLIENTE-->
-<div class="row">
-<div id="modal4" class="modal col s4 offset-s4">
-  <div class="modal-content">
-    <h4><b>Borrar Lider/Experta</b></h4>  
-    <p>¿Esta seguro que desea eliminar a esta lider/experta?</p>
-    <div class="row">
-      <form class="col s12" id="borrar_cliente">
-          <div class="row">
-            <div class="input-field col s6" id="datos_borrar">
-              
-            </div>
-          </div>
 
-          <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
+<div id="modal4" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Borrar Lider/Experta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro que desea eliminar a esta lider/experta?</p>
+                <form id="borrar_cliente">
+                    <div class="row g-3">
+                        <div class="col-sm-12 col-md-6" id="datos_borrar"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" form="borrar_cliente" type="submit">Aceptar</button>              
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-</div>
+
 
 
 <!--PARA RECIBIR MENSAJES DESDE PHP-->  

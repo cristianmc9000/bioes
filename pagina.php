@@ -72,8 +72,6 @@ while($arr = $Busq2->fetch_array())
 <title>BioEsencia - Carmina</title>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
-
-
 .content-table{
   border-collapse: collapse;
   margin: 25px 0;

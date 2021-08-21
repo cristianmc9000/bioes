@@ -37,239 +37,221 @@ if((mysqli_num_rows($Busq2))>0){
 ?>
 
 <style>
-  table.dataTable tbody th, table.dataTable tbody td {
+  /* table.dataTable tbody th, table.dataTable tbody td {
       padding: 0;
-  }
-  .fuente{
-    color: red;
-
-  }
-  .fuente_azul{
-    color: black;
-  }
-  .borde_tabla {
-      border: 1px solid;
-      border-collapse: collapse !important;
-  }
-  .borde_tabla td, .borde_tabla th{
-    text-align: center;
-  }
-  .borde_tabla tr td {
-      border: 1px solid;
-      border-collapse: collapse !important;
-      padding: 1px !important;
-  }
-
-  .borde_tabla tr th {
-      border: 1px solid;
-      border-collapse: collapse !important;
-  }
-
+  } */
   </style>
 
 <div class="row">
-<div class="col s11">
-
-<div class="col s4">
-  <span class="fuente">
+    <div class="col s11">
+        <div class="col s4">
+            <span class="fuente">
     <h3>
       Productos
       <!-- Modal Trigger -->
       <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
     </h3>
   </span>
-</div>
-<div class="col s2 offset-s1 input-field">
-  <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons-outlined left">grading</i>Ver líneas</a>
-</div>
-<!-- TABLA -->
-<div class="row">
-  <table id="tabla1" class="highlight" >
-    <thead>
-      <tr>
-          <th>Ver</th>
-          <th>Código<br>(Producto)</th>
-          <th>Linea</th>
-          <th>Descripción</th>
-          <th>Cantidad</th>
-          <th>Modificar</th>
-          <th>Borrar</th>
-      </tr>
-    </thead>
-    <tbody>
-    <?php foreach($fila as $a  => $valor){ ?>
-      <tr>
-        <td><img src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
-        <td><?php echo $valor["id"] ?></td>
-        <td><?php echo $valor["linea"]?></td>
-        <td><?php echo $valor["descripcion"]?></td>
-        <td><?php echo $valor["cantidad"] ?></td>
-        <td>
-          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
-        </td>
-        <td>
-          <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
-        </td>
-      
-      </tr>
-    <?php } ?>  
-    </tbody>
-  </table>
-</div>
-<!--MODAL AGREGAR LINEA-->
-<div class="row">
-<div id="modal_lin" class="modal col s6 offset-s3">
-  <div class="modal-content">
-    <h4 class="fuente">Nueva Linea</h4>  
-    <div class="row">
-      <form class="col s12" id="agregar_linea">
-          <div class="input-field col s4">
-            <input name="linea_" id="linea_" type="text" class="validate" required>
-            <label for="linea_">Nombre de la Linea</label>
-          </div>
-          <div class="col s3">
-              <button class="btn-large waves-effect waves-light orange" type="submit" ><i class="material-icons left">add</i>Agregar linea</button>
-          </div>
-      </form>
-      <table id="tabla_lineas" class="borde_tabla">
-          <tr>
-              <th>Código</th>
-              <th>Nombre</th>
-              <th>Periodo</th>
-              <th>Modificar</th>
-              <th>Borrar</th>
-          </tr>
-          <tbody>
-              
-          </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <a href="#!" class=" modal-action modal-close waves-effect waves-light btn blue">Cerrar</a>
-  </div>
-</div>
-</div>
+        </div>
+        <div class="col s2 offset-s1 input-field">
+            <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons-outlined left">grading</i>Ver líneas</a>
+        </div>
+        <!-- TABLA -->
+        <div class="row">
+            <table id="tabla1" class="highlight">
+                <thead>
+                    <tr>
+                        <th>Ver</th>
+                        <th>Código<br>(Producto)</th>
+                        <th>Linea</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Modificar</th>
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($fila as $a  => $valor){ ?>
+                    <tr>
+                        <td><img src="<?php echo $valor[" foto "]?>" width="50px" height="40px" alt=""></td>
+                        <td>
+                            <?php echo $valor["id"] ?>
+                        </td>
+                        <td>
+                            <?php echo $valor["linea"]?>
+                        </td>
+                        <td>
+                            <?php echo $valor["descripcion"]?>
+                        </td>
+                        <td>
+                            <?php echo $valor["cantidad"] ?>
+                        </td>
+                        <td>
+                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
+                        </td>
+                        <td>
+                            <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
+                        </td>
 
-<!--MODAL AGREGAR PRODUCTO-->
-<div class="row">
-<div id="modal1" class="modal col s4 offset-s4">
-  <div class="modal-content">
-    <h4>Nuevo producto</h4>  
-    <div class="row">
-      <form class="col s12" id="agregar_producto">
-          <div class="row">
-            <div class="input-field file-field col s6">
-              <div class="btn">
-                <span>Foto</span>
-                <input type="file" name="imagen">
-              </div>
-              <div class="file-path-wrapper">
-                <input id="foto" class="file-path validate" type="text">
-              </div>
-              
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+        <!--MODAL AGREGAR LINEA-->
+        <div class="row">
+            <div id="modal_lin" class="modal col s6 offset-s3">
+                <div class="modal-content">
+                    <h4 class="fuente">Nueva Linea</h4>
+                    <div class="row">
+                        <form class="col s12" id="agregar_linea">
+                            <div class="input-field col s4">
+                                <input name="linea_" id="linea_" type="text" class="validate" required>
+                                <label for="linea_">Nombre de la Linea</label>
+                            </div>
+                            <div class="col s3">
+                                <button class="btn-large waves-effect waves-light orange" type="submit"><i class="material-icons left">add</i>Agregar linea</button>
+                            </div>
+                        </form>
+                        <table id="tabla_lineas" class="borde_tabla">
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Periodo</th>
+                                <th>Modificar</th>
+                                <th>Borrar</th>
+                            </tr>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-light btn blue">Cerrar</a>
+                </div>
             </div>
-            <div class="input-field col s6">
-              <input name="codigo" type="text" autocomplete="off" required>
-              <label for="codigo">Código:</label>
-            </div>
-          </div>
-          <div class="row">  
-            <div class="input-field col s6">
-              <select id = "linea" name = "linea" class="browser-default">
+        </div>
+
+        <!--MODAL AGREGAR PRODUCTO-->
+        <div class="row">
+            <div id="modal1" class="modal col s4 offset-s4">
+                <div class="modal-content">
+                    <h4>Nuevo producto</h4>
+                    <div class="row">
+                        <form class="col s12" id="agregar_producto">
+                            <div class="row">
+                                <div class="input-field file-field col s6">
+                                    <div class="btn">
+                                        <span>Foto</span>
+                                        <input type="file" name="imagen">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input id="foto" class="file-path validate" type="text">
+                                    </div>
+
+                                </div>
+                                <div class="input-field col s6">
+                                    <input name="codigo" type="text" autocomplete="off" required>
+                                    <label for="codigo">Código:</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <select id="linea" name="linea" class="browser-default">
                 <option value="" disabled selected>Seleccionar linea</option>
                 <?php foreach($fila2 as $a  => $valor){ ?>
                   <option value="<?php echo $valor["codli"] ?>"><?php echo $valor["nombre"] ?></option>
                 <?php } ?>
               </select>
-            </div>
-            <div class="input-field col s6">
-              <input name="descripcion" type="text" autocomplete="off" required>
-              <label for="descripcion">Descripción:</label>
-            </div>
-          </div>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input name="descripcion" type="text" autocomplete="off" required>
+                                    <label for="descripcion">Descripción:</label>
+                                </div>
+                            </div>
 
-          <div class="modal-footer">
-              <button class="btn waves-effect waves-light" id="btn-add_prod" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
-    </div>
-  </div>
-</div>
-</div>
+                            <div class="modal-footer">
+                                <button class="btn waves-effect waves-light" id="btn-add_prod" type="submit">Aceptar</button>
+                                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!--MODAL MODIFICAR PRODUCTO-->
-<div class="row">
-<div id="modal2" class="modal col s4 offset-s4">
-  <div class="modal-content fuente fuente_azul" >
-    <h4>Modificar producto</h4>  
-    <div class="row">
-      <form class="col s12" id="modificar_producto">
-          <div class="row">
-            <div class="input-field file-field col s6">
-              <div class="btn">
-                <span>Foto</span>
-                <input type="file" name="imagen">
-              </div>
-              <div class="file-path-wrapper">
-                <input id="imagen" class="file-path validate" type="text">
-              </div>
-            </div>
-            <div class="input-field col s6">
-              <input id="codigo" name="codigo" type="text" required>
-              <label class="active" for="codigo">Código:</label>
-              <input id="codigo_ant" name="codant" type="text" hidden>
-            </div>
-          </div>
-          <div class="row">  
-            <div class="input-field col s6">
-              <select id = "lin" name="linea" class="browser-default">
+        <!--MODAL MODIFICAR PRODUCTO-->
+        <div class="row">
+            <div id="modal2" class="modal col s4 offset-s4">
+                <div class="modal-content fuente fuente_azul">
+                    <h4>Modificar producto</h4>
+                    <div class="row">
+                        <form class="col s12" id="modificar_producto">
+                            <div class="row">
+                                <div class="input-field file-field col s6">
+                                    <div class="btn">
+                                        <span>Foto</span>
+                                        <input type="file" name="imagen">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input id="imagen" class="file-path validate" type="text">
+                                    </div>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="codigo" name="codigo" type="text" required>
+                                    <label class="active" for="codigo">Código:</label>
+                                    <input id="codigo_ant" name="codant" type="text" hidden>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <select id="lin" name="linea" class="browser-default">
                 <option id="lin_prev" value="" ></option>
                 <?php foreach($fila2 as $a  => $valor){ ?>
                   <option value="<?php echo $valor["codli"] ?>"><?php echo $valor["nombre"] ?></option>
                 <?php } ?>
               </select>
-            </div>
-            <div class="input-field col s6">
-              <input id="descripcion" name="descripcion" type="text" required>
-              <label class="active" for="descripcion">Descripción:</label>
-            </div>
-          </div>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="descripcion" name="descripcion" type="text" required>
+                                    <label class="active" for="descripcion">Descripción:</label>
+                                </div>
+                            </div>
 
-          <div class="modal-footer">
-              <button id="btn-mod_prod" class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
-    </div>
-  </div>
-</div>
-</div>
-
-<!--MODAL BORRAR CLIENTE-->
-<div class="row">
-<div id="modal3" class="modal col s4 offset-s4">
-  <div class="modal-content">
-    <h4><b>Borrar Producto</b></h4>  
-    <p>¿Esta seguro que desea eliminar este producto?</p>
-    <div class="row">
-      <form class="col s12" id="eliminar_producto">
-          <div class="row">
-            <div class="input-field col s6" >
-              <input id="datos_borrar" name="id" type="text" hidden>
+                            <div class="modal-footer">
+                                <button id="btn-mod_prod" class="btn waves-effect waves-light" type="submit">Aceptar</button>
+                                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
+        </div>
 
-          <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
-    </div>
-  </div>
-</div>
-</div>
+        <!--MODAL BORRAR CLIENTE-->
+        <div class="row">
+            <div id="modal3" class="modal col s4 offset-s4">
+                <div class="modal-content">
+                    <h4><b>Borrar Producto</b></h4>
+                    <p>¿Esta seguro que desea eliminar este producto?</p>
+                    <div class="row">
+                        <form class="col s12" id="eliminar_producto">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="datos_borrar" name="id" type="text" hidden>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn waves-effect waves-light" type="submit">Aceptar</button>
+                                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
