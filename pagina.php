@@ -69,7 +69,7 @@ while($arr = $Busq2->fetch_array())
 <script type="text/javascript" src="js/buttons.print.js"></script>
 <script type="text/javascript" src="js/bootstrapGrawl.js"></script>
 
-<title>Arbell</title>
+<title>BioEsencia - Carmina</title>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 
@@ -81,7 +81,7 @@ while($arr = $Busq2->fetch_array())
   min-width: 400px;
   border-radius: 5px 5px 00;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.50);
+  box-shadow: 10px 10px 8px #888888;
   border-top-width: 3px;
   border-top-style: solid;
 }
@@ -127,6 +127,10 @@ while($arr = $Busq2->fetch_array())
 }
 body {
   font-family: 'Rubik';
+  /*overflow-x: hidden;*/
+}
+#cuerpo{
+  overflow-x: hidden;
 }
 /*@media only screen and (max-width: 1000px) {
 	  #titulo1{
@@ -158,11 +162,12 @@ body {
   padding: 0;
 }
 
+
 </style>
 </head>
 
 <body>
-
+<!-- BOOTSTRAP SIDEBAR -->
 <div class="d-flex">
   <div id="sidebar-container" class="bg-primary">
     <div class="logo">
@@ -173,12 +178,46 @@ body {
       <span class="txt-align"><a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/usuarios/a_usuarios');"><i class="inline-icon material-icons-outlined me-2 lead">person</i>Usuarios</a></span>
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');"><i class="inline-icon material-icons-outlined me-2 lead">hail</i>Lider/Experta</a>
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/productos/a_prod-periodos');"><i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos</a>
-      <a class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> data-beloworigin="true" href="#!" data-activates="dropdown2"><i class="inline-icon material-icons-outlined me-2 lead">local_grocery_store</i>Compras<i class="inline-icon material-icons right">arrow_drop_down</i></a>
-      <a class="d-block p-3 text-light" data-beloworigin="true" href="#!" data-activates="dropdown1"><i class="inline-icon material-icons-outlined me-2 lead">shopify</i>Ventas<i class="material-icons right">arrow_drop_down</i></a>
+      <!-- compras y ventas acordion -->
+      <div <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> class="accordion accordion-flush"  id="accordionFlushExample">
+        <div  class="accordion-item">
+          <h2  class="accordion-header" id="flush-headingOne">
+            <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              <i class="inline-icon material-icons-outlined me-2 lead">local_grocery_store</i>Compras
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div style="background-color: #786fa6;" class="accordion-body">
+              <a class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/compras/a_compras.php');">Realizar compra</a>
+              <a class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/compras/reg_compras.php?ges=<?php echo date('Y') ?>');">Registro de compras</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> class="accordion accordion-flush" id="accordionFlushExample2">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              <i class="inline-icon material-icons-outlined me-2 lead">shopify</i>Ventas
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample2">
+            <div style="background-color: #786fa6;" class="accordion-body">
+              <!-- aqui va el contenido del acordion de compras -->
+              <a style="" class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas.php');">Realizar venta</a>
+              <a style="" class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de ventas</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- fin compras y ventas acordion -->
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>
       <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a>
     </div>
   </div>
+  <!-- FIN bootstrap sidebar -->
   <div id="navbar_bootstrap" class="w-100">
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <div class="container-fluid">

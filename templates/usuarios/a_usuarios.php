@@ -53,7 +53,7 @@ while($arr = $Busq->fetch_array())
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="titulo_modal1">Agregar usuario</h5>
+        <h5 class="modal-title" >Agregar usuario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -116,11 +116,10 @@ while($arr = $Busq->fetch_array())
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="titulo_modal1">Modificar Usuario</h5>
+          <h5 class="modal-title">Modificar Usuario</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-
               <form id="modificar_usuario">
                 <div class="row g-3">
                   <div class="col-sm-12 col-md-6">

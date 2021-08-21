@@ -98,65 +98,75 @@ while($arr = $Busq->fetch_array())
 
 <!-- TERMINAR MODAL AGREGAR CLIENTE -->
 <!--MODAL AGREGAR CLIENTE-->
-<div id="modal1" class="modal">
-  <div class="modal-content">
-    <h4>Agregar Lider/Experta</h4>  
-    <div class="row">
-      <form class="col s12" id="agregar_cliente">
-          <div class="row">
-            <div class="input-field col s6">
-              <input name="ca" type="number" class="validate" required>
-              <label for="ca">Codigo arbell</label>
-            </div>
-            <div class="input-field col s6">
-              <input name="nombre" type="text" class="validate" required>
-              <label for="nombre">Nombre:</label>
-            </div>
-          </div>
-          <div class="row">  
-            <div class="input-field col s6">
-              <input name="apellidos" type="text" class="validate" required>
-              <label for="apellidos">Apellidos:</label>
-            </div>
-            <div class="input-field col s6">
-              <input name="ci" type="number" class="validate" required>
-              <label for="ci">CI:</label>
-            </div>
-          </div>
-          <div class="row">
-          <div  class="input-field col s6">
-            <input name="telefono" type="number" required>
-            <label for="telefono">Teléfono: </label>
-          </div>
-            <div class="input-field col s6">
-              <input name="lugar" type="text" class="validate" required>
-              <label for="lugar">Lugar:</label>
-            </div>
-          </div>
-          <div class="row">  
-            <div class="input-field col s6">
-              <input name="correo" type="email" class="validate" required>
-              <label for="correo">Correo: </label>
-            </div>
-            <div class="input-field col s6">
-                <select name="nivel">
-                  <option value="1" selected>Experta</option>
-                  <option value="2">Lider</option>
-                </select>
-                <label>Nivel</label>
-            </div>  
-          </div>
-          <div class="row">
-              <div class="input-field col s6">
-                <input name="fecha_alta" id="fecha_alta" type="date" value="" class="validate" required>
-                <label class="active" for="fecha_alta">Fecha de alta:</label>
+<div id="modal1" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">Agregar Lider/Experta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="agregar_cliente">
+            <div class="row g-3">
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="ca">* Codigo arbell</label>
+                <input name="ca" type="number" class="form-control" required>
               </div>
-          </div>
-          <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
+
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="nombre">* Nombre:</label>
+                <input name="nombre" type="text" class="form-control" required>
+              </div>
+
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="apellidos">* Apellidos:</label>
+                <input name="apellidos" type="text" class="form-control" required>
+              </div>
+
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="ci">* CI:</label>
+                <input name="ci" type="number" class="form-control" required>
+              </div>
+
+            <div  class="col-sm-12 col-md-6">
+              <label class="form-label small text-muted" for="telefono">* Teléfono: </label>
+              <input name="telefono" class="form-control" type="number" required>
+            </div>
+
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="lugar">* Lugar:</label>
+                <input name="lugar" type="text" class="form-control" required>
+              </div>
+
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="correo">* Correo: </label>
+                <input name="correo" type="email" class="form-control" required>
+              </div>
+
+              <div class="col-sm-12 col-md-6">
+                  <label class="form-label small text-muted" for="fecha_alta">* Fecha de alta:</label>
+                  <input name="fecha_alta" id="fecha_alta" type="date" value="" class="form-control" required>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="input-group mb-1">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Nivel</label>
+                  </div>
+                  <select name="nivel" class="form-select" id="inputGroupSelect01">
+                    <option value="1" selected>Experta</option>
+                    <option value="2">Lider</option>
+                  </select>
+                </div>
+              </div> 
+
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button form="agregar_cliente" type="submit" class="btn btn-primary" type="submit" >Aceptar</button>
+      </div>
     </div>
   </div>
 </div>

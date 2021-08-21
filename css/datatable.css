@@ -209,8 +209,10 @@ table.dataTable td {
 .dataTables_wrapper {
   position: relative;
   clear: both;
-  *zoom: 1;
-  zoom: 1; }
+  /**zoom: 1;*/
+  *transform: scale(1);
+  transform: scale(1);}
+  /*zoom: 1; }*/
   .dataTables_wrapper .dataTables_length {
     float: left; }
   .dataTables_wrapper .dataTables_filter {

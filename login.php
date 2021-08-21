@@ -23,9 +23,17 @@ require('recursos/sesiones.php');
 	<script src="js/datatable.js"></script>
 </head>
 <style>
+	@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+
 	.login-box {
 		background-color: transparent !important;
 	}
+	body{
+		font-family: 'Belina Demo';
+		src: url('fonts/belina/BelinaDemo-Regular.ttf'), url('fonts/Evergreen/Evergreen.otf'), url('fonts/fortunates	/Fortunates December.ttf');
+
+	}
+
 </style>
 
 <body>
