@@ -40,18 +40,18 @@ if((mysqli_num_rows($Busq2))>0){
   /* table.dataTable tbody th, table.dataTable tbody td {
       padding: 0;
   } */
-  </style>
+</style>
 
-<div class="row">
-    <div class="col s11">
+
+
         <div class="col s4">
             <span class="fuente">
-    <h3>
-      Productos
-      <!-- Modal Trigger -->
-      <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
-    </h3>
-  </span>
+                <h3>
+                  Productos
+                  <!-- Modal Trigger -->
+                  <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
+                </h3>
+            </span>
         </div>
         <div class="col s2 offset-s1 input-field">
             <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons-outlined left">grading</i>Ver líneas</a>
@@ -98,6 +98,7 @@ if((mysqli_num_rows($Busq2))>0){
                 </tbody>
             </table>
         </div>
+        
         <!--MODAL AGREGAR LINEA-->
         <div class="row">
             <div id="modal_lin" class="modal col s6 offset-s3">
@@ -255,7 +256,7 @@ if((mysqli_num_rows($Busq2))>0){
 
 
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
-    <div id="mensaje" class="modal-content" hidden>
+    <div id="mensaje" class="modal-content" hidden></div>
 
 <script>
 var mensaje = $("#mensaje");
@@ -523,5 +524,3 @@ $("#pup").on("keydown input", function(){
 
 </script>
 
-</div>
-</div>
