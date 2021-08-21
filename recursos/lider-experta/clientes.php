@@ -17,7 +17,7 @@ $fecha_alta = $_POST["fecha_alta"];
 	$resultadoConsultaBCA = mysqli_query($conexion, $consultaBuscarCa) or die(mysql_error());
 	$datosConsultaBCA = mysqli_fetch_array($resultadoConsultaBCA);
 	if(isset($datosConsultaBCA['CA'])){
-		die('<script>Materialize.toast("Ya existe un cliente con el Código Arbell: '.$caPOST.'" ,5000)</script>');
+		die('<script>mtoast("Ya existe un cliente con el Código Arbell: '.$caPOST.'" ,"warning")</script>');
 	}
 
 	

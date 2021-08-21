@@ -146,16 +146,17 @@ while($arr = $Busq->fetch_array())
                     <label class="form-label small text-muted" for="password1">Repita la contraseña:</label>
                     <input id="m_password1" name="password1" type="password" class="form-control">
                   </div>
+
                   <div class="col-sm-12">
                     <div class="input-group mb-1">
                       <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+                        <label class="input-group-text" for="rol">Rol</label>
                       </div>
-                      <select id="rol" name="rol" class="form-select" id="inputGroupSelect01">
-
+                      <select id="rol" name="rol" class="form-select" >
                       </select>
                     </div>
                   </div>
+
                 </div>
               </form>
         </div>

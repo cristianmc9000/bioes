@@ -174,45 +174,57 @@ while($arr = $Busq->fetch_array())
 
 <!--MODAL MODIFICAR CLIENTE-->
 <div class="row">
-<div id="modal3" class="modal col s4 offset-s4">
-  <div class="modal-content">
-    <h4>Modificar cliente</h4>  
-    <div class="row">
-      <form id="modificar_cliente" class="col s12" >
+  <div id="modal3" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modificar Lider/Experta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      <div class="modal-body">
+        <form id="modificar_cliente">
+            <div class="row g-3">
 
-          <div class="row">
-            <div id="ca" class="input-field col s6"></div>
-            <div id="nombre" class="input-field col s6"></div>
-          </div>
-          <div class="row">  
-            <div id="apellidos" class="input-field col s6"></div>
-            <div id="ci" class="input-field col s6"></div>
-          </div>
-          <div class="row">
-            <div id="telefono" class="input-field col s6"></div>
-            <div id="lugar" class="input-field col s6"></div>
-          </div>
-          <div class="row">  
-            <div id="correo" class="input-field col s6"></div>
-            <div id="tipo" class="input-field col s6"></div>
-            <!-- DATOS ANTERIORES -->
-            <div class="input-field col s6" id="datos_anteriores"></div>
-            <!-- FIN DATOS ANTERIORES -->
-          </div>
-          <div class="row">
-              <div class="input-field col s6">
-                  <input name="fecha_alta_mod" id="fecha_alta_mod" type="date" value="" class="validate" required>
-                  <label class="active" for="fecha_alta_mod">Fecha de alta:</label>
+              <div id="ca" class="col-sm-12 col-md-6"></div>
+              <div id="nombre" class="col-sm-12 col-md-6"></div>
+ 
+              <div id="apellidos" class="col-sm-12 col-md-6"></div>
+              <div id="ci" class="col-sm-12 col-md-6"></div>
+
+              <div id="telefono" class="col-sm-12 col-md-6"></div>
+              <div id="lugar" class="col-sm-12 col-md-6"></div>
+
+              <div id="correo" class="col-sm-12 col-md-6"></div>
+              <!-- <div id="tipo" class="col-sm-12 col-md-6"></div> -->
+              <!-- DATOS ANTERIORES -->
+              <div class="col-sm-12 col-md-6" id="datos_anteriores" hidden></div>
+              <!-- FIN DATOS ANTERIORES -->
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="fecha_alta_mod">Fecha de alta:</label>
+                <input name="fecha_alta_mod" id="fecha_alta_mod" type="date" value="" class="form-control" required>
               </div>
+
+              <div class="col-sm-12">
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="tipo">Nivel</label>
+                    </div>
+                    <select id="tipo" class="form-select" name="nivel"></select>
+                  </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+            </div>
           </div>
-          <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
+        </form>
+      </div>
+
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 <!--MODAL BORRAR CLIENTE-->
@@ -269,13 +281,13 @@ mensaje.hide();
 
 function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo, fecha_alta){
 
-  document.getElementById("ca").innerHTML ='<input name="ca" type="number" class="validate" value="'+ca+'"><label for="ca" class="active">Código Arbell:</label>';
-  document.getElementById("ci").innerHTML ='<input name="ci" type="number" class="validate" value="'+ci+'"><label for="ci" class="active">CI:</label>';
-  document.getElementById("nombre").innerHTML ='<input name="nombre" type="text" class="validate" value="'+nombre+'"><label for="nombre" class="active">Nombres: </label>';
-  document.getElementById("apellidos").innerHTML ='<input name="apellidos" type="text" class="validate" value="'+apellidos+'"><label for="apellidos" class="active">Apellidos: </label>';
-  document.getElementById("telefono").innerHTML ='<input name="telefono" type="number" class="validate" value="'+telefono+'"><label for="telefono" class="active">Teléfono: </label>';
-  document.getElementById("lugar").innerHTML ='<input name="lugar" type="text" class="validate" value="'+lugar+'"><label for="lugar" class="active">Lugar: </label>';
-  document.getElementById("correo").innerHTML ='<input name="correo" type="email" class="validate" value="'+correo+'"><label for="correo" class="active">Correo: </label>';
+  document.getElementById("ca").innerHTML ='<label for="ca" class="form-label small text-muted">Código Arbell:</label><input name="ca" type="number" class="form-control" value="'+ca+'">';
+  document.getElementById("ci").innerHTML ='<label for="ci" class="form-label small text-muted">CI:</label><input name="ci" type="number" class="form-control" value="'+ci+'">';
+  document.getElementById("nombre").innerHTML ='<label for="nombre" class="form-label small text-muted">Nombres: </label><input name="nombre" type="text" class="form-control" value="'+nombre+'">';
+  document.getElementById("apellidos").innerHTML ='<label for="apellidos" class="form-label small text-muted">Apellidos: </label><input name="apellidos" type="text" class="form-control" value="'+apellidos+'">';
+  document.getElementById("telefono").innerHTML ='<label for="telefono" class="form-label small text-muted">Teléfono: </label><input name="telefono" type="number" class="form-control" value="'+telefono+'">';
+  document.getElementById("lugar").innerHTML ='<label for="lugar" class="form-label small text-muted">Lugar: </label><input name="lugar" type="text" class="form-control" value="'+lugar+'">';
+  document.getElementById("correo").innerHTML ='<label for="correo" class="form-label small text-muted">Correo: </label><input name="correo" type="email" class="form-control" value="'+correo+'">';
 
 sel1 = ''
 sel2 = ''
@@ -286,13 +298,13 @@ sel2 = ''
   sel2 = 'selected'
  }
 
-  $("#tipo").html('<select class="browser-default" name="nivel"><option value="1" '+sel1+'>Experta</option><option value="2" '+sel2+'>Lider</option></select>');
+  $("#tipo").html('<option value="1" '+sel1+'>Experta</option><option value="2" '+sel2+'>Lider</option>');
 
   $("#fecha_alta_mod").val(fecha_alta)
 
 $("#datos_anteriores").html('<input name="ca_ant" type="text" value="'+ca+'" hidden><input name="ci_ant" type="text" value="'+ci+'" hidden><input name="id" type="text" value="'+id+'" hidden>');
 
-  $('#modal3').openModal();
+  $('#modal3').modal('show');
 }
 $("#modificar_cliente").on("submit", function(e){
     e.preventDefault();
@@ -309,18 +321,19 @@ $("#modificar_cliente").on("submit", function(e){
     }).done(function(echo){
     	mensaje.html(echo);
       if (echo.includes('success')) {
-        $("#modal3").closeModal()
-        Materialize.toast("Datos de lider/experta modificados.", 4000)
+        $("#modal3").modal('toggle')
+        mtoast("Datos de lider/experta modificados.", 'success')
         $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");
       }
     });
 });
 
 function borrar_cliente(id){
-
   document.getElementById("datos_borrar").innerHTML ='<input type="text" name="id" value="'+id+'" hidden/>';
-  $('#modal4').openModal();
+  $('#modal4').modal('toggle');
 }
+
+
 $("#borrar_cliente").on("submit", function(e){
     e.preventDefault();
     var val = new FormData(document.getElementById("borrar_cliente"));
@@ -342,7 +355,6 @@ $("#borrar_cliente").on("submit", function(e){
 
 $("#agregar_cliente").on("submit", function(e){
     e.preventDefault();
-    console.log("llego")
     var val = new FormData(document.getElementById("agregar_cliente"));
     $.ajax({
       url: "recursos/lider-experta/clientes.php",
@@ -353,12 +365,13 @@ $("#agregar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-    	// mensaje.html(echo)
       console.log(echo)
       if (echo.includes('reg')){
-      	Materialize.toast('<b>'+echo+'</b>', 4000)
-      	$("#modal1").closeModal()
+      	mtoast('<b>'+echo+'</b>', 'success')
+      	$("#modal1").modal('toggle')
         $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");   
+      }else{
+        mensaje.html(echo)
       }
     });
 });

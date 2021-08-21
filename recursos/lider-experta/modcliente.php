@@ -29,7 +29,7 @@ if ($tipoPOST == '1') {
 		$resultadoConsultaBCI = mysqli_query($conexion, $consultaBuscarCi) or die(mysql_error());
 		$datosConsultaBCI = mysqli_fetch_array($resultadoConsultaBCI);
 		if(isset($datosConsultaBCI['CI'])){
-			die('<script>Materialize.toast("Ya existe un lider/experta con esa cédula de identidad.", 5000)</script>');
+			die('<script>mtoast("Ya existe un lider/experta con esa cédula de identidad.", "warning")</script>');
 		}
 	}
 
@@ -38,7 +38,7 @@ if ($tipoPOST == '1') {
 		$resultadoConsultaBCA = mysqli_query($conexion, $consultaBuscarCa) or die(mysql_error());
 		$datosConsultaBCA = mysqli_fetch_array($resultadoConsultaBCA);
 		if(isset($datosConsultaBCA['CA'])){
-			die('<script>Materialize.toast("Ya existe un lider/experta con el código arbell.'.$caPOST.'", 5000)</script>');
+			die('<script>mtoast("Ya existe un lider/experta con el código arbell.'.$caPOST.'", "warning")</script>');
 		}
 	}
 
