@@ -11,23 +11,22 @@ while($arr = $Busq->fetch_array())
 ?>
 
 
-<span class="fuente"><h3>Usuarios
+<span class="fuente"><h3>Usuarios</h3>
   <!-- Modal Trigger -->
   <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i  class="material-icons-outlined align-middle">add</i>Agregar</button>
 
-  <!-- <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>  --></h3>
 </span><br>
   <!-- TABLA -->
   <div class="row">
     <div class="col-md-11">
       <table id="tabla1" class="table content-table table-hover">
-        <thead class="">
+        <thead>
           <tr>
-              <th scope="col">CI</th> 
-              <th scope="col">Nombres y apellidos</th>
-              <th scope="col">Telefono</th>
-              <th scope="col">Rol</th>
-              <th scope="col">Modificar</th>
+              <th>CI</th> 
+              <th>Nombres y apellidos</th>
+              <th>Telefono</th>
+              <th>Rol</th>
+              <th>Modificar</th>
               <!-- <th>Borrar</th> -->
           </tr>
         </thead>

@@ -41,24 +41,21 @@ if((mysqli_num_rows($Busq2))>0){
       padding: 0;
   } */
 </style>
-
-
-
-        <div class="col s4">
-            <span class="fuente">
-                <h3>
-                  Productos
-                  <!-- Modal Trigger -->
-                  <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
-                </h3>
-            </span>
-        </div>
-        <div class="col s2 offset-s1 input-field">
-            <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons-outlined left">grading</i>Ver líneas</a>
-        </div>
+<div class="row">
+    <div class="col-md-4">
+      <span class="fuente"><h3>Productos
+      <!-- Modal Trigger -->
+      <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i  class="material-icons-outlined align-middle">add</i>Agregar</button></h3>
+      </span>
+    </div>
+    <div class="col-md-2 offset-md-1">
+        <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" onclick="cargar_lineas()"><i class="material-icons-outlined align-middle">grading</i>Ver líneas</button>
+    </div>
+</div>
         <!-- TABLA -->
         <div class="row">
-            <table id="tabla1" class="highlight">
+        <div class="col-md-11">
+            <table id="tabla1" class="table content-table table-hover">
                 <thead>
                     <tr>
                         <th>Ver</th>
@@ -73,7 +70,9 @@ if((mysqli_num_rows($Busq2))>0){
                 <tbody>
                     <?php foreach($fila as $a  => $valor){ ?>
                     <tr>
-                        <td><img src="<?php echo $valor[" foto "]?>" width="50px" height="40px" alt=""></td>
+                        <td>
+                          <img src="<?php echo $valor['foto']?>" width="50px" height="40px" alt="">
+                        </td>
                         <td>
                             <?php echo $valor["id"] ?>
                         </td>
@@ -97,6 +96,7 @@ if((mysqli_num_rows($Busq2))>0){
                     <?php } ?>
                 </tbody>
             </table>
+          </div>
         </div>
         
         <!--MODAL AGREGAR LINEA-->
@@ -274,7 +274,6 @@ $(document).ready(function() {
             "previous": "Anterior"
           }},
     });
-    $('#modal').leanModal();
 });
 //FUNCION PARA CARGAR LINEAS DESDE LA BASE DE DATOS
 function cargar_lineas() {
@@ -308,7 +307,7 @@ function cargar_lineas() {
                     newRow.innerHTML = '<a onclick="borrar_linea(event, '+jsonParsedArray[key]['codli']+')" style="cursor:pointer"><i class="material-icons">delete</i></a>'
                 }
             }
-            $("#modal_lin").openModal()
+            $("#modal_lin").modal("toggle")
       },
       error: function(error) {
           console.log(error)
