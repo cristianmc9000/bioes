@@ -175,7 +175,7 @@ if((mysqli_num_rows($Busq2))>0){
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button for="agregar_producto" type="submit" class="btn btn-primary" id="btn-add_prod" type="submit">Aceptar</button>
+                <button form="agregar_producto" type="submit" class="btn btn-primary" id="btn-add_prod" >Aceptar</button>
                 
             </div>
         </div>
@@ -185,7 +185,7 @@ if((mysqli_num_rows($Busq2))>0){
     <div class="row">
         <div id="modal2" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
+            <div class="modal-content">
                 <h4>Modificar producto</h4>
                 <div class="row">
                         <form class="col s12" id="modificar_producto">
@@ -230,6 +230,7 @@ if((mysqli_num_rows($Busq2))>0){
             </div>
         </div>
     </div>
+
         <!--MODAL BORRAR CLIENTE-->
         <div class="row">
             <div id="modal3" class="modal col s4 offset-s4">
