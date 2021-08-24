@@ -48,7 +48,7 @@ while($arr = $Busq->fetch_array())
 
 <!-- MODAL NUEVO USUARIO DATOS -->
 
-<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="modal1" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -110,7 +110,7 @@ while($arr = $Busq->fetch_array())
 
 
 <!-- -----------modal modificar usuario------------ -->
-<div class="row">
+
   <div id="modal2" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -166,7 +166,7 @@ while($arr = $Busq->fetch_array())
       </div>
     </div>
   </div>
-</div>
+
 
 <div id="mensaje"></div>
 

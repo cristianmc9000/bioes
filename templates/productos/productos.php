@@ -86,7 +86,7 @@ if((mysqli_num_rows($Busq2))>0){
                             <?php echo $valor["cantidad"] ?>
                         </td>
                         <td>
-                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
+                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>')"><i class="material-icons">build</i></a>
                         </td>
                         <td>
                             <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
@@ -98,40 +98,48 @@ if((mysqli_num_rows($Busq2))>0){
           </div>
         </div>
         
-        <!--MODAL AGREGAR LINEA-->
-        <div class="row">
-            <div id="modal_lin" class="modal col s6 offset-s3">
-                <div class="modal-content">
-                    <h4 class="fuente">Nueva Linea</h4>
-                    <div class="row">
-                        <form class="col s12" id="agregar_linea">
-                            <div class="input-field col s4">
-                                <input name="linea_" id="linea_" type="text" class="validate" required>
-                                <label for="linea_">Nombre de la Linea</label>
-                            </div>
-                            <div class="col s3">
-                                <button class="btn-large waves-effect waves-light orange" type="submit"><i class="material-icons left">add</i>Agregar linea</button>
-                            </div>
-                        </form>
-                        <table id="tabla_lineas" class="borde_tabla">
-                            <tr>
-                                <th>Código</th>
-                                <th>Nombre</th>
-                                <th>Periodo</th>
-                                <th>Modificar</th>
-                                <th>Borrar</th>
-                            </tr>
-                            <tbody>
+<!--MODAL AGREGAR LINEA-->
 
-                            </tbody>
-                        </table>
+<div id="modal_lin" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Líneas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="agregar_linea">
+                    <div class="row g-3">
+                        <div class="col-sm-12 col-md-6">
+                            
+                            <input placeholder="Nueva línea" name="linea_" id="linea_" type="text" class="form-control" required>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <button class="btn btn-primary" type="submit"><i class="material-icons align-middle">add</i>Agregar linea</button>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-light btn blue">Cerrar</a>
-                </div>
+                </form>
+                <br>
+                <table id="tabla_lineas" class="table table-hover table-dark table-sm">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Periodo</th>
+                            <th>Modificar</th>
+                            <th>Borrar</th>
+                        </tr>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
+    </div>
+</div>
+
 
 <!--MODAL AGREGAR PRODUCTO-->
 <div id="modal1" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -146,12 +154,13 @@ if((mysqli_num_rows($Busq2))>0){
                     <div class="row g-3">
                         <div class="col-sm-12 input-group">
                             <input name="imagen" type="file" class="form-control" id="_imagen">
-                            <label class="input-group-text" for="_imagen">Upload</label>
+                            <label class="input-group-text" for="_imagen">Foto</label>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <label for="codigo" class="form-label small text-muted">Código:</label>
                             <input class="form-control" name="codigo" type="text" autocomplete="off" required>
                         </div>
+
                         <div class="col-sm-12 col-md-6">
                         <label for="linea" class="form-label small text-muted">Linea:</label>
                           <div class="input-group mb-1">
@@ -166,6 +175,7 @@ if((mysqli_num_rows($Busq2))>0){
                             </select>
                         </div>
                         </div>
+
                         <div class="col-sm-12">
                           <label class="form-label small text-muted" for="descripcion">Descripción:</label>
                           <textarea class="form-control" name="descripcion" autocomplete="off" required></textarea>     
@@ -182,79 +192,82 @@ if((mysqli_num_rows($Busq2))>0){
     </div>
 </div>
         <!--MODAL MODIFICAR PRODUCTO-->
-    <div class="row">
-        <div id="modal2" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <h4>Modificar producto</h4>
-                <div class="row">
-                        <form class="col s12" id="modificar_producto">
-                            <div class="row">
-                                <div class="input-field file-field col s6">
-                                    <div class="btn">
-                                        <span>Foto</span>
-                                        <input type="file" name="imagen">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input id="imagen" class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                                <div class="input-field col s6">
-                                    <input id="codigo" name="codigo" type="text" required>
-                                    <label class="active" for="codigo">Código:</label>
-                                    <input id="codigo_ant" name="codant" type="text" hidden>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <select id="lin" name="linea" class="browser-default">
-                <option id="lin_prev" value="" ></option>
-                <?php foreach($fila2 as $a  => $valor){ ?>
-                  <option value="<?php echo $valor["codli"] ?>"><?php echo $valor["nombre"] ?></option>
-                <?php } ?>
-              </select>
-                                </div>
-                                <div class="input-field col s6">
-                                    <input id="descripcion" name="descripcion" type="text" required>
-                                    <label class="active" for="descripcion">Descripción:</label>
-                                </div>
-                            </div>
 
-                            <div class="modal-footer">
-                                <button id="btn-mod_prod" class="btn waves-effect waves-light" type="submit">Aceptar</button>
-                                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+<div id="modal2" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Modificar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modificar_producto">
+                    <div class="row g-3">
+                        <div class="col-sm-12 input-group">
+                            <input id="imagen_ant" name="imagen_ant" type="text" hidden>
+                            <input name="imagen" type="file" class="form-control" id="imagen">
+                            <label class="input-group-text" for="imagen">Foto</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <label class="form-label small text-muted" for="codigo">Código:</label>
+                            <input id="codigo" class="form-control" name="codigo" type="text" required>
+                            <input id="codigo_ant" name="codant" type="text" hidden>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <label for="linea" class="form-label small text-muted">Linea:</label>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend"></div>
+                                <select id="lin" name="linea" class="form-select">
+                                    <option id="lin_prev" value="" ></option>
+                                    <?php foreach($fila2 as $a  => $valor){ ?>
+                                      <option value="<?php echo $valor["codli"] ?>"><?php echo $valor["nombre"] ?></option>
+                                    <?php } ?>
+                                </select>
                             </div>
-                        </form>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="form-label small text-muted" for="descripcion">Descripción:</label>
+                            <textarea id="descripcion" name="descripcion" class="form-control" autocomplete="off" required></textarea>
+                        </div>
                     </div>
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button form="modificar_producto" type="submit" id="btn-mod_prod" class="btn btn-primary">Aceptar</button>
             </div>
         </div>
     </div>
+</div>
+   
 
-        <!--MODAL BORRAR CLIENTE-->
-        <div class="row">
-            <div id="modal3" class="modal col s4 offset-s4">
-                <div class="modal-content">
-                    <h4><b>Borrar Producto</b></h4>
-                    <p>¿Esta seguro que desea eliminar este producto?</p>
-                    <div class="row">
-                        <form class="col s12" id="eliminar_producto">
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <input id="datos_borrar" name="id" type="text" hidden>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button class="btn waves-effect waves-light" type="submit">Aceptar</button>
-                                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-                            </div>
-                        </form>
+<!--MODAL BORRAR CLIENTE-->
+<div id="modal3" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Borrar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p>¿Esta seguro que desea eliminar este producto?</p>
+                <form id="eliminar_producto">
+                    <div class="row g-3">
+                        <div class="input-field col-md-12">
+                            <input id="datos_borrar" name="id" type="text" hidden>
+                        </div>
                     </div>
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" form="eliminar_producto" type="submit">Aceptar</button>
             </div>
         </div>
-
+    </div>
+</div>
 
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
     <div id="mensaje" class="modal-content" hidden></div>
@@ -400,9 +413,8 @@ $("#agregar_producto").on("submit", function(e){
     });
 });
 
-function mod_producto(foto, id, linea, codli, descripcion, cantidad) {
-  
-  $("#imagen").val(foto)
+function mod_producto(foto, id, linea, codli, descripcion) {
+  $("#imagen_ant").val(foto)
   $("#codigo").val(id)
   $("#codigo_ant").val(id)
   //PARA SELECCIONAR LINEA 
@@ -411,12 +423,11 @@ function mod_producto(foto, id, linea, codli, descripcion, cantidad) {
   $("#lin_prev").prop("selected", true)
   // FIN SELECCIONAR LINEA
   $("#descripcion").val(descripcion)
-  $("#cantidad").val(cantidad)
-  // $("#fechav").val(fechav)
-  $("#modal2").openModal()
+  $("#modal2").modal('toggle')
 }
 
 $("#modificar_producto").on("submit", function(e){
+
     e.preventDefault();
     $("#btn-mod_prod").addClass('disabled')
     document.getElementById('btn-mod_prod').disabled = true
@@ -436,8 +447,8 @@ $("#modificar_producto").on("submit", function(e){
         mensaje.html(echo);
         console.log(echo);
         if (echo.includes("?mes")) {
-          $("#modal2").closeModal(); 
-          Materialize.toast("PRODUCTO MODIFICADO." , 4000);
+          $("#modal2").modal('toggle'); 
+          mtoast("PRODUCTO MODIFICADO." , 'success');
           $("#cuerpo").load("templates/productos/productos.php"+echo);
         }
         
@@ -447,7 +458,7 @@ $("#modificar_producto").on("submit", function(e){
 
 function borrar_producto(id){
   $("#datos_borrar").val(id)
-  $('#modal3').openModal()
+  $('#modal3').modal('toggle')
 }
 
 $("#eliminar_producto").on("submit", function(e){
@@ -464,12 +475,10 @@ $("#eliminar_producto").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        // mensaje.show();
         console.log(echo);
-
         if (echo.includes("?mes")) {
-          $("#modal3").closeModal(); 
-          Materialize.toast("PRODUCTO ELIMINADO." , 4000);
+          $("#modal3").modal('toggle'); 
+          mtoast("PRODUCTO ELIMINADO." , 'success');
           $("#cuerpo").load("templates/productos/productos.php"+echo);
         }
         
@@ -492,7 +501,7 @@ $("#agregar_linea").on("submit", function(e){
         mensaje.html(echo);
         console.log(echo);
         if (echo.includes("?mes")) {
-          $("#modal_lin").closeModal(); 
+          $("#modal_lin").modal('toggle'); 
           Materialize.toast("LINEA AGREGADA." , 4000);
           $("#cuerpo").load("templates/productos/productos.php"+echo);
         }

@@ -10,24 +10,24 @@ $codant = $_POST["codant"];
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $periodo = $_SESSION["periodo"];
-// $year = $_SESSION['anio'];
+$imgant = $_POST['imagen_ant'];
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
-
+// die($imgant." <-----");
 if(strlen($descripcion) > $maxCaracteres) {
-	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');
+	die('<script>mtoast("La descripción del producto no puede superar los 250 caracteres." , "warning");</script>');
 };
 
 /* FALTA AGREGAR BIEN LA RUTA DE LAS IMAGENES */
 if(!empty($archivo)){
-$ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR AL 000WEBHOST
-//$ruta = $_SERVER['DOCUMENT_ROOT']."/arbell_/images/fotos_prod";
+// $ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR AL 000WEBHOST
+$ruta = $_SERVER['DOCUMENT_ROOT']."/bioes/images/fotos_prod"; //imagenes local
 $ruta = $ruta."/".$nombreimg;
 move_uploaded_file($archivo, $ruta);
 $ruta2 = "images/fotos_prod/".$nombreimg;
 }else{
-	$ruta2 = "images/fotos_prod/defecto.png";
+	$ruta2 = $imgant;
 }
 
 if ($cod != $codant) {
@@ -36,7 +36,7 @@ if ($cod != $codant) {
 	$datosConsultaBID = mysqli_fetch_array($resultadoConsultaBID);
 
 	if(isset($datosConsultaBID['id'])){
-		die('<script>Materialize.toast("Ya existe un producto con el código: '.$cod.'" ,5000)</script>');
+		die('<script>mtoast("Ya existe un producto con el código: '.$cod.'" , "warning")</script>');
 
 	}
 }
