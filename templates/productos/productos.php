@@ -166,9 +166,9 @@ if((mysqli_num_rows($Busq2))>0){
                             </select>
                         </div>
                         </div>
-                        <div class="col-sm-12 col-md-6">
-                        <label class="form-label small text-muted" for="descripcion">Descripción:</label>
-                            <input class="form-control" name="descripcion" type="text" autocomplete="off" required>      
+                        <div class="col-sm-12">
+                          <label class="form-label small text-muted" for="descripcion">Descripción:</label>
+                          <textarea class="form-control" name="descripcion" autocomplete="off" required></textarea>     
                         </div>
                     </div>
 
