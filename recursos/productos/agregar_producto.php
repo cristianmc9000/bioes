@@ -20,7 +20,7 @@ $maxCaracteres = "250";
 
 if(!empty($archivo)){
 	$ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR A 000WEBHOST
-	//$ruta = $_SERVER['DOCUMENT_ROOT']."/arbell_/images/fotos_prod";
+	// $ruta = $_SERVER['DOCUMENT_ROOT']."/bioes/images/fotos_prod"; //PARA USAR IMAGENES LOCALMENTE
 	$ruta = $ruta."/".$nombreimg;
 	move_uploaded_file($archivo, $ruta);
 	$ruta2 = "images/fotos_prod/".$nombreimg;
@@ -32,7 +32,7 @@ if(!empty($archivo)){
 
 
 if(strlen($descripcion) > $maxCaracteres) {
-	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');
+	die('<script>mtoast("La descripción del producto no puede superar los 250 caracteres." , "warning");</script>');
 };
 
 	$consultaBuscarID = "SELECT * FROM productos WHERE id = '".$cod."'";
@@ -40,7 +40,7 @@ if(strlen($descripcion) > $maxCaracteres) {
 	$datosConsultaBID = mysqli_fetch_array($resultadoConsultaBID);
 
 	if(isset($datosConsultaBID['id'])){
-		die('<script>Materialize.toast("Ya existe un producto con el código: '.$cod.'" ,5000)</script>');
+		die('<script>mtoast("Ya existe un producto con el código: '.$cod.'" , "warning")</script>');
 	}
 
 	//Consulta para agregar el nuevo producto 

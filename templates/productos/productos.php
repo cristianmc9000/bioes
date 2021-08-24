@@ -171,22 +171,23 @@ if((mysqli_num_rows($Busq2))>0){
                           <textarea class="form-control" name="descripcion" autocomplete="off" required></textarea>     
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button class="btn waves-effect waves-light" id="btn-add_prod" type="submit">Aceptar</button>
-                        <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-                    </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button for="agregar_producto" type="submit" class="btn btn-primary" id="btn-add_prod" type="submit">Aceptar</button>
+                
             </div>
         </div>
     </div>
 </div>
         <!--MODAL MODIFICAR PRODUCTO-->
-        <div class="row">
-            <div id="modal2" class="modal col s4 offset-s4">
-                <div class="modal-content fuente fuente_azul">
-                    <h4>Modificar producto</h4>
-                    <div class="row">
+    <div class="row">
+        <div id="modal2" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <h4>Modificar producto</h4>
+                <div class="row">
                         <form class="col s12" id="modificar_producto">
                             <div class="row">
                                 <div class="input-field file-field col s6">
@@ -228,7 +229,7 @@ if((mysqli_num_rows($Busq2))>0){
                 </div>
             </div>
         </div>
-
+    </div>
         <!--MODAL BORRAR CLIENTE-->
         <div class="row">
             <div id="modal3" class="modal col s4 offset-s4">
@@ -389,8 +390,8 @@ $("#agregar_producto").on("submit", function(e){
         mensaje.html(echo);
         console.log(echo)
         if (echo.includes("?mes")) {
-          $("#modal1").closeModal(); 
-          Materialize.toast("PRODUCTO AGREGADO." , 2000);
+          $("#modal1").modal('toggle'); 
+          mtoast("PRODUCTO AGREGADO." , "success");
           $("#cuerpo").load("templates/productos/productos.php"+echo);
         } 
 
