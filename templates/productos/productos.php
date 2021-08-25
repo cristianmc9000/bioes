@@ -49,7 +49,7 @@ if((mysqli_num_rows($Busq2))>0){
       </span>
     </div>
     <div class="col-md-2 offset-md-1">
-        <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" onclick="cargar_lineas()"><i class="material-icons-outlined align-middle">grading</i>Ver líneas</button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="cargar_lineas()"><i class="material-icons-outlined align-middle">grading</i>Ver líneas</button>
     </div>
 </div>
         <!-- TABLA -->
@@ -208,13 +208,13 @@ if((mysqli_num_rows($Busq2))>0){
                             <input name="imagen" type="file" class="form-control" id="imagen">
                             <label class="input-group-text" for="imagen">Foto</label>
                         </div>
-                        <div class="input-field col s6">
+                        <div class="col-sm-12 col-md-6">
                             <label class="form-label small text-muted" for="codigo">Código:</label>
                             <input id="codigo" class="form-control" name="codigo" type="text" required>
                             <input id="codigo_ant" name="codant" type="text" hidden>
                         </div>
 
-                        <div class="input-field col s6">
+                        <div class="col-sm-12 col-md-6">
                             <label for="linea" class="form-label small text-muted">Linea:</label>
                             <div class="input-group mb-1">
                                 <div class="input-group-prepend"></div>
@@ -352,7 +352,7 @@ function onKeyUp(e) {
       method: "GET",
       success: function(response) {
         if (response) {
-          Materialize.toast("Línea modificada.", 4000);
+          mtoast("Línea modificada.", "success");
           e.target.parentNode.innerHTML = $("._linea").val()
         }
       },
@@ -371,10 +371,10 @@ function borrar_linea(e, id) {
       success: function(response) {
           if(response){
               console.log(response +" respuesta de borrar_linea.php")
-              Materialize.toast("Línea eliminada.", 4000)
+              mtoast("Línea eliminada.", "success")
               console.log(e.target.parentNode.parentNode.parentNode.remove())
           }else{
-              Materialize.toast("No se puede eliminar línea, contiene productos activos.", 4000)
+              mtoast("No se puede eliminar línea, contiene productos activos.", "warning")
           }
       },
       error: function(error) {
@@ -502,7 +502,7 @@ $("#agregar_linea").on("submit", function(e){
         console.log(echo);
         if (echo.includes("?mes")) {
           $("#modal_lin").modal('toggle'); 
-          Materialize.toast("LINEA AGREGADA." , 4000);
+          mtoast("LINEA AGREGADA." , "success");
           $("#cuerpo").load("templates/productos/productos.php"+echo);
         }
       })

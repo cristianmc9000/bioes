@@ -20,56 +20,61 @@
     .zoom:hover {
     transform: scale(1.8); 
     }
+    .helpertext {
+      top: -5px;
+      position: relative;
+      font-size: 0.8em;
+    }
 </style>
 
     <div class="fuente" style="">
       <h3 align="">Buscar producto</h3>
       <div class="row">
-        <form id="insert_row" >
-          <div class="input-field col s4">
-            <div class="col s6">
-              <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+        <div class="col-md-8 col-sm-12">
+        <form id="insert_row">
+          <div class="row g-3">
+            <!-- <div class="col-sm-12 col-md-6"> -->
+
+              <div class="col-sm-12 col-md-5">
+                <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
+              </div>
+
+              <div class="col-sm-12 col-md-2">
+                <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
+              </div>
+
+              <div class="col-sm-12 col-md-3">
+                <input type="text" class="form-control" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
+              </div>
+
+              
+              <input type="text" id="id_" value="" hidden>
+              <input type="text" id="linea_" value="" hidden>
+              <input type="text" id="codli_" value="" hidden>
+              <!-- <input type="text" id="pubs_" value="" hidden> -->
+            <!-- </div> -->
+
+            <div class="col-sm-12 col-md-2">
+              <button class="btn btn-primary" type="submit" ><i class="material-icons align-middle">assignment</i>Insertar</button>
             </div>
-
-            <div class="col s3">
-              <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" required>
-            </div>
-
-            <div class="col s3">
-              <input type="text" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
-            </div>
-
-            
-            <input type="text" id="id_" value="" hidden>
-            <input type="text" id="linea_" value="" hidden>
-            <input type="text" id="codli_" value="" hidden>
-            <!-- <input type="text" id="pubs_" value="" hidden> -->
-          </div>
-
-          <div class="col s2">
-            <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
           </div>
         </form>
-        
+        </div>
 
-        <div class="input-field col s1">
-           % Descuento: 
-          <div class="input-field inline">
-            <input id="descuento_" type="number" min="0" max="100" value="0" class="validate">
+        <div class="col-sm-12 col-md-2">
+           <!-- % Descuento:  -->
+          <div class="">
+            <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento (0-100)">
+            <small class="helpertext" style="color: red">% Descuento</small>
           </div>
-            
-
-            
-
-          <!-- </div> -->
         </div>
 
       </div>
     </div>
 
 <div class="row">
-  <div class="col s10">
-  <table id="tabla_compras" class="highlight">
+  <div class="col-md-10 col-sm-12">
+  <table id="tabla_compras" class="table content-table table-hover">
     <thead>
       <tr>
           <!-- <th>Ver</th> -->
@@ -92,24 +97,28 @@
     </tbody>
   </table>
   </div>
-
-<div class="col s2 ">
-    <a class="waves-effect waves-light btn-large " id="modal" href="#modal1"><i class="material-icons right">receipt</i>Registrar compra</a>
+  <div class="col-md-2 col-sm-12">
+    <button type="button" class="btn btn-lg btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i class="material-icons align-middle">receipt</i>Registrar compra</button>
   </div>
 </div>
 
 <!--MODAL AGREGAR PRODUCTO-->
-<div class="row">
-<div id="modal1" class="modal col s4 offset-s4">
-  <div class="modal-content">
-    <h5 class="fuente"><b>Se registrará la compra y se imprimirá un recibo.</b></h5> <br><br> 
-  </div>
-  <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
-      <a id="btn-create_html" href="#!" onclick="crear_html()" class="waves-effect waves-light btn">REGISTRAR COMPRA</a>
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" >Se registrará la compra y se imprimirá un recibo.</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- <div class="modal-body"></div> -->
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-primary" id="btn-create_html" onclick="crear_html()">REGISTRAR COMPRA</button>
+      </div>
+    </div>
   </div>
 </div>
-</div>
+
 
 
 <script>
@@ -118,7 +127,7 @@
 //Crear un array con indices y guardar luego los datos de cantidad y pesos ahi... mediante el indice
 
 $(document).ready(function(){
-    $('#modal').leanModal();
+    // $('#modal').leanModal();
     $('#search_data').autocomplete({
       source: "recursos/compras/buscar_prod.php",
       minLength: 1,
@@ -137,6 +146,8 @@ $(document).ready(function(){
         .append(item.label)
         .appendTo(ul);
     };
+
+
 });
 
 document.getElementById("insert_row").addEventListener("submit", function (event) {
@@ -228,11 +239,13 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
   newRow = newTableRow.insertCell(11)
-  newRow.style.visibility = 'hidden'
+  // newRow.style.visibility = 'hidden'
+  newRow.hidden = true
   newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
 
   newRow = newTableRow.insertCell(12)
-  newRow.style.visibility = 'hidden'
+  // newRow.style.visibility = 'hidden'
+  newRow.hidden = true
   newRow.innerHTML = ' <input type="text" value="'+__pubs+'" class="__pubs" hidden>'
 
 
@@ -272,7 +285,7 @@ function crear_html() {
 
   let filas = $("#tabla_compras").find('tbody tr').length;
   if(filas < 1) {
-    Materialize.toast("Debe ingresar al menos un registro.", 5000);
+    mtoast("Debe ingresar al menos un registro.", "warning");
     habilitar_boton()
     return false;
   }
@@ -433,7 +446,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
   </div>`;
 
 imprimir(miHtml, respuesta);
-$("#modal1").closeModal();
+$("#modal1").modal('toggle');
 $("#tabla_c tr").remove(); 
 habilitar_boton()
 $("#descuento_").prop('disabled', false)
@@ -475,7 +488,7 @@ function imprimir(mihtml, numfac) {
             }
         })
         .from($elementoParaConvertir)
-        // .save()
+        .save()
         .catch(err => console.log(err));
     })
 }
