@@ -17,105 +17,88 @@ if((mysqli_num_rows($Busq))>0){
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <style>
-
-    .fuente {
-        font-family: 'Segoe UI light';
-        color: red;
-    }
-
-    table.highlight>tbody>tr:hover {
-        background-color: #a0aaf0 !important;
-    }
-
-    .borde_tabla {
-        border: 1px solid;
-        border-collapse: collapse !important;
-    }
+<style>
+.helpertext {
+    top: -3px;
+    position: relative;
+    color: red;
+    font-size: 0.7em;
+}
+</style>
 
 
-    .borde_tabla tr th, .borde_tabla tr td {
-        border: 1px solid;
-        border-collapse: collapse !important;
-        padding-top: 0px;
-        padding-bottom: 0px;
-    }
-    .helpertext {
-        top: -20px;
-        position: relative;
-        color: red;
-    }
-    </style>
-</head>
-
-<body>
-    <div class="col s11">
-        <div class="col s1">
-                <b style= "color:blue"> Gestión:</b>
-                <select onchange="enviarges()" name="ges" id="ges" class="browser-default">
-                    <option value="0" selected disabled> Seleccionar</option>
+<div class="d-block">
+    <div class="row">
+        <div class="col-sm-12 col-md-3">
+            <!-- <label for="ges" class="form-label small text-muted">Gestión:</label> -->
+            <div class="input-group mb-1">
+                <div class="input-group-prepend"></div>
+                <select onchange="enviarges()" id="ges" name="ges" class="form-select">
+                    <option value="0" selected disabled> Seleccionar Gestión</option>
                     <option value="2021"> 2021 </option>
                     <option value="2022"> 2022 </option>
                     <option value="2023"> 2023 </option>
                     <option value="2024"> 2024 </option>
                     <option value="2025"> 2025 </option>
                 </select>
-        </div>
-        <div class="col s10 m8 offset-m3">
-            <span class="fuente"><h3>Registro de compras de la gestión: <?php echo $_GET['ges']?></h3></span> 
+            </div>
         </div>
     </div>
+    <div class="d-block">
+        <span class="fuente"><h3>Registro de compras de la gestión: <?php echo $_GET['ges']?></h3></span> 
+    </div>
+</div>
     
-    <!-- TABLA -->
-    <table id="tabla1" class="highlight">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Fecha de compra</th>
-                <th>Total sin descuento</th>
-                <th>Total con descuento</th>
-                <th>Descuento</th>
-                <th>Valor de cambio</th>
-                <th>Detalle</th>
-                <th>Modificar</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($fila as $a  => $valor){ ?>
-            <tr>
-                <td>
-                    <?php echo $valor["codc"] ?>
-                </td>
-                <td>
-                    <?php echo $valor["fecha"] ?>
-                </td>
-                <td>
-                    <?php echo $valor["totalsd"] ?> Bs.
-                </td>
-                <td>
-                    <?php echo $valor["totalcd"] ?> Bs.
-                </td>
-                <td>
-                    <a href="#" onclick="modal_descuento('<?php echo $valor["codc"] ?>','<?php echo $valor['descuento']?>')" style="background-color: #bdc3c7;" class="btn-flat waves-light waves-effect"><?php echo $valor["descuento"] ?> %</a>
-                </td>
-                <td>
-                    <a href="#" onclick="modal_cambio('<?php echo $valor["codc"] ?>','<?php echo $valor['valor_pesos']?>')" style="background-color: #bdc3c7;" class="btn-flat waves-light waves-effect"><?php echo $valor["valor_pesos"] ?> Bs.</a>
-                </td>
-                <td>
-                    <a href="#!" onclick="ver_compra('<?php echo $valor['codc']?>', '<?php echo $valor['fecha'] ?>', '<?php echo $valor['totalcd'] ?>' )"><i class="material-icons">visibility</i></a>
-                </td>
-                <td>
-                    <a href="#" onclick="mod_compra(event, '<?php echo $valor['codc'] ?>','<?php echo $valor['descuento']?>','<?php echo $valor['valor_pesos']?>')"><i class="material-icons">build</i></a>
-                </td>
-            </tr>
-            <?php } ?>
-            
-        </tbody>
-    </table>
+<!-- TABLA -->
+<div class="row">
+    <div class="col-md-11 col-sm-12">
+        <table id="tabla1" class="table content-table table-hover ">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Fecha de compra</th>
+                    <th>Total sin descuento</th>
+                    <th>Total con descuento</th>
+                    <th>Descuento</th>
+                    <th>Valor de cambio</th>
+                    <th>Detalle</th>
+                    <th>Modificar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($fila as $a  => $valor){ ?>
+                <tr>
+                    <td>
+                        <?php echo $valor["codc"] ?>
+                    </td>
+                    <td>
+                        <?php echo $valor["fecha"] ?>
+                    </td>
+                    <td>
+                        <?php echo $valor["totalsd"] ?> Bs.
+                    </td>
+                    <td>
+                        <?php echo $valor["totalcd"] ?> Bs.
+                    </td>
+                    <td>
+                        <button onclick="modal_descuento('<?php echo $valor["codc"] ?>','<?php echo $valor['descuento']?>')" class="btn btn-outline-primary btn-sm"><?php echo $valor["descuento"] ?> %</button>
+                    </td>
+                    <td>
+                        <button onclick="modal_cambio('<?php echo $valor["codc"] ?>','<?php echo $valor['valor_pesos']?>')" class="btn btn-outline-primary btn-sm"><?php echo $valor["valor_pesos"] ?> Bs.</button>
+                    </td>
+                    <td>
+                        <a href="#!" onclick="ver_compra('<?php echo $valor['codc']?>', '<?php echo $valor['fecha'] ?>', '<?php echo $valor['totalcd'] ?>' )"><i class="material-icons">visibility</i></a>
+                    </td>
+                    <td>
+                        <a href="#" onclick="mod_compra(event, '<?php echo $valor['codc'] ?>','<?php echo $valor['descuento']?>','<?php echo $valor['valor_pesos']?>')"><i class="material-icons">build</i></a>
+                    </td>
+                </tr>
+                <?php } ?>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
     <!-- Modal registro de venta detalle de venta -->
     <div class="row">
         <div id="modal1" class="modal">
@@ -220,25 +203,31 @@ if((mysqli_num_rows($Busq))>0){
     </div>
 
 <!-- MODAL MODIFICAR PORCENTAJE DE DESCUENTO -->
-    <div class="row">
-        <div id="modal4" class="modal col s4 offset-s4">
-            <div class="modal-content">
+<div id="modal4" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Modificar porcentaje de descuento.</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
                 <input id="codc_desc" type="text" hidden>
                 <div class="row">
-                    <center><h4 class="fuente">Modificar porcentaje de descuento.</h4></center><br>
-
-                    <div class="col l3 offset-l5 m8 offset-m2 s12">
-                        <input maxlength="2" onkeypress="return check(event)" id="mod_desc" type="text" value="">
+                    <div class="col-sm-12 col-md-6">
+                        <label class="form-label small text-muted" for="desc_porcentaje">Porcentaje de descuento:</label>
+                        <input name="desc_porcentaje" class="form-control" maxlength="2" onkeypress="return check(event)" id="mod_desc" type="text" value="">
                         <small class="helpertext">% Descuento</small>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
-                <a href="#!" onclick="mod_descuento()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button onclick="mod_descuento()" class="btn btn-primary" >Confirmar</button>
             </div>
         </div>
     </div>
+</div>
+
 
     <div id="mensaje"></div>
 
@@ -259,8 +248,6 @@ $(document).ready(function() {
       }
       }
     });
-    $('#modal').leanModal();
-    $('.modal_trigger_3').leanModal();
     
 });
 var mensaje = $("#mensaje");
@@ -409,7 +396,7 @@ function borrar_item(e, codp, codc, cant) {
 function modal_descuento(codc, descuento) {
     $("#codc_desc").val(codc)
     $("#mod_desc").val(descuento)
-    $("#modal4").openModal()
+    $("#modal4").modal('toggle')
 }
 function mod_descuento() {
     let descuento = $("#mod_desc").val()
@@ -417,15 +404,16 @@ function mod_descuento() {
     let get_url = '?codc='+codc+'&descuento='+descuento
 
     if ($("#mod_desc").val() == "" || (parseFloat(descuento)<0)) {
-        return Materialize.toast("Debe ingresar datos válidos", 3000)
+        return mtoast("Debe ingresar datos válidos", "danger")
     }
     $.ajax({
             url: "recursos/compras/mod_descuento.php"+get_url,
             method: "GET",
             success: function(response) {
                 console.log(response)
-                Materialize.toast("Descuento modificado.", 4000)
+                mtoast("Descuento modificado.", "success")
                 let ges = "<?php echo $_GET['ges'] ?>"
+                $("#modal4").modal('toggle')
                 $("#cuerpo").load("templates/compras/reg_compras.php?ges="+ges)
             },
             error: function(error) {
@@ -468,9 +456,6 @@ function mod_cambio() {
 function enviarges() {
     ges = $('#ges').val();
     console.log(ges)
-    $("#cuerpo").load("templates/ventas/reg_ventas.php?ges="+ges);
+    $("#cuerpo").load("templates/compras/reg_compras.php?ges="+ges);
 }
 </script>
-
-</body>
-</html>

@@ -12,6 +12,7 @@
     .ui-autocomplete-row:hover
     {
       background-color: #ddd;
+      /*font-family: "Segoe UI Light"*/
     }
     .zoom {
     transition: transform .2s; 
@@ -127,7 +128,6 @@
 //Crear un array con indices y guardar luego los datos de cantidad y pesos ahi... mediante el indice
 
 $(document).ready(function(){
-    // $('#modal').leanModal();
     $('#search_data').autocomplete({
       source: "recursos/compras/buscar_prod.php",
       minLength: 1,
