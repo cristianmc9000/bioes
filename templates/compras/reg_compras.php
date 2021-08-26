@@ -19,7 +19,7 @@ if((mysqli_num_rows($Busq))>0){
 
 <style>
 .helpertext {
-    top: -3px;
+    top: -5px;
     position: relative;
     color: red;
     font-size: 0.7em;
@@ -99,32 +99,29 @@ if((mysqli_num_rows($Busq))>0){
         </table>
     </div>
 </div>
-    <!-- Modal registro de venta detalle de venta -->
-    <div class="row">
-        <div id="modal1" class="modal">
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s12">
-                        <center><b><h5>Detalle de compra</h5></b></center>
-                    </div>
-                    <div class="col s12">
-                        <div class="col s12">
-                        <h5>TOTALES:</h5>
-                        </div>
-                        <div class="col s4">
-                            <span id="fecha_com"></span><br>
-                            <span id="items"></span><br>
-                            <span id="gan_exp"></span><br>
-                            <span id="total"></span>
-                        </div>
-                    </div>
-                    <div class="col s12">
-                        <p>
-                            <h5>Items del comprobante</h5>
-                        </p>
-                    </div>
-                    <div class="col s12">
-                        <table id="detalle_ven" class="borde_tabla">
+
+<!-- Modal registro de venta detalle de venta -->
+<div id="modal1" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Detalle de compra</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-block">
+                    <h5>TOTALES:</h5>
+                    <span id="fecha_com"></span><br>
+                    <span id="items"></span><br>
+                    <span id="gan_exp"></span><br>
+                    <span id="total"></span>
+                </div>
+                <div class="d-block">
+                    <p><h5>Items del comprobante</h5></p>
+                </div>
+                <div class="d-block">
+                    <table id="detalle_ven" class="table table-hover">
+                        <thead>
                             <tr>
                                 <th>Código <br> (producto)</th>
                                 <th>Linea</th>
@@ -133,26 +130,32 @@ if((mysqli_num_rows($Busq))>0){
                                 <th>P. unidad</th>
                                 <th>Subtotal</th>
                             </tr>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cerrar</button>
+                <!-- <button form="agregar_producto" type="submit" class="btn btn-primary" id="btn-add_prod" >Aceptar</button> -->
             </div>
         </div>
     </div>
+</div>
 
-<!-- MODAL ADMINISTRAR PAGOS -->
-    <div class="row">
-        <div id="modal2" class="modal">
-            <div class="modal-content">
+
+<!-- MODAL MODIFICAR COMPRA -->
+<div id="modal2" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="label_reg_compras" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="label_reg_compras">Modificar detalle de compra</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            </div>
+            <div class="modal-body">
                 <input id="codc" type="text" value="" hidden >
-                <div class="row">
-                    <p>
-                        <h4  class="fuente">Modificar detalle de compra</h4>
-                    </p><br>
-
-                    <table id="tabla_compras" class="borde_tabla">
+                <table id="tabla_compras" class="table">
+                    <thead>
                         <tr>
                             <th>Código</th>
                             <th>Línea</th>
@@ -162,52 +165,66 @@ if((mysqli_num_rows($Busq))>0){
                             <th>Subtotal</th>
                             <th>Borrar</th>
                         </tr>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </div>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
             </div>
+
             <div class="modal-footer">
-                <a href="#!" class="btn red modal-action modal-close waves-effect waves-light left">Cancelar</a>
-                <a href="#!" id="btn-cerrar_modal2" class="modal-action modal-close waves-effect waves-light btn green">Aceptar</a>
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> -->
+                <button id="btn-cerrar_modal2" data-bs-dismiss="modal" class="btn btn-primary">Aceptar</button>
             </div>
         </div>
     </div>
+</div>
+
 
 
 
 <!-- MODAL MODIFICAR VALOR DE CAMBIO  -->
-    <div class="row">
-        <div id="modal3" class="modal col s4 offset-s4">
-            <div class="modal-content">
-                <input id="codc" type="text" value="codc" hidden>
+<div id="modal3" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modificar valor de cambio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
                 <div class="row">
-                    <center><h4 class="fuente">Modificar valor del cambio.</h4></center><br>
-                    <div class="col s3 offset-s2"><input type="text" style="color: black" value="1" disabled>
+                    <div class="col-sm-12 col-md-6 offset-md-3">
+                        <input id="codc" type="text" value="codc" hidden>
+
+                        <input type="text" class="form-control" value="1" disabled>
                         <small class="helpertext">Peso argentino</small>
-                    </div>
-                    <div style="padding: 15px" class="col s2">
-                        <i class="material-icons">forward</i>
-                    </div>
-                    <div class="col s3"><input maxlength="5" onkeypress="return check(event)" id="v_cambio" type="text" value="">
+                        
+                        <!-- <div style="padding: 15px" class="col s2"> -->
+                        <div class="d-flex justify-content-center">
+                            <i class="material-icons">arrow_downward</i>
+                        </div>
+                        <!-- </div> -->
+                        <input maxlength="5" class="form-control" onkeypress="return check(event)" id="v_cambio" type="text" value="">
                         <small class="helpertext">Bolivianos</small>
                     </div>
                 </div>
             </div>
+        
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
                 <a href="#!" onclick="mod_cambio()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
             </div>
         </div>
     </div>
+</div>
+
 
 <!-- MODAL MODIFICAR PORCENTAJE DE DESCUENTO -->
-<div id="modal4" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="modal4" class="modal fade" tabindex="-1" aria-labelledby="descuento_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" >Modificar porcentaje de descuento.</h5>
+                <h5 id="descuento_label" class="modal-title" >Modificar porcentaje de descuento.</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -296,11 +313,11 @@ function ver_compra(codc, fecha, total) {
 
             }
         }
-        $("#fecha_com").html("<b>Fecha de compra: </b>"+fecha)
-        $("#items").html("<b>Items: </b>"+cantidad+"u. Incluye "+auxiliares+" auxiliares.")
-        $("#gan_exp").html("<b>Ganancias: </b>"+((gan_exp).toFixed(1))+" Bs.")
-        $("#total").html("<b>Total:</b> "+total +" Bs.")
-        $("#modal1").openModal()
+        $("#fecha_com").html("<b style='font-weight: bold'>Fecha de compra: </b>"+fecha)
+        $("#items").html("<b style='font-weight: bold'>Items: </b>"+cantidad+"u. Incluye "+auxiliares+" auxiliares.")
+        $("#gan_exp").html("<b style='font-weight: bold'>Ganancias: </b>"+((gan_exp).toFixed(1))+" Bs.")
+        $("#total").html("<b style='font-weight: bold'>Total:</b> "+total +" Bs.")
+        $("#modal1").modal('toggle')
     })
 }
 //OBTENER EL DETALLE DE COMPRA EN JSON
@@ -364,7 +381,7 @@ function mod_compra(e, codc, descuento, valor) {
         }
     })
 
-    $("#modal2").openModal({dismissible: false})
+    $("#modal2").modal('toggle')
 }
 
 //FUNCION PARA BORRAR UN ITEM DE LA BASE DE DATOS TABLA: DETALLE_COMPRA, COMPRA, INVENTARIO, INVCANT
@@ -376,10 +393,10 @@ function borrar_item(e, codp, codc, cant) {
             success: function(response) {
                 console.log(response)
                 if(response == "0"){
-                    Materialize.toast("La cantidad a eliminar supera al stock de inventario.", 4000)
+                    mtoast("La cantidad a eliminar supera al stock de inventario.", "danger")
                 }else{  
                     e.target.parentNode.parentNode.parentNode.remove()
-                    Materialize.toast("Item eliminado", 3000)
+                    mtoast("Item eliminado", "success")
                     let ges = "<?php echo $_GET['ges'] ?>"
                     $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("templates/compras/reg_compras.php?ges='+ges+'")');
                 }
@@ -425,7 +442,7 @@ function mod_descuento() {
 function modal_cambio(codc, cambio) {
     $("#codc").val(codc)
     $("#v_cambio").val(cambio)
-    $("#modal3").openModal()
+    $("#modal3").modal('toggle')
 }
 function mod_cambio() {
 
@@ -434,14 +451,14 @@ function mod_cambio() {
     let get_url = '?codc='+codc+'&cambio='+cambio 
 
     if ($("#v_cambio").val() == "" || (parseFloat(cambio)<0)) {
-        return Materialize.toast("Debe ingresar datos válidos", 3000)
+        return mtoast("Debe ingresar datos válidos", "warning")
     }
     $.ajax({
             url: "recursos/compras/mod_cambio.php"+get_url,
             method: "GET",
             success: function(response) {
                 console.log(response)
-                Materialize.toast("Valor de cambio modificado.", 4000)
+                mtoast("Valor de cambio modificado.", "success")
                 let ges = "<?php echo $_GET['ges'] ?>"
                 $("#cuerpo").load("templates/compras/reg_compras.php?ges="+ges)
             },

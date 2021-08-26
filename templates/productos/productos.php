@@ -99,7 +99,6 @@ if((mysqli_num_rows($Busq2))>0){
         </div>
         
 <!--MODAL AGREGAR LINEA-->
-
 <div id="modal_lin" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
