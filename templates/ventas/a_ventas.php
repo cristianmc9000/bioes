@@ -23,37 +23,36 @@ session_start();
 }
 
 .helpertext {
-    top: -20px;
+    top: -5px;
     position: relative;
+    font-size: 0.7em;
 }
 
 </style>
 <div class="fuente" style="">
-    <h5 align="" style="color: red;">Buscar Lider/Experta</h5>
+    <h4 align="">Buscar Lider/Experta</h4>
     <div class="row">
-        <form id="insert_row">
-            <div class="input-field col s6">
-                <div class="col s6">
-                    <input type="text" id="search_le" placeholder="Buscar Lider/Experta" autocomplete="off" class="validate" required />
-                    <div id="pendientes"></div>
-                </div>
-                <!-- codigo -->
-                <div class="col s3">
-                    <input style="color: black;" type="text" id="ca" placeholder="código" autocomplete="off" disabled required>
-                </div>
-                <div class="col s2">
-                    <input id="descuento_" type="number" min="0" max="100" value="0" class="validate" placeholder="% Descuento" >
-                    <small class="helpertext" style="color: red">% Descuento</small>
-                    <input type="text" id="lugar" hidden>
-                </div>
-            </div>
-            <!-- boton insertar -->
-            <!-- <div class="col s2">
-              <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
-              </div> -->
-        </form>
+        <div class="col-md-10 col-sm-12">
+            <form id="insert_row">
+                <div class="row g-3">
+                    <div class="col-sm-12 col-md-6">
+                        <input type="text" id="search_le" placeholder="Buscar Lider/Experta" autocomplete="off" class="form-control" required />
+                        <div id="pendientes"></div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <input type="text" id="ca" placeholder="código" autocomplete="off" class="form-control" disabled required>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento" >
+                        <small class="helpertext" style="color: red">% Descuento</small>
+                        <input type="text" id="lugar" hidden>
+                    </div>
+                  </div>
+            </form>
+        </div>
     </div>
 </div>
+
 <!-- anadir buscar -->
 <div id="form_productos" class="row" hidden>
     <div class="fuente" style="">
