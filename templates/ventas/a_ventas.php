@@ -54,40 +54,43 @@ session_start();
 </div>
 
 <!-- anadir buscar -->
-<div id="form_productos" class="row" hidden>
-    <div class="fuente" style="">
-        <h5 align="" style="color: red;">Buscar producto</h5>
-        <div class="row">
+<div id="form_productos" class="fuente" hidden>
+    <h5 align="">Buscar producto</h5>
+    <div class="row">
+        <div class="col-md-10 col-sm-12">
             <form id="insert_row_producto">
-                <div class="input-field col s5">
-                    <div class="col s5">
-                        <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+                <div class="row g-3">
+                    <div class="col-sm-12 col-md-6">
+                        <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
                     </div>
-                    <div class="col s3">
-                        <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="validate" required>
+                    <div class="col-sm-12 col-md-2">
+                        <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
                         <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
                         <input type="text" id="stock_" hidden>
                     </div>
-                    <div class="col s3">
-                        <input type="text" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
+                    <div class="col-sm-12 col-md-2">
+                        <input type="text" class="form-control" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
                     </div>
                     <input type="text" id="id_" value="" hidden>
                     <input type="text" id="linea_" value="" hidden>
                     <input type="text" id="pubs_" value="" hidden>
                     <input type="text" id="subtotal_" value="" hidden>
                     <input type="text" id="codli_" value="" hidden>
-                </div>
-                <div class="col s2">
-                    <button class="btn waves-effect waves-light btn-large" type="submit"><i class="material-icons right">assignment</i>Insertar</button>
+
+                    <div class="col-sm-12 col-md-2">
+                        <button class="btn btn-primary" type="submit"><i class="material-icons align-middle">assignment</i>Insertar</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+
 <!-- tabla de productos pa la venta -->
 <div id="tabla_ventas" class="row" hidden>
-    <div class="col s8">
-        <table class="highlight">
+    <div class="col-sm-12 col-md-10">
+        <table class="table content-table table-hover">
             <thead>
                 <tr>
                     <th>Código<br>(Producto)</th>
@@ -106,45 +109,53 @@ session_start();
             </tbody>
         </table>
     </div>
-    <div class="col s3 offset-s1">
-        <a href="#!" onclick="confirmar_venta()" class="waves-effect waves-light btn-large"> <i class="material-icons right">receipt</i>Registrar venta</a>
+    <div class="col-sm-12 col-md-2">
+        <button onclick="confirmar_venta()" class="btn btn-lg btn-outline-success"> <i class="material-icons align-middle">receipt</i>Registrar venta</button>
     </div>
 </div>
+
 <!--MODAL AGREGAR PRODUCTO-->
-<div class="row">
-    <div id="modal1" class="modal col s4 offset-s4">
+<div id="modal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <h5 class="fuente"><b>Se registrará la venta con los datos:</h5>
-            <!-- ---------modal confirmar venta---------- -->
-            <form action="#">
-                <div>
-                    <p id="cliente_c"></p>
-                    <p id="ca_c"></p>
-                    <p id="monto_c"></p>
-                </div>
-                <p> Tipo de Pago:
-                    <input name="tipo_pago" type="radio" id="contado" value="0" onclick="$('#pago_i').hide()" />
-                    <label for="contado">Contado</label>
-                    <input name="tipo_pago" type="radio" id="credito" value="1" onclick="$('#pago_i').show()" />
-                    <label for="credito">Crédito</label>
-                </p>
-                <div class="row" id="pago_i" hidden>
-                    <div class="col s2"> Pago Inicial:</div>
-                    <div class="col s3">
-                        <input type="number" id="pago_inicial" name="pago_inicial" value="0">
+            <div class="modal-header">
+                <h5 class="modal-title fuente" >Se registrará la venta con los datos:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#">
+                    <div>
+                        <p id="cliente_c"></p>
+                        <p id="ca_c"></p>
+                        <p id="monto_c"></p>
                     </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
-            <!-- hacer que este boton solo pueda realizar una peticion -->
-            <a id="btn-create_html" href="#!" onclick="crear_html()" class="waves-effect waves-light btn">REGISTRAR VENTA</a>
+                    <p> Tipo de Pago:
+                        <input name="tipo_pago" type="radio" id="contado" value="0" onclick="$('#pago_i').attr('hidden', true)" />
+                        <label for="contado">Contado</label>
+                        <input name="tipo_pago" type="radio" id="credito" value="1" onclick="$('#pago_i').attr('hidden', false)" />
+                        <label for="credito">Crédito</label>
+                    </p>
+                    <div class="" id="pago_i" style="border: 1px solid;" hidden>
+                        <!-- <div class="col-md-2"> Pago Inicial:</div> -->
+                        <label for="pago_inicial" class="form-label small text-muted">Pago inicial:</label>
+                        <!-- <div class="col-md-3"> -->
+                            <input type="number" class="form-control" id="pago_inicial" name="pago_inicial" value="0">
+                        <!-- </div> -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <!-- hacer que este boton solo pueda realizar una peticion -->
+                <button id="btn-create_html" onclick="crear_html()" class="btn btn-primary">REGISTRAR VENTA</button>
+            </div>
         </div>
     </div>
 </div>
+
 <script>
 $(document).ready(function() {
+    // $("#pago_i").css('visibility', 'hidden')
     //----------filtro lider/experta---------------
     $('#search_le').autocomplete({
         source: "recursos/ventas/buscar_le.php",
@@ -237,7 +248,7 @@ function confirmar_venta() {
             console.log(error)
         }
     });
-    $("#modal1").openModal();
+    $("#modal1").modal('toggle');
 }
 
 /* --------------funcion insertar fila de producto---------------- */
@@ -246,7 +257,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     event.preventDefault();
     $("#descuento_").prop("disabled", true);
     if ((parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
-        Materialize.toast("<span style='color: yellow'>La cantidad ingresada es mayor al stock </span>", 5000)
+        mtoast("La cantidad ingresada es mayor al stock", 'danger')
         return false;
     }
     //Convertir precio en pesos a precio en Bs.
@@ -328,15 +339,18 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
     newRow = newTableRow.insertCell(9)
-    newRow.style.visibility = 'hidden'
+    // newRow.style.visibility = 'hidden'
+    newRow.hidden = true
     newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
 
     newRow = newTableRow.insertCell(10)
-    newRow.style.visibility = 'hidden'
+    // newRow.style.visibility = 'hidden'
+    newRow.hidden = true
     newRow.innerHTML = ' <input type="text" value="'+__pubs+'" class="__pubs" hidden>'
 
     newRow = newTableRow.insertCell(11)
-    newRow.style.visibility = 'hidden'
+    // newRow.style.visibility = 'hidden'
+    newRow.hidden = true
     newRow.innerHTML = ' <input type="text" value="'+__pubs_desc+'" class="__pubs_desc" hidden>'
 
     $('#stock').html("")
@@ -352,18 +366,18 @@ function crear_html() {
 
     let filas = $("#tabla_ventas").find('tbody tr').length;
     if (filas < 1) {
-        Materialize.toast("Debe insertar un producto.", 5000);
+        mtoast("Debe insertar un producto.", 'warning');
         habilitar_boton()
-        return $("#modal1").closeModal();
+        return $("#modal1").modal('toggle');
     }
     if (!document.querySelector('input[name="tipo_pago"]:checked')) {
         habilitar_boton()
-        return Materialize.toast("Debe seleccionar el tipo de pago.", 4000);
+        return mtoast("Debe seleccionar el tipo de pago.", 'warning');
     }
     if (document.getElementById("credito").checked) {
         if ($("#pago_inicial").val() == "") {
             habilitar_boton()
-            return Materialize.toast("Debe ingresar el pago inicial.", 4000)
+            return mtoast("Debe ingresar el pago inicial.", 'warning')
         }
     }
 
@@ -531,7 +545,7 @@ $('._aux').each(function(){
    </div>
   </div>`;
         imprimir(miHtml, respuesta);
-        $("#modal1").closeModal();
+        $("#modal1").modal('toggle');
         $("#tabla_c tr").remove();
         habilitar_boton();
     })
