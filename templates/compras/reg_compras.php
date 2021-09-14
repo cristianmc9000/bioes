@@ -460,6 +460,7 @@ function mod_cambio() {
                 console.log(response)
                 mtoast("Valor de cambio modificado.", "success")
                 let ges = "<?php echo $_GET['ges'] ?>"
+                $("#modal3").modal('toggle')
                 $("#cuerpo").load("templates/compras/reg_compras.php?ges="+ges)
             },
             error: function(error) {
