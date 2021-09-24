@@ -31,12 +31,12 @@
     <div class="fuente" style="">
       <h3 align="">Buscar producto</h3>
       <div class="row">
-        <div class="col-md-8 col-sm-12">
+        <div class="col-sm-12 col-md-12">
         <form id="insert_row">
           <div class="row g-3">
             <!-- <div class="col-sm-12 col-md-6"> -->
 
-              <div class="col-sm-12 col-md-5">
+              <div class="col-sm-12 col-md-4">
                 <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
               </div>
 
@@ -44,7 +44,7 @@
                 <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
               </div>
 
-              <div class="col-sm-12 col-md-3">
+              <div class="col-sm-12 col-md-2">
                 <input type="text" class="form-control" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
               </div>
 
@@ -55,6 +55,21 @@
               <!-- <input type="text" id="pubs_" value="" hidden> -->
             <!-- </div> -->
 
+              <div class="col-sm-12 col-md-2">
+                <div class="input-group mb-3">
+                  <!-- <label class="input-group-text" for="inputGroupSelect01">Descuento</label> -->
+                  <select class="form-select" id="inputGroupSelect01">
+                    <option selected>% Descuento...</option>
+                    <option value="1">OFERTAS-PLATA 30%</option>
+                    <option value="2">OFERTAS-ORO 30%</option>
+                    <option value="3">PLATA 35%</option>
+                    <option value="4">ORO 45%</option>
+                  </select>
+                </div>
+<!--                 <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento (0-100)">
+                <small class="helpertext" style="color: red">% Descuento</small> -->
+              </div>
+
             <div class="col-sm-12 col-md-2">
               <button class="btn btn-primary" type="submit" ><i class="material-icons align-middle">assignment</i>Insertar</button>
             </div>
@@ -62,19 +77,18 @@
         </form>
         </div>
 
-        <div class="col-sm-12 col-md-2">
-           <!-- % Descuento:  -->
+<!--         <div class="col-sm-12 col-md-2">
           <div class="">
             <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento (0-100)">
             <small class="helpertext" style="color: red">% Descuento</small>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>
 
 <div class="row">
-  <div class="col-md-10 col-sm-12">
+  <div class="col-md-12 col-sm-12">
   <table id="tabla_compras" class="table content-table table-hover">
     <thead>
       <tr>
@@ -98,9 +112,12 @@
     </tbody>
   </table>
   </div>
-  <div class="col-md-2 col-sm-12">
+
+  <a class="material-icons floating-btn" data-bs-toggle="modal" data-bs-target="#modal1">shopping_cart</a>
+
+  <!-- <div class="col-md-2 col-sm-12">
     <button type="button" class="btn btn-lg btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i class="material-icons align-middle">receipt</i>Registrar compra</button>
-  </div>
+  </div> -->
 </div>
 
 <!--MODAL AGREGAR PRODUCTO-->
