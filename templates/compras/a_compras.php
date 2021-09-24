@@ -58,8 +58,8 @@
               <div class="col-sm-12 col-md-2">
                 <div class="input-group mb-3">
                   <!-- <label class="input-group-text" for="inputGroupSelect01">Descuento</label> -->
-                  <select class="form-select" id="inputGroupSelect01">
-                    <option selected>% Descuento...</option>
+                  <select class="form-select" name="descuentos" id="descuentos">
+                    <option selected value="0">Descuento...</option>
                     <option value="1">OFERTAS-PLATA 30%</option>
                     <option value="2">OFERTAS-ORO 30%</option>
                     <option value="3">PLATA 35%</option>
@@ -97,11 +97,11 @@
           <th>Linea</th>
           <th>Descripción</th>
           <th>Cantidad</th>
+          <th>Descuento</th>
           <th>P.U.<br>(pesos arg.)</th>
           <th>P.U. con <br>descuento (Pesos)</th>
           <th>P.U.<br>(Bs.)</th>
           <th>P.U. con <br>descuento (Bs.)</th>
-          <th>Valor de compra <br>S.D. (Bs.)</th>
           <th>Valor de compra <br>C.D. (Bs.)</th>
           <th>Borrar</th>
           <th hidden>AUX</th>
@@ -170,20 +170,28 @@ $(document).ready(function(){
 document.getElementById("insert_row").addEventListener("submit", function (event) {
   event.preventDefault();
 
-
-
   $("#descuento_").prop('disabled', true);
   let codli = $("#codli_").val()
 //Convertir precio en pesos a precio en Bs.
   let pupesos = parseFloat($("#pupesos_").val())
   let pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
-  let desc_ = parseFloat($("#descuento_").val())
-  let _aux_cant = 0
-  if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {
-      _aux_cant = parseInt($("#cantidad_").val())
-      pupesos_desc = pupesos
-      pubs_desc = pubs_
-  }else{
+  
+  let desc_ = $("#descuentos").val()
+  
+  if (desc_ == 0) {
+    return mtoast("Seleccione el descuento.", "warning");
+  }
+  if (desc_ == 1) {desc_ = 30}
+  if (desc_ == 2) {desc_ = 30}
+  if (desc_ == 3) {desc_ = 35}
+  if (desc_ == 4) {desc_ = 45}
+  let descuento = desc_
+  // let _aux_cant = 0
+  // if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {
+  //     _aux_cant = parseInt($("#cantidad_").val())
+  //     pupesos_desc = pupesos
+  //     pubs_desc = pubs_
+  // }else{
   // PRECIO CON DESCUENTO EN PESOS
     desc_ = desc_ * 0.01
     pupesos_desc = pupesos * desc_
@@ -194,7 +202,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
     pubs_desc = parseFloat(pubs_desc) * desc_
     pubs_desc = pubs_ - pubs_desc
  
-  }
+  // }
   //Subtotal sin descuento
   precio_sd = parseFloat($("#cantidad_").val()) * pubs_
   precio_sd = precio_sd.toFixed(1)+"0"
@@ -229,36 +237,41 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.className = "_cantidad"
 
   newRow = newTableRow.insertCell(4)
+  newRow.textContent = descuento +"%"
+  newRow.className = "_descuento"
+
+  newRow = newTableRow.insertCell(5)
   newRow.textContent = pupesos
   newRow.className = "_pupesos"
 
-  newRow = newTableRow.insertCell(5)
+  newRow = newTableRow.insertCell(6)
   newRow.textContent = pupesos_desc
   newRow.className = "_pupesos_desc"
 
-  newRow = newTableRow.insertCell(6)
+  newRow = newTableRow.insertCell(7)
   newRow.textContent = pubs_
   newRow.className = "_pubs"
 
-  newRow = newTableRow.insertCell(7)
+  newRow = newTableRow.insertCell(8)
   newRow.textContent = pubs_desc
   newRow.className = "_pubs_desc"
-
-  newRow = newTableRow.insertCell(8)
-  newRow.textContent = precio_sd
-  newRow.className = "_precio_sd"
 
   newRow = newTableRow.insertCell(9)
   newRow.textContent = precio_cd
   newRow.className = "_precio_cd"
 
+
   newRow = newTableRow.insertCell(10)
   newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
-  newRow = newTableRow.insertCell(11)
+  // newRow = newTableRow.insertCell(11)
   // newRow.style.visibility = 'hidden'
+  // newRow.hidden = true
+  // newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
+  newRow = newTableRow.insertCell(11)
   newRow.hidden = true
-  newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
+  newRow.textContent = precio_sd
+  newRow.className = "_precio_sd"
 
   newRow = newTableRow.insertCell(12)
   // newRow.style.visibility = 'hidden'
@@ -269,6 +282,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
 
   $("#search_data").val("")
   $("#cantidad_").val("")
+  $("#descuentos").val("0")
   $("#pupesos_").val("")
 });
 
@@ -283,6 +297,7 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
     linea: e.querySelector('._linea').innerText,
     descripcion: e.querySelector('._descripcion').innerText,
     cantidad: e.querySelector('._cantidad').innerText,
+    descuento: e.querySelector('._descuento').innerText,
     pupesos: e.querySelector('._pupesos').innerText,
     pubs: e.querySelector('._pubs').innerText,
     pupesos_desc: e.querySelector('._pupesos_desc').innerText,
@@ -318,7 +333,7 @@ var pubs__desc = 0
 let gan_exp = 0 
 var totalsd = 0
 var totalcd = 0
-var descuento = 0
+// var descuento = 0
 
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   
@@ -327,6 +342,7 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
                 <td>${e.querySelector('._linea').innerText}</td>
                 <td>${e.querySelector('._descripcion').innerText}</td>
                 <td>${e.querySelector('._cantidad').innerText}</td>
+                <td>${e.querySelector('._descuento').innerText}</td>
                 <td>${e.querySelector('._pupesos').innerText}</td>
                 <td>${e.querySelector('._pubs').innerText}</td>
                 <td>${e.querySelector('._pupesos_desc').innerText}</td>
@@ -345,26 +361,27 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
 });
 
 //sumando cantidad de productos auxiliares
-let aux_sum = 0
-$('._aux').each(function(){
-    aux_sum = aux_sum + parseInt(this.value)
-})
+// let aux_sum = 0
+// $('._aux').each(function(){
+//     aux_sum = aux_sum + parseInt(this.value)
+// })
 
-console.log(gan_exp+"---"+totalcd)
+// console.log(gan_exp+"---"+totalcd)
 gan_exp = parseFloat(gan_exp).toFixed(1)
 gan_exp = gan_exp - totalcd
 
 
 
-_descuento = $("#descuento_").val();
+// _descuento = $("#descuentos").val();
 _valor = $("#valor").val();
 
 
 
 var data = detalle_compra()
+
 data.push({_totalcd: totalcd})
 data.push({_totalsd: totalsd})
-data.push({_descuento: _descuento})
+// data.push({_descuento: _descuento})
 data.push({_valor: _valor})
 
 
@@ -386,6 +403,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
   <style>
     .bod{
       font-family: 'Consolas';
+      font-size: '0.5em';
     }
     .detalle, .detalle th, .detalle td {
       border: 1px solid black;
@@ -401,9 +419,8 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
     <table width="100%" border="0">
       <tr>
         <td width="33%" align="left">
-          <span><b>Laboratorio TRESA S.A.</b></span><br>
-          <span>Código Arbell: 68929</span><br>
-          <span>Lider/Experta: Mendez Plata</span>
+          <span>Código BioEsencia: 68929</span><br>
+          <span>Cliente: Mendez Plata</span>
         </td>
         <td width="33%" align="center">
           <span>Punto de venta: Principal</span><br>
@@ -428,6 +445,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
         <th >Linea</th>
         <th >Descripción</th>
         <th >Cantidad</th>
+        <th >Descuento</th>
         <th >P.U. Pesos</th>
         <th >P.U. Bs.</th>
         <th >Precio con <br>descuento (pesos)</th>
@@ -448,7 +466,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td><b>${items} u. Incluye ${aux_sum} aux.:</b></td>
+        <td><b>${items} u.:</b></td>
       </tr>
       <tr>
         <td><b>Ganancias experta:</b></td>
@@ -488,7 +506,7 @@ function imprimir(mihtml, numfac) {
 
         html2pdf()
         .set({
-            margin: 1,
+            margin: 0.5,
             filename: 'recibo_compra_'+numfac+'.pdf',
             image: {
                 type: 'jpeg',
