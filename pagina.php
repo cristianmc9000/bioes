@@ -175,7 +175,7 @@ body {
       <span class="txt-align"><a href="#!" class="d-block p-3 text-light" onclick="location.reload();"><i class="inline-icon material-icons-outlined me-2 lead">home</i>Inicio</a></span>
       <span class="txt-align"><a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/usuarios/a_usuarios');"><i class="inline-icon material-icons-outlined me-2 lead">person</i>Usuarios</a></span>
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');"><i class="inline-icon material-icons-outlined me-2 lead">hail</i>Lider/Experta</a>
-      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/productos/a_prod-periodos');"><i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos</a>
+      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/productos/productos');"><i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos</a>
       <!-- compras y ventas acordion -->
       <div <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> class="accordion accordion-flush"  id="accordionFlushExample">
         <div  class="accordion-item">
@@ -186,8 +186,8 @@ body {
           </h2>
           <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
             <div style="background-color: #786fa6;" class="accordion-body">
-              <a class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/compras/a_compras.php');">Realizar compra</a>
-              <a class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/compras/reg_compras.php?ges=<?php echo date('Y') ?>');">Registro de compras</a>
+              <a class="d-block border-bottom border-top p-3 text-light" href="#!" onclick='cargar_v("templates/compras/a_compras.php");'>Realizar compra</a>
+              <a class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v('templates/compras/reg_compras.php?ges=<?php echo date('Y') ?>');">Registro de compras</a>
             </div>
           </div>
         </div>
@@ -203,8 +203,8 @@ body {
           <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample2">
             <div style="background-color: #786fa6;" class="accordion-body">
               <!-- aqui va el contenido del acordion de compras -->
-              <a style="" class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas.php');">Realizar venta</a>
-              <a style="" class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de ventas</a>
+              <a style="" class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v('templates/ventas/a_ventas.php');">Realizar venta</a>
+              <a style="" class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v('templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de ventas</a>
             </div>
           </div>
         </div>
@@ -369,13 +369,6 @@ function mtoast(text, color) {
 
   function cargar(e, x){
 
-    // for (var i = 1; i <= 8; i++) {
-      // console.log(e.target.parentNode.parentNode.children[i])
-      // e.target.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
-    // }
-
-    // e.target.parentNode.style.backgroundColor = "#3498db"
-
     if(x.includes("templates/inventarios")){
       $("#cuerpo").load(x);
     }else{
@@ -384,13 +377,8 @@ function mtoast(text, color) {
         }
   }
   //PARA CARGAR LAS VENTAS 
-  function cargar_v(e, x){
-    for (var i = 1; i <= 8; i++) {
-      // e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
-    }
-    // e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
-    $("#cuerpo").load(x);
-        
+  function cargar_v(x){
+    $("#cuerpo").load(x);    
   }
 
 

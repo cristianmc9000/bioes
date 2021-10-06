@@ -8,9 +8,24 @@ $idPOST = $_POST["id"];
 $periodo = $_SESSION["periodo"];
 $year = $_SESSION['anio'];
 
-	$consultaBorrar = "UPDATE productos SET estado=0 WHERE id= '".$idPOST."'";
-	if(mysqli_query($conexion, $consultaBorrar) or die(mysql_error())){
-		die('?mes='.$periodo);
+$result = $conexion->query("SELECT SUM(cantidad) as cant FROM inventario WHERE codp = '".$idPOST."'");
+$cant = $result->fetch_assoc();
+$cantidad = $cant['cant'];
+
+if (!($cantidad < 1)) {
+	die("<script>mtoast('No se puede eliminar, tiene productos activos en inventario.', 'warning')</script>");
+}else{
+
+	$conexion->query("DELETE FROM invcant WHERE codp = '".$idPOST."'");
+	$conexion->query("DELETE FROM inventario WHERE codp = '".$idPOST."'");
+
+	$consultaBorrar = "DELETE FROM `productos` WHERE id = '".$idPOST."'";
+	if(mysqli_query($conexion, $consultaBorrar) or die(mysqli_error($conexion))){
+		die("1");
 	}
+}
 
 ?>
+
+
+<!-- FALTA COMPLETAR AGREGAR PRODUCTOS .... -->

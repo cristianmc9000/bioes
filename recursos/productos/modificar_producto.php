@@ -9,7 +9,7 @@ $cod = $_POST["codigo"];
 $codant = $_POST["codant"];
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
-$periodo = $_SESSION["periodo"];
+// $periodo = $_SESSION["periodo"];
 $imgant = $_POST['imagen_ant'];
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
@@ -45,7 +45,7 @@ if ($cod != $codant) {
 	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."' WHERE id= '".$codant."'";
 
 	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
-		die('?mes='.$periodo);
+		die('1');
 	}
 
 ?>

@@ -2,12 +2,11 @@
 require('../conexion.php');
 require('../sesiones.php');
 session_start();
-$periodo = $_SESSION["periodo"];
+// $periodo = $_SESSION["periodo"];
 $nombre = $_POST["linea_"];
 
-$sql = $conexion->query("INSERT INTO  lineas (nombre, periodo) VALUES ('".$nombre."', ".$periodo.")");
+$sql = $conexion->query("INSERT INTO  lineas (nombre) VALUES ('".$nombre."')");
 
-echo "?mes=".$periodo;
-
+echo var_dump($sql);
 
 ?>

@@ -40,41 +40,6 @@ $userBD = $datos['CI'];
 $passwordBD = $datos['password'];
 //$sucursal = $datos['sucursal'];
 
-//PARA OBTENER EL PERIODO ACTUAL
-$fecha = date("Y-m-d");
-$actual_y = date("Y");
-
-$array_index = array(
-	$actual_y."-01-11", 
-	$actual_y."-03-08",
-	$actual_y."-05-10", 
-	$actual_y."-07-12", 
-	$actual_y."-09-14", 
-	$actual_y."-11-16", 
-	$actual_y."-01-11"
-);
-
-$indice = 0;
-for($i=0; $i<count($array_index)-1; $i++){
-	if(check_in_range($array_index[$i], $array_index[$i+1], $fecha)){
-		$indice = $i;
-		$i = count($array_index)-1;
-	}else{
-		$indice = $i;
-	}
-}
-//FUNCION PARA REVISAR EL INTERVALO DE LA FECHA DEL PERIODO
-function check_in_range($fecha_inicio, $fecha_fin, $fecha){
-     $fecha_inicio = strtotime($fecha_inicio);
-     $fecha_fin = strtotime($fecha_fin);
-     $fecha = strtotime($fecha);
-     if(($fecha >= $fecha_inicio) && ($fecha < $fecha_fin)){
-         return true;
-     }
-     else{
-         return false;
-     }
- }
 
 //Comprobamos si los datos son correctos
 if($userBD == $userPOST and  $passPOST == $passwordBD){
@@ -85,15 +50,8 @@ if($userBD == $userPOST and  $passPOST == $passwordBD){
 	$_SESSION['rol'] = $datos['rol'];
 	$_SESSION['estado'] = 'Autenticado';
 	$_SESSION['userCI'] = $userBD;
-	$_SESSION['periodox'] = $indice+1;
+	// $_SESSION['periodox'] = $indice+1;
 
-	//fechas inicio de periodos
-	$_SESSION['per1'] = "-01-11";
-	$_SESSION['per2'] = "-03-08";
-	$_SESSION['per3'] = "-05-10";
-	$_SESSION['per4'] = "-07-12";
-	$_SESSION['per5'] = "-09-14";
-	$_SESSION['per6'] = "-11-16";
 
 	/* Sesión iniciada, si se desea, se puede redireccionar desde el servidor */
 

@@ -1,17 +1,15 @@
-<?php
+    <?php
 require('../../recursos/conexion.php');
 require('../../recursos/sesiones.php');
 
-$per = $_GET["mes"];
 /* $anio = $_GET["anio"]; */
 
-session_start();
-$_SESSION['periodo'] = $per;
+// session_start();
 /* $_SESSION['anio'] = $anio; */
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
-$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
+$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli"; 
 
 $Busq = $conexion->query($Sql); 
 
@@ -25,7 +23,7 @@ if((mysqli_num_rows($Busq))>0){
         $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
 }
   //consulta de lineas
-$Sql2 = "SELECT codli, nombre FROM lineas WHERE periodo = ".$per." AND estado = 1";
+$Sql2 = "SELECT codli, nombre FROM lineas WHERE estado = 1";
 $Busq2 = $conexion->query($Sql2);
 if((mysqli_num_rows($Busq2))>0){
   while($arr2 = $Busq2->fetch_array()){ 
@@ -123,7 +121,6 @@ if((mysqli_num_rows($Busq2))>0){
                         <tr>
                             <th>Código</th>
                             <th>Nombre</th>
-                            <th>Periodo</th>
                             <th>Modificar</th>
                             <th>Borrar</th>
                         </tr>
@@ -311,12 +308,9 @@ function cargar_lineas() {
                     newRow.textContent = jsonParsedArray[key]['nombre']
 
                     newRow = newTableRow.insertCell(2)
-                    newRow.textContent = jsonParsedArray[key]['periodo']
-
-                    newRow = newTableRow.insertCell(3)
                     newRow.innerHTML = '<a onclick="mod_linea(event, '+jsonParsedArray[key]['codli']+')" style="cursor:pointer"><i class="material-icons">build</i></a>'
 
-                    newRow = newTableRow.insertCell(4)
+                    newRow = newTableRow.insertCell(3)
                     newRow.innerHTML = '<a onclick="borrar_linea(event, '+jsonParsedArray[key]['codli']+')" style="cursor:pointer"><i class="material-icons">delete</i></a>'
                 }
             }
@@ -402,10 +396,10 @@ $("#agregar_producto").on("submit", function(e){
         document.getElementById('btn-add_prod').disabled = false
         mensaje.html(echo);
         console.log(echo)
-        if (echo.includes("?mes")) {
+        if (echo.includes("1")) {
           $("#modal1").modal('toggle'); 
-          mtoast("PRODUCTO AGREGADO." , "success");
-          $("#cuerpo").load("templates/productos/productos.php"+echo);
+          mtoast("PRODUCTO AGREGADO.", "success");
+          $("#cuerpo").load("templates/productos/productos.php");
         } 
 
       }
@@ -445,10 +439,10 @@ $("#modificar_producto").on("submit", function(e){
         document.getElementById('btn-mod_prod').disabled = false
         mensaje.html(echo);
         console.log(echo);
-        if (echo.includes("?mes")) {
+        if (echo.includes("1")) {
           $("#modal2").modal('toggle'); 
           mtoast("PRODUCTO MODIFICADO." , 'success');
-          $("#cuerpo").load("templates/productos/productos.php"+echo);
+          $("#cuerpo").load("templates/productos/productos.php");
         }
         
       }
@@ -472,16 +466,13 @@ $("#eliminar_producto").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
         mensaje.html(echo);
         console.log(echo);
-        if (echo.includes("?mes")) {
-          $("#modal3").modal('toggle'); 
-          mtoast("PRODUCTO ELIMINADO." , 'success');
-          $("#cuerpo").load("templates/productos/productos.php"+echo);
+        if (echo == "1") {
+              $("#modal3").modal('toggle'); 
+              mtoast("PRODUCTO ELIMINADO." , 'success');
+              $("#cuerpo").load("templates/productos/productos.php");
         }
-        
-      }
     });
 });
 
@@ -499,10 +490,10 @@ $("#agregar_linea").on("submit", function(e){
     }).done(function(echo){
         mensaje.html(echo);
         console.log(echo);
-        if (echo.includes("?mes")) {
+        if (echo.includes('true')) {
           $("#modal_lin").modal('toggle'); 
-          mtoast("LINEA AGREGADA." , "success");
-          $("#cuerpo").load("templates/productos/productos.php"+echo);
+          mtoast("LINEA AGREGADA.", "success");
+          $("#cuerpo").load("templates/productos/productos.php");
         }
       })
     });

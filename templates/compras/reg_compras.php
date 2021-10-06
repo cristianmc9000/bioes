@@ -59,7 +59,7 @@ if((mysqli_num_rows($Busq))>0){
                     <th>Fecha de compra</th>
                     <th>Total sin descuento</th>
                     <th>Total con descuento</th>
-                    <th>Descuento</th>
+                    <!-- <th>Descuento</th> -->
                     <th>Valor de cambio</th>
                     <th>Detalle</th>
                     <th>Modificar</th>
@@ -80,9 +80,9 @@ if((mysqli_num_rows($Busq))>0){
                     <td>
                         <?php echo $valor["totalcd"] ?> Bs.
                     </td>
-                    <td>
-                        <button onclick="modal_descuento('<?php echo $valor["codc"] ?>','<?php echo $valor['descuento']?>')" class="btn btn-outline-primary btn-sm"><?php echo $valor["descuento"] ?> %</button>
-                    </td>
+                    <!-- <td> -->
+                        <!-- <button onclick="modal_descuento('<?php echo $valor["codc"] ?>','<?php echo $valor['descuento']?>')" class="btn btn-outline-primary btn-sm"><?php echo $valor["descuento"] ?> %</button> -->
+                    <!-- </td> -->
                     <td>
                         <button onclick="modal_cambio('<?php echo $valor["codc"] ?>','<?php echo $valor['valor_pesos']?>')" class="btn btn-outline-primary btn-sm"><?php echo $valor["valor_pesos"] ?> Bs.</button>
                     </td>

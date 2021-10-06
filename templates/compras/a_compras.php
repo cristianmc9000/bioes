@@ -393,8 +393,7 @@ var json_data = JSON.stringify(data)
 // })
 
 let year = (new Date).getFullYear()
-let periodo = '<?php echo $_SESSION["periodox"]; ?>'
-let per = periodo+" - "+year
+
 insertar_compra_detalle(json_data).then(respuesta => {
   console.log(respuesta+" respuesta de funcion promise")
 
@@ -425,18 +424,14 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
         <td width="33%" align="center">
           <span>Punto de venta: Principal</span><br>
           <span>Forma de pago: Efectivo</span><br>
-          <span>Periodo: ${per}</span>
+          <span>Gestión: ${year}</span>
         </td>
         <td width="33%" align="right">
           <span>Distribuidora: CARMIÑA</span>
         </td>
       </tr>
-
     </table>
-
-   
   <br>
-  
    <h5>Items del comprobante</h5>
    <table width="100%" class="detalle">
     <thead>
@@ -459,7 +454,6 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
    </table>
    <br>
    <br>
-
   <div style="float: right">
    <h5>Totales:</h5>
   
@@ -483,12 +477,15 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
 imprimir(miHtml, respuesta);
 $("#modal1").modal('toggle');
 $("#tabla_c tr").remove(); 
-habilitar_boton()
-$("#descuento_").prop('disabled', false)
-$("#descuento_").val('0')
+habilitar_boton();
+$("#descuento_").prop('disabled', false);
+$("#descuento_").val('0');
 
 })
+
 }
+
+
 
 function habilitar_boton() {
     document.getElementById("btn-create_html").setAttribute('onclick', "crear_html()");
