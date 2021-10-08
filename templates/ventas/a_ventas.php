@@ -35,18 +35,18 @@ session_start();
         <div class="col-md-10 col-sm-12">
             <form id="insert_row">
                 <div class="row g-3">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-4">
                         <input type="text" id="search_le" placeholder="Buscar Lider/Experta" autocomplete="off" class="form-control" required />
                         <div id="pendientes"></div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <input type="text" id="ca" placeholder="código" autocomplete="off" class="form-control" disabled required>
                     </div>
-                    <div class="col-sm-12 col-md-3">
+                    <!-- <div class="col-sm-12 col-md-3">
                         <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento" >
                         <small class="helpertext" style="color: red">% Descuento</small>
                         <input type="text" id="lugar" hidden>
-                    </div>
+                    </div> -->
                   </div>
             </form>
         </div>
@@ -60,7 +60,7 @@ session_start();
         <div class="col-md-10 col-sm-12">
             <form id="insert_row_producto">
                 <div class="row g-3">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-4">
                         <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
                     </div>
                     <div class="col-sm-12 col-md-2">
@@ -71,6 +71,18 @@ session_start();
                     <div class="col-sm-12 col-md-2">
                         <input type="text" class="form-control" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
                     </div>
+                    <div class="col-sm-12 col-md-2">
+                        <div class="input-group mb-3">
+                          <select class="form-select" name="descuentos_" id="descuentos_">
+                            <option selected value="0">Descuento...</option>
+                            <option value="1">OFERTAS-PLATA 30%</option>
+                            <option value="2">OFERTAS-ORO 30%</option>
+                            <option value="3">PLATA 35%</option>
+                            <option value="4">ORO 45%</option>
+                          </select>
+                        </div>
+                    </div>  
+
                     <input type="text" id="id_" value="" hidden>
                     <input type="text" id="linea_" value="" hidden>
                     <input type="text" id="pubs_" value="" hidden>
@@ -89,13 +101,14 @@ session_start();
 
 <!-- tabla de productos pa la venta -->
 <div id="tabla_ventas" class="row" hidden>
-    <div class="col-sm-12 col-md-10">
+    <div class="col-sm-12 col-md-12">
         <table class="table content-table table-hover">
             <thead>
                 <tr>
                     <th>Código<br>(Producto)</th>
                     <th>Linea</th>
                     <th>Descripción</th>
+                    <th>Descuento</th>
                     <th>Stock</th>
                     <th>Cantidad</th>
                     <th>Precio U. Bs.</th>
@@ -109,9 +122,12 @@ session_start();
             </tbody>
         </table>
     </div>
-    <div class="col-sm-12 col-md-2">
+
+    <a class="material-icons floating-btn" onclick="confirmar_venta()">shopping_cart</a>
+
+    <!-- <div class="col-sm-12 col-md-2">
         <button onclick="confirmar_venta()" class="btn btn-lg btn-outline-success"> <i class="material-icons align-middle">receipt</i>Registrar venta</button>
-    </div>
+    </div> -->
 </div>
 
 <!--MODAL AGREGAR PRODUCTO-->
@@ -200,7 +216,6 @@ $(document).ready(function() {
         source: "recursos/ventas/buscar_producto.php",
         minLength: 1,
         select: function(event, ui) {
-            console.log(ui.item.value);
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
             $("#stock").html("Cantidad stock: " + ui.item.stock)
             $("#stock_").val(ui.item.stock)
@@ -209,6 +224,11 @@ $(document).ready(function() {
             $('#linea_').val(ui.item.linea)
             $('#pubs_').val(parseFloat(ui.item.pupesos).toFixed(1))
             $('#codli_').val(ui.item.codli)
+            if (ui.item.descuento > 0 && ui.item.descuento < 5) {
+              $('#descuentos_').val(ui.item.descuento)
+            }else{
+              $('#descuentos_').val('0')
+            }        
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
         return $("<li class='ui-autocomplete-row'></li>")
@@ -255,7 +275,7 @@ function confirmar_venta() {
 document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
 
     event.preventDefault();
-    $("#descuento_").prop("disabled", true);
+    // $("#descuento_").prop("disabled", true);
     if ((parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
         mtoast("La cantidad ingresada es mayor al stock", 'danger')
         return false;
@@ -264,7 +284,15 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
 
     //VALOR DE DESCUENTO
-    var desc_ = $("#descuento_").val()
+
+    let descuento = $("#descuentos_ option:selected").text();
+    let id_desc = $("#descuentos_").val()
+    var desc_ = $("#descuentos_").val()
+    if (desc_ == 1) {desc_ = 30}
+    if (desc_ == 2) {desc_ = 30}
+    if (desc_ == 3) {desc_ = 35}
+    if (desc_ == 4) {desc_ = 45}
+    
     desc_ = parseFloat(desc_) * 0.01
 
     let codli = $("#codli_").val()
@@ -274,18 +302,16 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     let pubs_desc = parseFloat(pubs_)
     let _aux_cant = 0
 
-    if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {
-        _aux_cant = parseInt($("#cantidad_").val())
-    }else{
-        // PRECIO CON DESCUENTO EN PESOS
-        pupesos_desc = pupesos * desc_;
-        pupesos_desc = pupesos - pupesos_desc
-        pupesos_desc = pupesos_desc.toFixed(1)
-        // PRECIO CON DESCUENTO EN BS.
-        pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
-        pubs_desc = pubs_ - pubs_desc
+   
+    // PRECIO CON DESCUENTO EN PESOS
+    pupesos_desc = pupesos * desc_;
+    pupesos_desc = pupesos - pupesos_desc
+    pupesos_desc = pupesos_desc.toFixed(1)
+    // PRECIO CON DESCUENTO EN BS.
+    pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
+    pubs_desc = pubs_ - pubs_desc
         
-    }
+    
 
     //Subtotal con descuento
     precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
@@ -316,42 +342,51 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     newRow.className = "_descripcion"
 
     newRow = newTableRow.insertCell(3)
+    newRow.textContent = descuento
+    newRow.className = "_descuento"
+
+    newRow = newTableRow.insertCell(4)
     newRow.textContent = $("#stock_").val()
     newRow.className = "_stock"
 
-    newRow = newTableRow.insertCell(4)
+    newRow = newTableRow.insertCell(5)
     newRow.textContent = $("#cantidad_").val()
     newRow.className = "_cantidad"
 
-    newRow = newTableRow.insertCell(5)
+    newRow = newTableRow.insertCell(6)
     newRow.textContent = pubs_
     newRow.className = "_pubs"
 
-    newRow = newTableRow.insertCell(6)
+    newRow = newTableRow.insertCell(7)
     newRow.textContent = pubs_desc
     newRow.className = "_pubs_desc"
 
-    newRow = newTableRow.insertCell(7)
+    newRow = newTableRow.insertCell(8)
     newRow.textContent = precio_cd
     newRow.className = "_precio_cd"
 
-    newRow = newTableRow.insertCell(8)
-    newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
-
     newRow = newTableRow.insertCell(9)
-    // newRow.style.visibility = 'hidden'
-    newRow.hidden = true
-    newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
+    newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
     newRow = newTableRow.insertCell(10)
     // newRow.style.visibility = 'hidden'
     newRow.hidden = true
-    newRow.innerHTML = ' <input type="text" value="'+__pubs+'" class="__pubs" hidden>'
+    newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
 
     newRow = newTableRow.insertCell(11)
     // newRow.style.visibility = 'hidden'
     newRow.hidden = true
+    newRow.innerHTML = ' <input type="text" value="'+__pubs+'" class="__pubs" hidden>'
+
+    newRow = newTableRow.insertCell(12)
+    // newRow.style.visibility = 'hidden'
+    newRow.hidden = true
     newRow.innerHTML = ' <input type="text" value="'+__pubs_desc+'" class="__pubs_desc" hidden>'
+
+    newRow = newTableRow.insertCell(13)
+    newRow.hidden = true
+    newRow.textContent = id_desc
+    newRow.className = "_id_desc"
 
     $('#stock').html("")
     $("#search_producto").val("")
@@ -406,6 +441,7 @@ let fila = `
     <td>${e.querySelector('._id').innerText}</td>
     <td>${e.querySelector('._linea').innerText}</td>
     <td>${e.querySelector('._descripcion').innerText}</td>
+    <td>${e.querySelector('._descuento').innerText}</td>
     <td>${e.querySelector('._cantidad').innerText}</td>
     <td>${e.querySelector('._pubs').innerText}</td>
     <td>${e.querySelector('._pubs_desc').innerText}</td>
@@ -432,13 +468,13 @@ $('._aux').each(function(){
     gan_exp = gan_exp - totalcd
     gan_exp = gan_exp.toFixed(2)
 
-    _descuento = $("#descuento_").val();
+    // _descuento = $("#descuento_").val();
     _valor = $("#valor").val();
 
     let _nombre_le = $("#search_le").val()
     let _ca = $("#ca").val()
     let _tipo_pago = $("input[name='tipo_pago']:checked").val()
-    let _periodo = "<?php echo $_SESSION['periodox'];?>";
+    // let _periodo = "<?php echo $_SESSION['periodox'];?>";
     let _lugar = $("#lugar").val()
 
     if (_tipo_pago == 0) {
@@ -450,7 +486,7 @@ $('._aux').each(function(){
 
     var data = detalle_venta()
     data.push({total_cd: totalcd})
-    data.push({_descuento: _descuento})
+    // data.push({_descuento: _descuento})
     data.push({_valor: _valor})
     data.push({_ca: _ca})
     data.push({_tipo_pago: _tipo_pago})
@@ -465,7 +501,7 @@ $('._aux').each(function(){
     }
 
     let year = (new Date).getFullYear()
-    let per = _periodo+" - "+year
+
 
     insertar_venta_detalle(json_data).then(respuesta => {
         console.log(respuesta + " respuesta de funcion promise")
@@ -496,7 +532,7 @@ $('._aux').each(function(){
         <td width="33%" align="center">
           <span>Punto de venta: Principal</span><br>
           <span>Forma de pago: ${_tipo_pago}</span><br>
-          <span>Periodo: ${per}</span>
+          <span>Gestión: ${year}</span>
         </td>
         <td width="33%" align="right">
           <span>Distribuidora: CARMIÑA</span>
@@ -513,6 +549,7 @@ $('._aux').each(function(){
         <th >Código<br>(producto)</th>
         <th >Linea</th>
         <th >Descripción</th>
+        <th >Descuento</th>
         <th >Cantidad</th>
         <th >P. Unidad (Bs.)</th>
         <th >P.Unidad C.D. (Bs.)</th>
@@ -563,6 +600,7 @@ function detalle_venta() {
             id: e.querySelector('._id').innerText,
             linea: e.querySelector('._linea').innerText,
             descripcion: e.querySelector('._descripcion').innerText,
+            descuento: e.querySelector('._id_desc').innerText,
             cantidad: e.querySelector('._cantidad').innerText,
             pubs: e.querySelector('._pubs').innerText,
             pubs_desc: e.querySelector('._pubs_desc').innerText,

@@ -5,15 +5,15 @@ require('../../recursos/conexion.php');
 
 // echo $_GET['ges'];
 
-$Sql = "SELECT a.codc, a.fecha, a.totalsd, a.totalcd, a.descuento, a.valor_pesos FROM compras a WHERE a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
+$Sql = "SELECT a.codc, a.fecha, a.totalsd, a.totalcd, a.valor_pesos FROM compras a WHERE a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
     while($arr = $Busq->fetch_array()) 
         { 
-            $fila[] = array('codc'=>$arr['codc'], 'fecha'=>$arr['fecha'],'totalsd'=>$arr['totalsd'],'totalcd'=>$arr['totalcd'],'descuento'=>$arr['descuento'], 'valor_pesos'=>$arr['valor_pesos']);
+            $fila[] = array('codc'=>$arr['codc'], 'fecha'=>$arr['fecha'],'totalsd'=>$arr['totalsd'],'totalcd'=>$arr['totalcd'], 'valor_pesos'=>$arr['valor_pesos']);
         } 
 }else{
-    $fila[] = array('codc'=>'--', 'fecha'=>'--','totalsd'=>'--','totalcd'=>'--','descuento'=>'--', 'valor_pesos'=>'--');
+    $fila[] = array('codc'=>'--', 'fecha'=>'--','totalsd'=>'--','totalcd'=>'--', 'valor_pesos'=>'--');
 }
 ?>
 
@@ -126,6 +126,7 @@ if((mysqli_num_rows($Busq))>0){
                                 <th>Código <br> (producto)</th>
                                 <th>Linea</th>
                                 <th>Descripción</th>
+                                <th>Descuento</th>
                                 <th>Cantidad</th>
                                 <th>P. unidad</th>
                                 <th>Subtotal</th>
@@ -160,6 +161,7 @@ if((mysqli_num_rows($Busq))>0){
                             <th>Código</th>
                             <th>Línea</th>
                             <th>Descripción</th>
+                            <th>Descuento</th>
                             <th>Cantidad</th>
                             <th>P. Unidad</th>
                             <th>Subtotal</th>
@@ -296,12 +298,16 @@ function ver_compra(codc, fecha, total) {
                 newRow.textContent = jsonParsedArray[key]['descripcion']
 
                 newRow = newTableRow.insertCell(3)
-                newRow.textContent = jsonParsedArray[key]['cantidad']
+                newRow.textContent = jsonParsedArray[key]['descuento'] +"%"
 
                 newRow = newTableRow.insertCell(4)
-                newRow.textContent = jsonParsedArray[key]['pubs_cd'] +" Bs."
+                newRow.textContent = jsonParsedArray[key]['cantidad']
 
                 newRow = newTableRow.insertCell(5)
+                let pubs_desc = parseFloat(jsonParsedArray[key]['pubs_cd']).toFixed(1)
+                newRow.textContent = pubs_desc +" Bs."
+
+                newRow = newTableRow.insertCell(6)
                 newRow.textContent = ((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)) +" Bs."
 
                 if (jsonParsedArray[key]['codli'] == 16 || (jsonParsedArray[key]['codli'] >= 32 && jsonParsedArray[key]['codli'] <= 37)) {
@@ -322,11 +328,13 @@ function ver_compra(codc, fecha, total) {
 }
 //OBTENER EL DETALLE DE COMPRA EN JSON
 function detalle_compra(codc) {
+    console.log(codc)
     return new Promise((resolve, reject) => {
         $.ajax({
             url: "recursos/compras/ver_compra.php?codc="+codc,
             method: "GET",
             success: function(response) {
+                console.log(response)
                 resolve(response)
             },
             error: function(error) {
@@ -365,15 +373,18 @@ function mod_compra(e, codc, descuento, valor) {
                 newRow.textContent = jsonParsedArray[key]['descripcion']
 
                 newRow = newTableRow.insertCell(3)
-                newRow.textContent = jsonParsedArray[key]['cantidad']
+                newRow.textContent = jsonParsedArray[key]['descuento'] +"%"
 
                 newRow = newTableRow.insertCell(4)
-                newRow.textContent = jsonParsedArray[key]['pubs_cd'] +" Bs."
+                newRow.textContent = jsonParsedArray[key]['cantidad']
 
                 newRow = newTableRow.insertCell(5)
-                newRow.textContent = ((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)) +" Bs."
+                newRow.textContent = jsonParsedArray[key]['pubs_cd'] +" Bs."
 
                 newRow = newTableRow.insertCell(6)
+                newRow.textContent = ((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)) +" Bs."
+
+                newRow = newTableRow.insertCell(7)
                 let codp_b = jsonParsedArray[key]['codp']
                 let cant = jsonParsedArray[key]['cantidad']
                 newRow.innerHTML = "<a href='#' onclick='borrar_item(event,`"+codp_b+"`,"+codc+", "+cant+")' style='color:red'><i class='material-icons'>delete</i></a>"

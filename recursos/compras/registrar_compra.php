@@ -17,6 +17,9 @@ $valor = array_pop($array);
 $total_sd = array_pop($array);
 $total_cd = array_pop($array);
 
+// die(var_dump($array));
+
+
 //insertar un nuevo registro de compra en tabla: compras
 $insertarCompra = "INSERT INTO `compras`(`ci_usu`,`fecha`,`totalsd`, `totalcd`,`valor_pesos`) VALUES ('".$userci."','".$fecha."',".$total_sd->{'_totalsd'}.", ".$total_cd->{'_totalcd'}.", ".$valor->{'_valor'}." )";
 mysqli_query($conexion, $insertarCompra);
@@ -33,6 +36,7 @@ foreach ($array as $arr) {
 	$respuesta = mysqli_stmt_execute($sql);
 }
 mysqli_stmt_close($sql);
+
 
 //Insertar datos a tabla: inventario
 $res = false;

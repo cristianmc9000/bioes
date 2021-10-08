@@ -97,7 +97,7 @@
           <th>Linea</th>
           <th>Descripción</th>
           <th>Cantidad</th>
-          <th>Descuento</th>
+          <th>% de descuento</th>
           <th>P.U.<br>(pesos arg.)</th>
           <th>P.U. con <br>descuento (Pesos)</th>
           <th>P.U.<br>(Bs.)</th>
@@ -155,6 +155,11 @@ $(document).ready(function(){
         $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
         $("#codli_").val(ui.item.codli)
         $('#search_data').val(ui.item.value)
+        if (ui.item.descuento > 0 && ui.item.descuento < 5) {
+          $('#descuentos').val(ui.item.descuento)
+        }else{
+          $('#descuentos').val('0')
+        }        
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
@@ -163,7 +168,6 @@ $(document).ready(function(){
         .append(item.label)
         .appendTo(ul);
     };
-
 
 });
 
@@ -177,8 +181,9 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   let pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
   
   let desc_ = $("#descuentos").val()
-  
-  if (desc_ == 0) {
+  let id_desc = $("#descuentos").val()
+
+  if (desc_ < 1 || desc_ > 4) {
     return mtoast("Seleccione el descuento.", "warning");
   }
   if (desc_ == 1) {desc_ = 30}
@@ -237,7 +242,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.className = "_cantidad"
 
   newRow = newTableRow.insertCell(4)
-  newRow.textContent = descuento +"%"
+  newRow.textContent = descuento
   newRow.className = "_descuento"
 
   newRow = newTableRow.insertCell(5)
@@ -278,6 +283,11 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.hidden = true
   newRow.innerHTML = ' <input type="text" value="'+__pubs+'" class="__pubs" hidden>'
 
+  newRow = newTableRow.insertCell(13)
+  newRow.hidden = true
+  newRow.textContent = id_desc
+  newRow.className = "_id_desc"
+
 
 
   $("#search_data").val("")
@@ -297,7 +307,7 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
     linea: e.querySelector('._linea').innerText,
     descripcion: e.querySelector('._descripcion').innerText,
     cantidad: e.querySelector('._cantidad').innerText,
-    descuento: e.querySelector('._descuento').innerText,
+    descuento: e.querySelector('._id_desc').innerText,
     pupesos: e.querySelector('._pupesos').innerText,
     pubs: e.querySelector('._pubs').innerText,
     pupesos_desc: e.querySelector('._pupesos_desc').innerText,
@@ -535,6 +545,7 @@ function insertar_compra_detalle (json_data) {
       },
       method: "post",
       success: function(response) {
+        console.log(response+" <---- respuesta de insertar_compra_detalle")
         resolve(response)
       },
       error: function(error) {
