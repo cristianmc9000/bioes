@@ -5,22 +5,18 @@ require('../../recursos/conexion.php');
 
 // echo $_GET['ges'];
 
-$Sql = "SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.periodo, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
+$Sql = "SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
     while($arr = $Busq->fetch_array()) 
         { 
-            $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'],'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'], 'periodo'=>$arr['periodo'],'credito'=>$arr['credito']);
+            $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'],'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'],'credito'=>$arr['credito']);
         } 
 }else{
-    $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--','apellidos'=>'--','fecha'=>'--','total'=>'--', 'periodo'=>'--','credito'=>'--');
+    $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--','apellidos'=>'--','fecha'=>'--','total'=>'--','credito'=>'--');
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
     <style>
     .fuente {
         font-family: 'Segoe UI light';
@@ -45,28 +41,28 @@ if((mysqli_num_rows($Busq))>0){
     }
 
     </style>
-</head>
+    <div class="row">
+            <!-- <div class="mb-2"> -->
+                <div class="col-md-2">
+                    <b style= "color:blue"> Gestión:</b>
+                    <select class="form-select" name="ges" id="ges" onchange="enviarges()">
+                        <option value="0" selected disabled> Seleccionar</option>
+                        <option value="2021"> 2021 </option>
+                        <option value="2022"> 2022 </option>
+                        <option value="2023"> 2023 </option>
+                        <option value="2024"> 2024 </option>
+                        <option value="2025"> 2025 </option>
+                    </select>
+                </div>
+                <div class="col-md-8 offset-md-1">
+                    <div><span class="fuente"><h3>Registro de ventas de la gestión: <?php echo $_GET['ges']?></h3></span></div>
+                </div>
+            <!-- </div> -->
+    </div><br>
 
-<body>
-    <div class="col s11">
-        <div class="col s1">
-                <b style= "color:blue"> Gestión:</b>
-                <select onchange="enviarges()" name="ges" id="ges" class="browser-default">
-                    <option value="0" selected disabled> Seleccionar</option>
-                    <option value="2021"> 2021 </option>
-                    <option value="2022"> 2022 </option>
-                    <option value="2023"> 2023 </option>
-                    <option value="2024"> 2024 </option>
-                    <option value="2025"> 2025 </option>
-                </select>
-        </div>
-        <div class="col s10 m8 offset-m3">
-            <span class="fuente"><h3>Registro de ventas de la gestión: <?php echo $_GET['ges']?></h3></span> 
-        </div>
-    </div>
     
     <!-- TABLA -->
-    <table id="tabla1" class="highlight">
+    <table id="tabla1" class="content-table table table-hover">
         <thead>
             <tr>
                 <th>Código</th>
@@ -258,8 +254,8 @@ $(document).ready(function() {
       }
       }
     });
-    $('#modal').leanModal();
-    $('.modal_trigger_3').leanModal();
+    // $('#modal').leanModal();
+    // $('.modal_trigger_3').leanModal();
     
 });
 var mensaje = $("#mensaje");
@@ -630,7 +626,4 @@ function enviarges() {
     $("#cuerpo").load("templates/ventas/reg_ventas.php?ges="+ges);
 }
 </script>
-
-</body>
-</html>
 

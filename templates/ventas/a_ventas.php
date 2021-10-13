@@ -188,7 +188,7 @@ $(document).ready(function() {
                 method: "GET",
                 success: function(response) {
                     if (response == 1) {
-                        $("#pendientes").html('<small class="helpertext" style="color: red"><b>Tiene pagos pendientes.</b></small>')
+                        $("#pendientes").html('<small class="helpertext" style="color: red"><b>3 ventas a crédito pendientes, solo ventas al contado.</b></small>')
                     }else{
                         $("#pendientes").html("")
                     }
