@@ -458,10 +458,10 @@ let fila = `
         items = items + parseInt(e.querySelector('._cantidad').innerText);
     });
 //sumando cantidad de productos auxiliares
-let aux_sum = 0
-$('._aux').each(function(){
-    aux_sum = aux_sum + parseInt(this.value)
-})
+// let aux_sum = 0
+// $('._aux').each(function(){
+//     aux_sum = aux_sum + parseInt(this.value)
+// })
     // console.log(gan_exp+"---"+totalcd)
     gan_exp = parseFloat(gan_exp).toFixed(1)
     totalcd = totalcd.toFixed(1)
@@ -568,7 +568,7 @@ $('._aux').each(function(){
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td>${items} u. (Incluye ${aux_sum} aux):</td>
+        <td>${items} u. :</td>
       </tr>
       <tr>
         <td><b>G. experta:</b></td>

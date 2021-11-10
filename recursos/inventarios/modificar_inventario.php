@@ -20,7 +20,7 @@ $cant = $cantidad - $cant_ant;
 
 	//consulta modificar inventario 
 	$consulta ="UPDATE inventario SET pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fecha_venc='".$fecha_v."' WHERE id= '".$id."' ";
-	mysqli_query($conexion, $consulta) or die(mysql_error()); 
+	mysqli_query($conexion, $consulta) or die(mysqli_error($conexion)); 
 		
 	//consulta actualizar cantidad de inventario sumando o restando la cantidad ingresada (no es seguro)
 	// $sql = "UPDATE `invcant` SET cantidad = cantidad + (".$cant.") WHERE codp = (SELECT codp FROM inventario WHERE id = ".$id.") ";
@@ -44,12 +44,12 @@ $cant = $cantidad - $cant_ant;
 
 $res = $conexion->query("UPDATE invcant a SET a.cantidad = (SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = (SELECT c.codp FROM inventario c WHERE c.id = ".$id.")) WHERE a.codp = (SELECT d.codp FROM inventario d WHERE d.id = ".$id.")");
 
-$per = $_SESSION["periodo"];
+// $per = $_SESSION["periodo"];
 
-if ($res && ( $per> 0 && $per <7 )) {
-	die('?mes='.$per);
+if ($res) {
+	die('1');
 }else{
-	die('');
+	die(mysqli_error($conexion));
 }
 
 ?>

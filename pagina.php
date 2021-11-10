@@ -80,8 +80,8 @@ while($arr = $Busq2->fetch_array())
   border-radius: 5px 5px 00;
   overflow: hidden;
   box-shadow: 10px 10px 8px #888888;
-  border-top-width: 3px;
-  border-top-style: solid;
+  /*border-top-width: 3px;*/
+  /*border-top-style: solid;*/
 }
 .content-table thead tr{
   background-color: #009879;
@@ -212,7 +212,7 @@ body {
 
       <!-- fin compras y ventas acordion -->
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>
-      <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a>
+      <!-- <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a> -->
     </div>
   </div>
   <!-- FIN bootstrap sidebar -->

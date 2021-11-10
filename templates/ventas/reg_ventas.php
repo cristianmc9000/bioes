@@ -23,9 +23,12 @@ if((mysqli_num_rows($Busq))>0){
         color: red;
     }
 
-    table.highlight>tbody>tr:hover {
-        background-color: #a0aaf0 !important;
+    #tabla_pagos{
+        width: 100%;
     }
+/*    table.highlight>tbody>tr:hover {
+        background-color: #a0aaf0 !important;
+    }*/
 
     .borde_tabla {
         border: 1px solid;
@@ -95,7 +98,7 @@ if((mysqli_num_rows($Busq))>0){
                     <?php echo $valor["total"]?>
                 </td>
                 <td > <!-- style="text-align: center" -->
-                    <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "<button onclick='pagos(event, ".$valor['ca'].", `".$valor['nombre']."`, `".$valor['apellidos']."`)'>Ver pagos</button>";} ?>
+                    <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "<button onclick='pagos(event, ".$valor['ca'].", `".$valor['nombre']."`, `".$valor['apellidos']."`)' type='button' class='btn btn-outline-primary btn-sm'>Ver pagos</button>";} ?>
                 </td>
                 <td>
                     <a href="#!" onclick="ver_venta('<?php echo $valor['codv']?>','<?php echo $valor['total']?>','<?php echo $valor['credito']?>','<?php echo $valor['ca']?>','<?php echo $valor['nombre'].' '.$valor['apellidos']?>','<?php echo $valor['periodo']?>')"><i class="material-icons">visibility</i></a>
@@ -103,37 +106,45 @@ if((mysqli_num_rows($Busq))>0){
                 </td>
                 <td>
                     <!-- <a href="#!" onclick="borrar_venta('<?php echo $valor['codv'] ?>');"><i class="material-icons">delete</i></a> -->
-                    <a href="#modal3" class="modal_trigger_3" onclick="$('#codv').val('<?php echo $valor['codv'] ?>')"><i class="material-icons">delete</i></a>
+                    <a href="#modal3" data-bs-toggle="modal" data-bs-target="#modal3" onclick="$('#codv').val('<?php echo $valor['codv'] ?>')"><i class="material-icons">delete</i></a>
+                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="material-icons">delete</i></button> -->
                 </td>
             </tr>
             <?php } ?>
             
         </tbody>
     </table>
-    <!-- Modal registro de venta detalle de venta -->
-    <div class="row">
-        <div id="modal1" class="modal">
-            <div class="modal-content">
+
+<!-- Modal registro de venta detalle de venta -->
+<div id="modal1" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
                 <div class="row">
-                    <div class="col s4">
+                    <div class="col-sm-4">
                         <span id="_ca">Código arbell: </span><br>
                         <span id="lider_ex">Lider/Experta:</span>
                     </div>
-                    <div class="col s4" style="text-align: center;">
+                    <div class="col-sm-4" style="text-align: center;">
                         <span>Punto de venta: PRINCIPAL</span><br>
                         <span id="_credito">Forma de pago:</span><br>
                         <span id="_periodo">Periodo:</span>
                     </div>
-                    <div class="col s4" style="text-align:right">
+                    <div class="col-sm-4" style="text-align:right">
                         <span>Distribuidora: CARMIÑA</span>
                     </div>
-                    <div class="col s12">
+                    <div class="col-sm-12">
                         <p>
                             <h5>Items del comprobante</h5>
                         </p>
                     </div>
-                    <div class="col s12">
-                        <table id="detalle_ven" class="borde_tabla">
+
+                    <div class="col-sm-12">
+                        <table style="width: 100%" id="detalle_ven" class="borde_tabla">
                             <tr>
                                 <th>Código <br> (producto)</th>
                                 <th>Linea</th>
@@ -145,10 +156,11 @@ if((mysqli_num_rows($Busq))>0){
                             <tbody></tbody>
                         </table>
                     </div>
-                    <div class="col s4 offset-s8">
+                    <hr>
+                    <div class="col-sm-4 offset-sm-8">
                         <h5>TOTALES:</h5>
                     </div>
-                    <div class="col s4 offset-s8">
+                    <div class="col-sm-4 offset-sm-8">
                         <table class="borde_tabla">
                             <tr>
                                 <th>Items:</th>
@@ -166,13 +178,25 @@ if((mysqli_num_rows($Busq))>0){
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+            </div>  
         </div>
     </div>
+</div>
 
 <!-- MODAL ADMINISTRAR PAGOS -->
-    <div class="row">
-        <div id="modal2" class="modal">
-            <div class="modal-content">
+<div class="modal fade" id="modal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Administrar pagos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
                 <input id="codv_pago" type="text" hidden>
                 <input id="_subtotal" type="text" hidden>
                 <input id="_total" type="text" hidden>
@@ -180,30 +204,37 @@ if((mysqli_num_rows($Busq))>0){
                 <input id="nombres_pagos" type="text" hidden>
 
                 <div class="row">
-                    <p>
-                        <h4  class="fuente">Administrar pagos</h4>
-                    </p><br>
-                    <div class="input-field col s4">
-                        <input type="number" min="0" onkeypress="return check(event)" id="nuevo_pago" name="nuevo_pago">
-                        <label for="nuevo_pago">Insertar nuevo pago</label>
+                    <div class="col-sm-5">
+                        <div class="input-group mb-3">
+                            <label for="nuevo_pago" class="input-group-text"><i class="material-icons"><img height="35px" src="https://img.icons8.com/plasticine/100/000000/money.png"/></i></label>
+                            <input class="form-control" min="0" id="nuevo_pago" type="number" onkeypress="return check(event)" placeholder="Insertar nuevo pago">
+                        </div>
                     </div>
-                    <div class="col s3">
-                        <a href="#!" onclick="nuevo_pago()" id="boton_pagos" class="waves-effect waves-light btn-large blue">Agregar pago</a>
+                    <div class="col-sm-4">
+                        <a href="#!" onclick="nuevo_pago()" id="boton_pagos" class="btn btn-primary btn-lg">Agregar pago</a>
                     </div>
-                    <div class="col s3">
-                        <a href="#!" onclick="imprimir_pago()" id="print_pagos" class="waves-effect waves-light btn-large orange"><i class="material-icons">print</i></a>
+                    <div class="col-sm-3">
+                        <a href="#!" onclick="imprimir_pago()" id="print_pagos" class="btn btn-outline-success btn-lg"><i class="material-icons">print</i></a>
                     </div>
-                    <table id="tabla_pagos" class="borde_tabla">
-                        <tr>
-                            <th>Fecha de pago</th>
-                            <th>Monto</th>
-                            <th>Borrar pago</th>
-                        </tr>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                    <div class="col s4 offset-s8">
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="tabla_pagos" class="content-table">
+                            <thead>
+                                <tr>
+                                    <th><h5>Fecha de pago</h5></th>
+                                    <th><h5>Monto</h5></th>
+                                    <th><h5>Borrar pago</h5></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 offset-sm-8">
                         <b>
                             <p id="subtotal">Subtotal:</p>
                             <p style="color:red" id="debe">Saldo:</p>
@@ -213,27 +244,40 @@ if((mysqli_num_rows($Busq))>0){
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" id="btn-cerrar_modal2" class=" modal-action modal-close waves-effect waves-light btn green">Aceptar</a>
+                <!-- <a href="#!" id="btn-cerrar_modal2" class=" modal-action modal-close waves-effect waves-light btn green">Aceptar</a> -->
+                <button id="btn-cerrar_modal2" type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL ELIMINAR VENTA  -->
+    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h5 class="modal-title" id="exampleModalLabel">Se eliminará la venta.</h5> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-content">
+                    <div class="container">
+                        <input id="codv" type="text" value="codv" hidden>
+                        <h4>Se eliminará la venta.</h4>
+                        <span> Se devolveran los productos al inventario.</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
+                    <a href="#!" onclick="borrar_venta()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a> -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="borrar_venta()" class="btn btn-primary" data-bs-dismiss="modal">Confirmar</button>
+                </div>
             </div>
         </div>
     </div>
 
-<!-- MODAL ELIMINAR VENTA  -->
-    <div class="row">
-        <div id="modal3" class="modal col s4 offset-s4">
-            <div class="modal-content">
-                <input id="codv" type="text" value="codv" hidden>
-                <div class="row">
-                    <h4 class="fuente">Se eliminará la venta.</h4>
-                    <span> Se devolveran los productos al inventario.</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
-                <a href="#!" onclick="borrar_venta()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
-            </div>
-        </div>
-    </div>
 
     <div id="mensaje"></div>
 
@@ -313,7 +357,7 @@ function ver_venta(codv, total, credito, ca, cliente, periodo) {
         $("#total").html(total +" Bs.")
         $("#items").html(cantidad+"u. Incluye "+auxiliares+" auxiliares.")
         $("#gan_exp").html(((gan_exp).toFixed(1))+" Bs.")
-        $("#modal1").openModal()
+        $("#modal1").modal('toggle')
     })
 }
 //OBTENER EL DETALLE DE VENTA EN JSON
@@ -382,12 +426,14 @@ function pagos(e, ca, nombre, apellidos) {
                 newRow.textContent = jsonParsedArray[key]['monto']+" Bs."
 
                 newRow = newTableRow.insertCell(2)
-                newRow.innerHTML = '<a onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
+                // newRow.innerHTML = '<a onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
+                newRow.innerHTML = '<button onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn btn-outline-danger btn-sm"><i class="material-icons">delete</i></button>'
             }
         }
     })
 
-    $("#modal2").openModal({dismissible: false})
+    // $("#modal2").openModal({dismissible: false})
+    $("#modal2").modal('toggle')
 }
 
 //RECUPERAR DATOS DE LA BD TABLA: PAGOS(JSON)
@@ -421,12 +467,12 @@ function borrar_pago(e, id, codv) {
                     let nuevo_sub = parseFloat($("#_subtotal").val())
                     let total = parseFloat($("#_total").val())
 
-                    $("#subtotal").html("Subtotal: "+nuevo_sub+" Bs.")
-                    $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
-                    $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
+                    $("#subtotal").html("Subtotal: "+nuevo_sub.toFixed(1)+" Bs.")
+                    $("#debe").html("Saldo: "+parseFloat((total-nuevo_sub).toFixed(1)).toFixed(2)+" Bs.")
+                    $("#saldo").html("Total: "+nuevo_sub.toFixed(1)+" Bs./"+total.toFixed(1)+" Bs.")
                     
                     let gest = "templates/ventas/reg_ventas.php?ges="+'<?php echo $_GET["ges"]?>'
-                    Materialize.toast("Pago eliminado", 4000)
+                    mtoast("Pago eliminado", 'success')
                     document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
                     document.getElementById("boton_pagos").classList.remove("disabled");
                     $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("'+gest+'")');
@@ -446,10 +492,10 @@ function borrar_pago(e, id, codv) {
 function nuevo_pago() {
 
     if ($('#nuevo_pago').val().length == 0) {
-        return Materialize.toast("Debe ingresar un pago válido.", 4000)
+        return mtoast("Debe ingresar un pago válido.", 'warning')
     }
     if ($("#nuevo_pago").val() < 1) {
-        return Materialize.toast("Debe ingresar un pago mayor a 0", 4000)
+        return mtoast("Debe ingresar un pago mayor a 0", 'warning')
     }
 
 
@@ -458,7 +504,7 @@ function nuevo_pago() {
     $("#nuevo_pago").val("")
     let subtotal = parseFloat($("#_subtotal").val())
     let total = parseFloat($("#_total").val())
-    if (subtotal+monto > total ) {return Materialize.toast("La suma de los pagos excede el total.", 4000)}
+    if (subtotal+monto > total ) {return mtoast("La suma de los pagos excede el total.", 'danger')}
 
     
 
@@ -485,13 +531,16 @@ function nuevo_pago() {
             newRow.textContent = respuesta.monto +" Bs."
 
             newRow = newTableRow.insertCell(2)
-            newRow.innerHTML = '<a onclick="borrar_pago(event, '+respuesta.id+', '+respuesta.codv+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
-            Materialize.toast("Pago agregado.", 4000)
+            newRow.innerHTML = '<button onclick="borrar_pago(event, '+respuesta.id+', '+respuesta.codv+')" class="btn btn-outline-danger btn-sm"><i class="material-icons">delete</i></button>'
+            mtoast("Pago agregado.", 'success')
 
             let gest = "templates/ventas/reg_ventas.php?ges="+'<?php echo $_GET["ges"]?>'
 
+            console.log(total, nuevo_sub)
+            console.log(total.toFixed(1), nuevo_sub.toFixed(1))
+
             $("#subtotal").html("Subtotal: "+(nuevo_sub)+" Bs.")
-            $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
+            $("#debe").html("Saldo: "+(parseFloat((total-nuevo_sub).toFixed(1))).toFixed(2)+" Bs.")
             $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
             $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("'+gest+'")')
 
@@ -511,7 +560,7 @@ $.ajax({
     success: function (response){
         console.log(response);
         if (response) {
-            Materialize.toast("Venta eliminada.", 4000)
+            mtoast("Venta eliminada.", 'success')
             $("#cuerpo").load("templates/ventas/reg_ventas.php")
         }
     }
