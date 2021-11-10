@@ -12,7 +12,7 @@ require('recursos/sesiones.php');
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="icon" type="image/x-icon" href="img/logo.ico" />
 	<link rel="stylesheet" href="css/master.css">
-	<link rel="icon" href="img/iconoarbell.ico"></link>
+	<link rel="icon" href="img/logo.ico"></link>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<link rel="stylesheet" type="text/css" href="css/datatable.css">
