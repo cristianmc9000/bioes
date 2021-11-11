@@ -25,6 +25,7 @@ if(isset($_GET["term"]))
        $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
        $temp_array['pupesos'] = $row['pupesos'];
        $temp_array['descuento'] = $row['descuento'];
+       $temp_array['foto'] = $row['foto'];
 
        $output[] = $temp_array;
       }

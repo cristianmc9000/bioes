@@ -26,6 +26,16 @@
       position: relative;
       font-size: 0.8em;
     }
+
+    .contenedor_insert{
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 20px;
+    }
+    .contenedor_btn{
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
 </style>
 
     <div class="fuente" style="">
@@ -33,57 +43,49 @@
       <div class="row">
         <div class="col-sm-12 col-md-12">
         <form id="insert_row">
-          <div class="row g-3">
-            <!-- <div class="col-sm-12 col-md-6"> -->
+          <div class="contenedor_insert">
+            <div class="contenedor_form">
 
-              <div class="col-sm-12 col-md-4">
-                <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
-              </div>
-
-              <div class="col-sm-12 col-md-2">
-                <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
-              </div>
-
-              <div class="col-sm-12 col-md-2">
-                <input type="text" class="form-control" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
-              </div>
-
-              
-              <input type="text" id="id_" value="" hidden>
-              <input type="text" id="linea_" value="" hidden>
-              <input type="text" id="codli_" value="" hidden>
-              <!-- <input type="text" id="pubs_" value="" hidden> -->
-            <!-- </div> -->
-
-              <div class="col-sm-12 col-md-2">
-                <div class="input-group mb-3">
-                  <!-- <label class="input-group-text" for="inputGroupSelect01">Descuento</label> -->
-                  <select class="form-select" name="descuentos" id="descuentos">
-                    <option selected value="0">Descuento...</option>
-                    <option value="1">OFERTAS-PLATA 30%</option>
-                    <option value="2">OFERTAS-ORO 30%</option>
-                    <option value="3">PLATA 35%</option>
-                    <option value="4">ORO 45%</option>
-                  </select>
+                <div class="col-sm-12 col-md-10 mb-3">
+                  <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
                 </div>
-<!--                 <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento (0-100)">
-                <small class="helpertext" style="color: red">% Descuento</small> -->
-              </div>
 
-            <div class="col-sm-12 col-md-2">
-              <button class="btn btn-primary" type="submit" ><i class="material-icons align-middle">assignment</i>Insertar</button>
+                <div class="col-sm-12 col-md-10 mb-3">
+                  <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
+                </div>
+
+                <div class="col-sm-12 col-md-10 mb-3">
+                  <input type="text" class="form-control" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
+                </div>
+                <div class="col-sm-12 col-md-10 mb-3">
+                  <div class="input-group mb-3">
+                    <select class="form-select" name="descuentos" id="descuentos">
+                      <option selected value="0">Descuento...</option>
+                      <option value="1">OFERTAS-PLATA 30%</option>
+                      <option value="2">OFERTAS-ORO 30%</option>
+                      <option value="3">PLATA 35%</option>
+                      <option value="4">ORO 45%</option>
+                    </select>
+                  </div>
+                </div>
+
+            </div>
+            <div class="contenedor_img">
+              <div class="img-bio">
+                <img src="img/producto_vacio.jpg"  id="foto_prod" class="img-prod" alt="">
+              </div>
+            </div>
+            <div class="contenedor_btn">
+              <div>
+                <!-- holaa -->
+              </div>
+              <div class="col-sm-12 col-md-11">
+                <button class="btn btn-primary btn-lg" type="submit" ><i class="material-icons align-middle">assignment</i>Insertar</button>
+              </div>
             </div>
           </div>
         </form>
         </div>
-
-<!--         <div class="col-sm-12 col-md-2">
-          <div class="">
-            <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento (0-100)">
-            <small class="helpertext" style="color: red">% Descuento</small>
-          </div>
-        </div> -->
-
       </div>
     </div>
 
@@ -155,6 +157,8 @@ $(document).ready(function(){
         $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
         $("#codli_").val(ui.item.codli)
         $('#search_data').val(ui.item.value)
+        console.log(ui.item.foto)
+        $('#foto_prod').attr("src", ui.item.foto);
         if (ui.item.descuento > 0 && ui.item.descuento < 5) {
           $('#descuentos').val(ui.item.descuento)
         }else{
