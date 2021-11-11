@@ -35,11 +35,24 @@ require('recursos/sesiones.php');
 
 	}
 
+	.login-box {
+	    width: 320px;
+	    height: 380px;
+	    background: #000; 
+	    color: #fff;
+	    top: 50%;
+	    left: 30%;
+	    position: absolute;
+	    transform: translate(-50%, -50%);
+	    box-sizing: border-box;
+	    padding: 70px 30px;
+	}
+	
 </style>
 
 <body>
 	<div class="login-box">
-		<img class="avatar" src="img/logoarbell2.png" alt="Logo Arbell">
+		<img class="avatar" src="img/logobio.png" alt="Logo Arbell">
 		<h1>Ingresar al Sistema</h1>
 		<div class="formulario-acceso">
 			<form method="POST" id="acceso" action="" accept-charset="utf-8">

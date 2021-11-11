@@ -8,18 +8,7 @@ body{
     height: 100vh;
 }
 
-.login-box {
-    width: 320px;
-    height: 380px;
-    background: #000; 
-    color: #fff;
-    top: 50%;
-    left: 30%;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    box-sizing: border-box;
-    padding: 70px 30px;
-}
+
 
 .login-box .avatar{
     width: 100px;
