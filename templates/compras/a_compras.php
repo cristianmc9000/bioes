@@ -26,7 +26,12 @@
       position: relative;
       font-size: 0.8em;
     }
-
+    .img-prod{
+      border-radius: 5px;
+      border-collapse: collapse;
+      border: solid 5px;
+      width: 65%;
+    }
     .contenedor_insert{
       display: grid;
       grid-template-columns: 1fr auto auto;
