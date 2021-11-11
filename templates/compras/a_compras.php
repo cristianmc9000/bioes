@@ -36,6 +36,9 @@
       display: grid;
       grid-template-rows: 1fr auto;
     }
+    .contenedor_img{
+      
+    }
 </style>
 
     <div class="fuente" style="">
@@ -71,9 +74,9 @@
 
             </div>
             <div class="contenedor_img">
-              <div class="img-bio">
+              
                 <img src="img/producto_vacio.jpg"  id="foto_prod" class="img-prod" alt="">
-              </div>
+             
             </div>
             <div class="contenedor_btn">
               <div>
