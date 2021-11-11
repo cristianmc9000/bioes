@@ -31,6 +31,7 @@ require('recursos/sesiones.php');
 	body{
 		font-family: 'Belina Demo';
 		src: url('fonts/belina/BelinaDemo-Regular.ttf'), url('fonts/Evergreen/Evergreen.otf'), url('fonts/fortunates	/Fortunates December.ttf');
+		background: url('img/fondo_login2.jpg') no-repeat center top;
 
 	}
 
