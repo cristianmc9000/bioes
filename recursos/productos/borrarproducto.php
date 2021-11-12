@@ -12,10 +12,7 @@ $result = $conexion->query("SELECT SUM(cantidad) as cant FROM inventario WHERE c
 $cant = $result->fetch_assoc();
 $cantidad = $cant['cant'];
 
-if (!($cantidad < 1)) {
-	die("<script>mtoast('No se puede eliminar, tiene productos activos en inventario.', 'warning')</script>");
-}else{
-
+if ($cantidad < 1) {
 	$conexion->query("DELETE FROM invcant WHERE codp = '".$idPOST."'");
 	$conexion->query("DELETE FROM inventario WHERE codp = '".$idPOST."'");
 
@@ -23,6 +20,9 @@ if (!($cantidad < 1)) {
 	if(mysqli_query($conexion, $consultaBorrar) or die(mysqli_error($conexion))){
 		die("1");
 	}
+}else{
+	die("<script>mtoast('No se puede eliminar, tiene productos activos en inventario.', 'warning')</script>");
+	
 }
 
 ?>
