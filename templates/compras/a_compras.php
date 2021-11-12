@@ -64,6 +64,9 @@
 
                 <div class="col-sm-12 col-md-10 mb-3">
                   <input type="text" class="form-control" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
+                  <input type="text" id="id_" hidden>
+                  <input type="text" id="codli_" hidden>
+                  <input type="text" id="linea_" hidden>
                 </div>
                 <div class="col-sm-12 col-md-10 mb-3">
                   <div class="input-group mb-3">
