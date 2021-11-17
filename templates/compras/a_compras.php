@@ -42,7 +42,13 @@
       grid-template-rows: 1fr auto;
     }
     .contenedor_img{
-      
+      min-width: 200px;
+      /*min-height: 200px;*/
+      max-width: 201px;
+    }
+    #foto_prod{
+      min-width: 201.5px;
+      max-height: 201.5px;
     }
 </style>
 
