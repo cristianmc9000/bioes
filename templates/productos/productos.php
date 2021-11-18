@@ -35,9 +35,37 @@ if((mysqli_num_rows($Busq2))>0){
 ?>
 
 <style>
-  /* table.dataTable tbody th, table.dataTable tbody td {
+    /* table.dataTable tbody th, table.dataTable tbody td {
       padding: 0;
-  } */
+    } */
+    .izq{
+    /*float: left;*/
+    position: absolute;
+    left: 10px;
+    }
+    .ui-autocomplete{
+        z-index: 1099;
+    }
+    .ui-autocomplete-row
+    {
+      /*padding:8px;*/
+      background-color: #f4f4f4;
+      border-bottom:1px solid #ccc;
+      font-weight:bold;
+    }
+    .ui-autocomplete-row:hover
+    {
+      background-color: #ddd;
+      /*font-family: "Segoe UI Light"*/
+    }
+    .zoom {
+        transition: transform .2s; 
+    }
+
+    .zoom:hover {
+        transform: scale(1.3); 
+    }
+
 </style>
 <div class="row">
     <div class="col-md-4">
@@ -176,13 +204,38 @@ if((mysqli_num_rows($Busq2))>0){
                           <label class="form-label small text-muted" for="descripcion">Descripción:</label>
                           <textarea class="form-control" name="descripcion" autocomplete="off" required></textarea>     
                         </div>
+
+                        <div id="combo_section" class="col-sm-12" hidden>
+                            <span>Agregar productos al combo:</span>
+                            <div class="input-group mb-3">
+                              <span class="input-group-text" id="basic-addon1"><i class="material-icons">search</i></span>
+                              <input type="text" id="search_data" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="basic-addon1">
+                            </div>
+
+                            <table id="tabla_combo" class="content-table" width="100%">
+                                <thead>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Borrar</th>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
+                <div class="form-check izq">
+                  <input class="form-check-input" type="checkbox" value="" id="combo_check">
+                  <label class="form-check-label text-muted" for="combo_check">
+                    COMBO
+                  </label>
+                </div>
+
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button form="agregar_producto" type="submit" class="btn btn-primary" id="btn-add_prod" >Aceptar</button>
-                
             </div>
         </div>
     </div>
@@ -284,7 +337,74 @@ $(document).ready(function() {
             "previous": "Anterior"
           }},
     });
+
+    $('#search_data').autocomplete({
+      source: "recursos/compras/buscar_prod.php",
+      minLength: 1,
+      select: function(event, ui)
+      {
+        // $("#id_").val(ui.item.id)
+        // $("#linea_").val(ui.item.linea)
+        // $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
+        // $("#codli_").val(ui.item.codli)
+        // $('#search_data').val(ui.item.value)
+        // console.log(ui.item.foto)
+        // $('#foto_prod').attr("src", ui.item.foto);
+        // if (ui.item.descuento > 0 && ui.item.descuento < 5) {
+        //   $('#descuentos').val(ui.item.descuento)
+        // }else{
+        //   $('#descuentos').val('0')
+        // }  
+
+        $('#search_data').val("123")
+        //insertando filas a la tabla
+
+        // let table = document.getElementById("tabla_combo")
+        // $("#tabla_combo tbody").html("")
+        let table = $("#tabla_combo tbody")[0];
+        let newTableRow = table.insertRow(-1)
+        let newRow
+
+        newRow = newTableRow.insertCell(0)
+        newRow.textContent = ui.item.id
+        newRow.className = "_id"
+
+        newRow = newTableRow.insertCell(1)
+        newRow.textContent = ui.item.value
+        newRow.className = "_nombre"
+
+        newRow = newTableRow.insertCell(2)
+        newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
+        // newRow.className = "_descripcion"
+
+
+
+      }
+    }).data('ui-autocomplete')._renderItem = function(ul, item){
+        // console.log(item)
+        return $("<li class='ui-autocomplete-row'></li>")
+        .data("item.autocomplete", item)
+        .append(item.label)
+        .appendTo(ul);
+    };
 });
+function delete_row(e) {
+  console.log(e.target.parentNode.parentNode.parentNode.remove())
+  let rows = document.getElementById('tabla_combo').getElementsByTagName('tr')
+}
+// document.getElementById("combo_check").addEventListener("click", function(event) {
+//     alert("hola");
+// })
+
+$("#combo_check").on("click", function () {
+    if (!$('#combo_check').is(":checked")){
+        document.getElementById('combo_section').hidden = true
+    }else{
+        document.getElementById('combo_section').hidden = false
+    }
+})
+
+
 //FUNCION PARA CARGAR LINEAS DESDE LA BASE DE DATOS
 function cargar_lineas() {
   let respuesta
@@ -379,8 +499,21 @@ function borrar_linea(e, id) {
 
 $("#agregar_producto").on("submit", function(e){
     e.preventDefault(); 
+
+    if ( $("#linea").val() == null ) return mtoast("Debe seleccionar una línea.", "warning")
+
+    let rows = document.getElementById('tabla_combo').getElementsByTagName('tr')
+    if (rows.length <= 2) {
+        console.log(rows.length)
+        return mtoast("Debe seleccionar más de un producto", 'warning')
+    }
+
+    
+
+
     $("#btn-add_prod").addClass('disabled')
     document.getElementById('btn-add_prod').disabled = true
+
     var val = new FormData(document.getElementById("agregar_producto"));
     $.ajax({
       url: "recursos/productos/agregar_producto.php",

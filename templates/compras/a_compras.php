@@ -60,21 +60,21 @@
           <div class="contenedor_insert">
             <div class="contenedor_form">
 
-                <div class="col-sm-12 col-md-10 mb-3">
+                <div class="col-sm-12 col-md-12 mb-3">
                   <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
                 </div>
 
-                <div class="col-sm-12 col-md-10 mb-3">
+                <div class="col-sm-12 col-md-12 mb-3">
                   <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
                 </div>
 
-                <div class="col-sm-12 col-md-10 mb-3">
+                <div class="col-sm-12 col-md-12 mb-3">
                   <input type="text" class="form-control" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
                   <input type="text" id="id_" hidden>
                   <input type="text" id="codli_" hidden>
                   <input type="text" id="linea_" hidden>
                 </div>
-                <div class="col-sm-12 col-md-10 mb-3">
+                <div class="col-sm-12 col-md-12 mb-3">
                   <div class="input-group mb-3">
                     <select class="form-select" name="descuentos" id="descuentos">
                       <option selected value="0">Descuento...</option>
