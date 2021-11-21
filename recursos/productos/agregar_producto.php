@@ -16,7 +16,16 @@ $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
 
+$combo = false;
 
+$json_combo = $_POST['json_combo'];
+if ($json_combo != "") {
+	// die($json_combo);
+	$combo = true;
+}else{
+	// die("no esta definido"); //CAMBIAR LA CONSULTA PARA COMBO Y AGREGAR NUEVA TABLA A LA BD "COMBO"
+	$combo = false;
+}
 
 if(!empty($archivo)){
 	$ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR A 000WEBHOST
@@ -36,7 +45,7 @@ if(strlen($descripcion) > $maxCaracteres) {
 };
 
 	$consultaBuscarID = "SELECT * FROM productos WHERE id = '".$cod."'";
-	$resultadoConsultaBID = mysqli_query($conexion, $consultaBuscarID) or die(mysql_error());
+	$resultadoConsultaBID = mysqli_query($conexion, $consultaBuscarID) or die(mysqli_error($conexion));
 	$datosConsultaBID = mysqli_fetch_array($resultadoConsultaBID);
 
 	if(isset($datosConsultaBID['id'])){
@@ -49,7 +58,7 @@ if(strlen($descripcion) > $maxCaracteres) {
 
 	//Consulta para agregar la cantidad del nuevo producto
 	$consultaAC = "INSERT INTO invcant (codp) VALUES('".$cod."')";
-	if(mysqli_query($conexion, $consultaAC) or die(mysql_error())) {
+	if(mysqli_query($conexion, $consultaAC) or die(mysqli_error($conexion))) {
 		die("1");
 	}
 

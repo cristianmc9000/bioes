@@ -179,6 +179,8 @@ if((mysqli_num_rows($Busq2))>0){
                         <div class="col-sm-12 input-group">
                             <input name="imagen" type="file" class="form-control" id="_imagen">
                             <label class="input-group-text" for="_imagen">Foto</label>
+
+                            <input type="text" id="json_combo" name="json_combo" hidden>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <label for="codigo" class="form-label small text-muted">Código:</label>
@@ -343,18 +345,6 @@ $(document).ready(function() {
       minLength: 1,
       select: function(event, ui)
       {
-        // $("#id_").val(ui.item.id)
-        // $("#linea_").val(ui.item.linea)
-        // $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
-        // $("#codli_").val(ui.item.codli)
-        // $('#search_data').val(ui.item.value)
-        // console.log(ui.item.foto)
-        // $('#foto_prod').attr("src", ui.item.foto);
-        // if (ui.item.descuento > 0 && ui.item.descuento < 5) {
-        //   $('#descuentos').val(ui.item.descuento)
-        // }else{
-        //   $('#descuentos').val('0')
-        // }  
 
         $('#search_data').val("123")
         //insertando filas a la tabla
@@ -502,17 +492,29 @@ $("#agregar_producto").on("submit", function(e){
 
     if ( $("#linea").val() == null ) return mtoast("Debe seleccionar una línea.", "warning")
 
-    let rows = document.getElementById('tabla_combo').getElementsByTagName('tr')
-    if (rows.length <= 2) {
-        console.log(rows.length)
-        return mtoast("Debe seleccionar más de un producto", 'warning')
+    if ($('#combo_check').is(":checked")){
+        let rows = document.getElementById('tabla_combo').getElementsByTagName('tr')
+        if (rows.length <= 2) {
+            console.log(rows.length)
+            return mtoast("Debe seleccionar más de un producto", 'warning')
+        }
+
+        let combo_array = [];
+        document.querySelectorAll('#tabla_combo tbody tr').forEach(function(e){
+          let fila = {
+            id: e.querySelector('._id').innerText
+          };
+          combo_array.push(fila)
+        });
+        $("#json_combo").val(JSON.stringify(combo_array))
+    }else{
+        $("#json_combo").val("")
     }
 
     
+    // $("#btn-add_prod").addClass('disabled')
+    // document.getElementById('btn-add_prod').disabled = true
 
-
-    $("#btn-add_prod").addClass('disabled')
-    document.getElementById('btn-add_prod').disabled = true
 
     var val = new FormData(document.getElementById("agregar_producto"));
     $.ajax({
@@ -524,18 +526,19 @@ $("#agregar_producto").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
-        $("#btn-add_prod").removeClass('disabled')
-        document.getElementById('btn-add_prod').disabled = false
-        mensaje.html(echo);
         console.log(echo)
-        if (echo.includes("1")) {
-          $("#modal1").modal('toggle'); 
-          mtoast("PRODUCTO AGREGADO.", "success");
-          $("#cuerpo").load("templates/productos/productos.php");
-        } 
+      // if (echo !== "") {
+      //   $("#btn-add_prod").removeClass('disabled')
+      //   document.getElementById('btn-add_prod').disabled = false
+      //   mensaje.html(echo);
+      //   console.log(echo)
+      //   if (echo.includes("1")) {
+      //     $("#modal1").modal('toggle'); 
+      //     mtoast("PRODUCTO AGREGADO.", "success");
+      //     $("#cuerpo").load("templates/productos/productos.php");
+      //   } 
 
-      }
+      // }
     });
 });
 
