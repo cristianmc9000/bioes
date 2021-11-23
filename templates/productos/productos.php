@@ -512,8 +512,8 @@ $("#agregar_producto").on("submit", function(e){
     }
 
     
-    // $("#btn-add_prod").addClass('disabled')
-    // document.getElementById('btn-add_prod').disabled = true
+    $("#btn-add_prod").addClass('disabled')
+    document.getElementById('btn-add_prod').disabled = true
 
 
     var val = new FormData(document.getElementById("agregar_producto"));
@@ -527,18 +527,18 @@ $("#agregar_producto").on("submit", function(e){
       processData: false
     }).done(function(echo){
         console.log(echo)
-      // if (echo !== "") {
-      //   $("#btn-add_prod").removeClass('disabled')
-      //   document.getElementById('btn-add_prod').disabled = false
-      //   mensaje.html(echo);
-      //   console.log(echo)
-      //   if (echo.includes("1")) {
-      //     $("#modal1").modal('toggle'); 
-      //     mtoast("PRODUCTO AGREGADO.", "success");
-      //     $("#cuerpo").load("templates/productos/productos.php");
-      //   } 
+      if (echo == "1") {
+        $("#btn-add_prod").removeClass('disabled')
+        document.getElementById('btn-add_prod').disabled = false
+        mensaje.html(echo);
+        console.log(echo)
+        if (echo.includes("1")) {
+          $("#modal1").modal('toggle'); 
+          mtoast("PRODUCTO AGREGADO.", "success");
+          $("#cuerpo").load("templates/productos/productos.php");
+        } 
 
-      // }
+      }
     });
 });
 

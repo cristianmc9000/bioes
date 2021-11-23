@@ -16,16 +16,19 @@ $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
 
-$combo = false;
-
+$combo = 0;
+$text = "";
 $json_combo = $_POST['json_combo'];
 if ($json_combo != "") {
-	// die($json_combo);
-	$combo = true;
+	$json_combo = json_decode($json_combo);
+	$combo = 1;
 }else{
-	// die("no esta definido"); //CAMBIAR LA CONSULTA PARA COMBO Y AGREGAR NUEVA TABLA A LA BD "COMBO"
-	$combo = false;
+	$combo = 0;
 }
+
+
+
+
 
 if(!empty($archivo)){
 	$ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR A 000WEBHOST
@@ -53,8 +56,16 @@ if(strlen($descripcion) > $maxCaracteres) {
 	}
 
 	//Consulta para agregar el nuevo producto 
-	$consulta = "INSERT INTO productos (id, foto, linea, descripcion) VALUES ('".$cod."','".$ruta2."','".$linea."','".$descripcion."')";
+	$consulta = "INSERT INTO productos (id, foto, linea, descripcion, combo) VALUES ('".$cod."','".$ruta2."','".$linea."','".$descripcion."','".$combo."')";
 	mysqli_query($conexion, $consulta) or die(mysqli_error($conexion));
+
+	//Consulta para agregar detalle del producto combo
+	if($combo == 1){
+		foreach($json_combo as $arr ){
+			$sql = "INSERT INTO `combo`(`id_combo`, `id_prod`) VALUES ('".$cod."','".$arr->{'id'}."')";
+			$result = mysqli_query($conexion, $sql) or die(mysqli_error($conexion));
+		}
+	}
 
 	//Consulta para agregar la cantidad del nuevo producto
 	$consultaAC = "INSERT INTO invcant (codp) VALUES('".$cod."')";

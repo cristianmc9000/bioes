@@ -13,9 +13,14 @@ $cant = $result->fetch_assoc();
 $cantidad = $cant['cant'];
 
 if ($cantidad < 1) {
+	$res = $conexion->query("SELECT combo FROM productos WHERE id = '".$idPOST."'");
+	$combo = $res->fetch_array();
+	if ($combo['0'] == 1) {
+		$conexion->query("DELETE FROM `combo` WHERE id_combo = '".$idPOST."'");
+	}
+	
 	$conexion->query("DELETE FROM invcant WHERE codp = '".$idPOST."'");
 	$conexion->query("DELETE FROM inventario WHERE codp = '".$idPOST."'");
-
 	$consultaBorrar = "DELETE FROM `productos` WHERE id = '".$idPOST."'";
 	if(mysqli_query($conexion, $consultaBorrar) or die(mysqli_error($conexion))){
 		die("1");
