@@ -97,7 +97,7 @@ if((mysqli_num_rows($Busq))>0){
                     <!-- <a href="#!"><i class="material-icons">build</i></a> -->
                     </td>
                     <td>
-                    <a href="#!" onclick="borrar_inventario('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
+                    <a href="#!" onclick="borrar_inventario('<?php echo $valor['id'] ?>', '<?php echo $valor['codp'] ?>');"><i class="material-icons">delete</i></a>
                     </td>
 
                 </tr>
@@ -165,6 +165,7 @@ if((mysqli_num_rows($Busq))>0){
             <div class="modal-body">
                 <p>¿Esta seguro que desea eliminar este producto del inventario?</p>
                 <input id="datos_borrar" name="id" type="text" hidden>
+                <input id="datos_codp" type="text" hidden>
             </div>
 
 
@@ -232,16 +233,18 @@ $("#modificar_inventario").on("submit", function(e){
     });
 });
 
-function borrar_inventario(id){
+function borrar_inventario(id, codp){
 
   $("#datos_borrar").val(id)
+  $("#datos_codp").val(codp)
   $('#modal3').modal('toggle')
 }
 
 function eliminar_inventario() {
     let id = $("#datos_borrar").val()
+    let codp = $("#datos_codp").val()
     $.ajax({
-        url: "recursos/inventarios/borrarinventario.php?id="+id,
+        url: "recursos/inventarios/borrarinventario.php?id="+id+"&codp="+codp,
         method: "GET",
         success: function(response) {
             if (response == 1) {

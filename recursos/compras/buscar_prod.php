@@ -4,7 +4,7 @@ include('../conexion.php');
 if(isset($_GET["term"]))
 {
   
-    $result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT f.descuento FROM detalle_compra f WHERE f.codp = a.id ORDER BY f.codc DESC LIMIT 1) AS descuento, (SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre FROM productos a, lineas b WHERE a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC;");
+    $result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.combo, (SELECT f.descuento FROM detalle_compra f WHERE f.codp = a.id ORDER BY f.codc DESC LIMIT 1) AS descuento, (SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre FROM productos a, lineas b WHERE a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC;");
 
     // $result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT f.descuento FROM detalle_compra f WHERE f.codp = a.id ORDER BY a.id DESC LIMIT 1) AS descuento, (SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre FROM productos a, lineas b WHERE a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC;"); <--- consulta
 
@@ -26,6 +26,7 @@ if(isset($_GET["term"]))
        $temp_array['pupesos'] = $row['pupesos'];
        $temp_array['descuento'] = $row['descuento'];
        $temp_array['foto'] = $row['foto'];
+       $temp_array['combo'] = $row['combo'];
 
        $output[] = $temp_array;
       }

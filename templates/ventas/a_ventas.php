@@ -88,6 +88,7 @@ session_start();
                     <input type="text" id="pubs_" value="" hidden>
                     <input type="text" id="subtotal_" value="" hidden>
                     <input type="text" id="codli_" value="" hidden>
+                    <input type="text" id="combo_" value="" hidden>
 
                     <div class="col-sm-12 col-md-2">
                         <button class="btn btn-primary" type="submit"><i class="material-icons align-middle">assignment</i>Insertar</button>
@@ -217,13 +218,20 @@ $(document).ready(function() {
         minLength: 1,
         select: function(event, ui) {
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
-            $("#stock").html("Cantidad stock: " + ui.item.stock)
-            $("#stock_").val(ui.item.stock)
+            if (ui.item.combo == '1') {
+                $("#stock").html("Producto combo")
+                $("#stock_").val('999')
+            }else{
+                $("#stock").html("Cantidad stock: " + ui.item.stock)
+                $("#stock_").val(ui.item.stock)
+            }
+            
             $('#search_producto').val(ui.item.value)
             $('#id_').val(ui.item.id)
             $('#linea_').val(ui.item.linea)
             $('#pubs_').val(parseFloat(ui.item.pupesos).toFixed(1))
             $('#codli_').val(ui.item.codli)
+            $('#combo_').val(ui.item.combo)
             if (ui.item.descuento > 0 && ui.item.descuento < 5) {
               $('#descuentos_').val(ui.item.descuento)
             }else{
@@ -296,6 +304,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     desc_ = parseFloat(desc_) * 0.01
 
     let codli = $("#codli_").val()
+    let combo = $("#combo_").val()
     let pupesos = parseFloat($("#pupesos_").val())
     //valor sin descuento si no pertenece a la linea auxiliares
     let pupesos_desc = pupesos
@@ -387,6 +396,11 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     newRow.hidden = true
     newRow.textContent = id_desc
     newRow.className = "_id_desc"
+
+    newRow = newTableRow.insertCell(14)
+    newRow.hidden = true
+    newRow.textContent = combo
+    newRow.className = "_combo"
 
     $('#stock').html("")
     $("#search_producto").val("")
@@ -604,7 +618,8 @@ function detalle_venta() {
             cantidad: e.querySelector('._cantidad').innerText,
             pubs: e.querySelector('._pubs').innerText,
             pubs_desc: e.querySelector('._pubs_desc').innerText,
-            precio_cd: e.querySelector('._precio_cd').innerText
+            precio_cd: e.querySelector('._precio_cd').innerText,
+            combo: e.querySelector('._combo').innerText
         };
         array_.push(fila)
     });

@@ -73,6 +73,7 @@
                   <input type="text" id="id_" hidden>
                   <input type="text" id="codli_" hidden>
                   <input type="text" id="linea_" hidden>
+                  <input type="text" id="combo_" hidden>
                 </div>
                 <div class="col-sm-12 col-md-12 mb-3">
                   <div class="input-group mb-3">
@@ -174,8 +175,9 @@ $(document).ready(function(){
         $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
         $("#codli_").val(ui.item.codli)
         $('#search_data').val(ui.item.value)
-        console.log(ui.item.foto)
+        // console.log(ui.item.foto)
         $('#foto_prod').attr("src", ui.item.foto);
+        $("#combo_").val(ui.item.combo);
         if (ui.item.descuento > 0 && ui.item.descuento < 5) {
           $('#descuentos').val(ui.item.descuento)
         }else{
@@ -197,6 +199,8 @@ document.getElementById("insert_row").addEventListener("submit", function (event
 
   $("#descuento_").prop('disabled', true);
   let codli = $("#codli_").val()
+  let combo = $("#combo_").val()
+
 //Convertir precio en pesos a precio en Bs.
   let pupesos = parseFloat($("#pupesos_").val())
   let pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
@@ -309,6 +313,10 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.textContent = id_desc
   newRow.className = "_id_desc"
 
+  newRow = newTableRow.insertCell(14)
+  newRow.hidden = true
+  newRow.textContent = combo
+  newRow.className = "_combo"
 
 
   $("#search_data").val("")
@@ -334,7 +342,8 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
     pupesos_desc: e.querySelector('._pupesos_desc').innerText,
     pubs_desc: e.querySelector('._pubs_desc').innerText,
     precio_sd: e.querySelector('._precio_sd').innerText,
-    precio_cd: e.querySelector('._precio_cd').innerText
+    precio_cd: e.querySelector('._precio_cd').innerText,
+    combo: e.querySelector('._combo').innerText
   };
   array_.push(fila)
 });
