@@ -9,18 +9,18 @@ require('../../recursos/sesiones.php');
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
-$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli"; 
+$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.combo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli"; 
 
 $Busq = $conexion->query($Sql); 
 
 if((mysqli_num_rows($Busq))>0){
   while($arr = $Busq->fetch_array()){ 
 
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad']); 
+        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad'], 'combo'=>$arr['combo']); 
 
   }
 }else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
+        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','combo'=>'--');
 }
   //consulta de lineas
 $Sql2 = "SELECT codli, nombre FROM lineas WHERE estado = 1";
@@ -112,7 +112,7 @@ if((mysqli_num_rows($Busq2))>0){
                             <?php echo $valor["cantidad"] ?>
                         </td>
                         <td>
-                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>')"><i class="material-icons">build</i></a>
+                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>', '<?php echo $valor['combo'] ?>')"><i class="material-icons">build</i></a>
                         </td>
                         <td>
                             <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
@@ -281,6 +281,25 @@ if((mysqli_num_rows($Busq2))>0){
                         <div class="col-sm-12">
                             <label class="form-label small text-muted" for="descripcion">Descripción:</label>
                             <textarea id="descripcion" name="descripcion" class="form-control" autocomplete="off" required></textarea>
+                        </div>
+
+                        <div id="mod_combo_section" class="col-sm-12" hidden>
+                            <span>Agregar productos al combo:</span>
+                            <div class="input-group mb-3">
+                              <span class="input-group-text" id="basic-addon1"><i class="material-icons">search</i></span>
+                              <input type="text" id="search_data" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="basic-addon1">
+                            </div>
+
+                            <table id="mod_tabla_combo" class="content-table" width="100%">
+                                <thead>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Borrar</th>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </form>
@@ -542,7 +561,7 @@ $("#agregar_producto").on("submit", function(e){
     });
 });
 
-function mod_producto(foto, id, linea, codli, descripcion) {
+function mod_producto(foto, id, linea, codli, descripcion, combo) {
   $("#imagen_ant").val(foto)
   $("#codigo").val(id)
   $("#codigo_ant").val(id)
@@ -552,6 +571,43 @@ function mod_producto(foto, id, linea, codli, descripcion) {
   $("#lin_prev").prop("selected", true)
   // FIN SELECCIONAR LINEA
   $("#descripcion").val(descripcion)
+  // $("#mod_combo_section")
+  document.getElementById('mod_combo_section').hidden = true
+  if (combo == '1') {
+    document.getElementById('mod_combo_section').hidden = false
+    $.ajax({
+        url: "recursos/productos/combo_content.php?id="+id,
+        method: "GET",
+        success: function(response) {
+            let table = $("#mod_tabla_combo tbody")[0];
+            
+            JSON.parse(response).forEach(function(element) {
+                // console.log(element['id_prod'])
+                let newTableRow = table.insertRow(-1)
+                let newRow
+                newRow = newTableRow.insertCell(0)
+                newRow.textContent = element['id_prod']
+                newRow.className = "_id"
+
+                newRow = newTableRow.insertCell(1)
+                newRow.textContent = "nombre del producto"
+                newRow.className = "_nombre"
+
+                newRow = newTableRow.insertCell(2)
+                newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
+
+            });
+            
+
+            
+
+
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
+  }
   $("#modal2").modal('toggle')
 }
 
