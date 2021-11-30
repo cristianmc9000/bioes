@@ -579,18 +579,19 @@ function mod_producto(foto, id, linea, codli, descripcion, combo) {
         url: "recursos/productos/combo_content.php?id="+id,
         method: "GET",
         success: function(response) {
+            $(".dinamic_rows").remove();
             let table = $("#mod_tabla_combo tbody")[0];
-            
             JSON.parse(response).forEach(function(element) {
                 // console.log(element['id_prod'])
                 let newTableRow = table.insertRow(-1)
-                let newRow
+                newTableRow.className = "dinamic_rows"
+                // let newRow
                 newRow = newTableRow.insertCell(0)
                 newRow.textContent = element['id_prod']
                 newRow.className = "_id"
 
                 newRow = newTableRow.insertCell(1)
-                newRow.textContent = "nombre del producto"
+                newRow.textContent = element['nompro']
                 newRow.className = "_nombre"
 
                 newRow = newTableRow.insertCell(2)
