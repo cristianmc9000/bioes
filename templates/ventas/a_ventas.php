@@ -217,10 +217,12 @@ $(document).ready(function() {
         source: "recursos/ventas/buscar_producto.php",
         minLength: 1,
         select: function(event, ui) {
+
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
             if (ui.item.combo == '1') {
-                $("#stock").html("Producto combo")
-                $("#stock_").val('999')
+                let menor = JSON.parse(ui.item.menor)
+                $("#stock").html("Cantidad stock: " + menor[0]['cantidad'])
+                $("#stock_").val(menor[0]['cantidad'])
             }else{
                 $("#stock").html("Cantidad stock: " + ui.item.stock)
                 $("#stock_").val(ui.item.stock)

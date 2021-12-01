@@ -32,7 +32,7 @@ $ruta2 = "images/fotos_prod/".$nombreimg;
 
 if ($cod != $codant) {
 	$consultaBuscarID = "SELECT * FROM productos WHERE id = '".$cod."'";
-	$resultadoConsultaBID = mysqli_query($conexion, $consultaBuscarID) or die(mysql_error());
+	$resultadoConsultaBID = mysqli_query($conexion, $consultaBuscarID) or die(mysqli_error($conexion));
 	$datosConsultaBID = mysqli_fetch_array($resultadoConsultaBID);
 
 	if(isset($datosConsultaBID['id'])){
@@ -44,7 +44,7 @@ if ($cod != $codant) {
 
 	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."' WHERE id= '".$codant."'";
 
-	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
+	if(mysqli_query($conexion, $consulta) or die(mysqli_error($conexion))) {
 		die('1');
 	}
 

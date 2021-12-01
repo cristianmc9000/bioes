@@ -287,7 +287,7 @@ if((mysqli_num_rows($Busq2))>0){
                             <span>Agregar productos al combo:</span>
                             <div class="input-group mb-3">
                               <span class="input-group-text" id="basic-addon1"><i class="material-icons">search</i></span>
-                              <input type="text" id="search_data" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="basic-addon1">
+                              <input type="text" id="mod_search_data" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="basic-addon1">
                             </div>
 
                             <table id="mod_tabla_combo" class="content-table" width="100%">
@@ -396,10 +396,79 @@ $(document).ready(function() {
         .append(item.label)
         .appendTo(ul);
     };
+
+    $('#mod_search_data').autocomplete({
+      source: "recursos/compras/buscar_prod.php",
+      minLength: 1,
+      select: function(event, ui)
+      {
+        let id_combo = $("#codigo_ant").val()
+        $.ajax({
+              url: "recursos/productos/add_combo_item.php?id_combo="+id_combo+"&id_prod="+ui.item.id,
+              //method: "GET",
+              success: function(response) {
+
+                    if (response == 1) {
+                         //insertando filas a la tabla
+                        let table = $("#mod_tabla_combo tbody")[0];
+                        let newTableRow = table.insertRow(-1)
+                        newTableRow.className = "dinamic_rows"
+
+                        newRow = newTableRow.insertCell(0)
+                        newRow.textContent = ui.item.id
+                        newRow.className = "_id"
+
+                        newRow = newTableRow.insertCell(1)
+                        newRow.textContent = ui.item.value
+                        newRow.className = "_nombre"
+
+                        newRow = newTableRow.insertCell(2)
+                        newRow.innerHTML = '<a href="#!" onclick="delete_row(event, `'+id_combo+'`, `'+ui.item.id+'`)" class="btn-floating red"><i class="material-icons">delete</i></a>'
+                        // newRow.className = "_descripcion"
+
+
+                    }else{
+                        console.log(response)
+                    }
+              },
+              error: function(error) {
+                  console.log(error)
+              }
+        })
+      }
+    }).data('ui-autocomplete')._renderItem = function(ul, item){
+        // console.log(item)
+        return $("<li class='ui-autocomplete-row'></li>")
+        .data("item.autocomplete", item)
+        .append(item.label)
+        .appendTo(ul);
+    };
+
 });
 function delete_row(e) {
   console.log(e.target.parentNode.parentNode.parentNode.remove())
   let rows = document.getElementById('tabla_combo').getElementsByTagName('tr')
+}
+
+function mod_delete_row(e, id_combo, id_prod) {
+  
+
+  $.ajax({
+      url: "recursos/productos/delete_combo_item.php?id_combo="+id_combo+"&id_prod="+id_prod,
+      //method: "GET",
+      success: function(response) {
+            if (response == 1) {
+                console.log(e.target.parentNode.parentNode.parentNode.remove())
+                let rows = document.getElementById('mod_tabla_combo').getElementsByTagName('tr')
+            }else{
+                console.log(response)
+            }
+      },
+      error: function(error) {
+          console.log(error)
+      }
+  })
+
 }
 // document.getElementById("combo_check").addEventListener("click", function(event) {
 //     alert("hola");
@@ -562,6 +631,7 @@ $("#agregar_producto").on("submit", function(e){
 });
 
 function mod_producto(foto, id, linea, codli, descripcion, combo) {
+
   $("#imagen_ant").val(foto)
   $("#codigo").val(id)
   $("#codigo_ant").val(id)
@@ -595,7 +665,7 @@ function mod_producto(foto, id, linea, codli, descripcion, combo) {
                 newRow.className = "_nombre"
 
                 newRow = newTableRow.insertCell(2)
-                newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
+                newRow.innerHTML = '<a href="#!" onclick="mod_delete_row(event, `'+id+'`, `'+element['id_prod']+'`)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
             });
             
