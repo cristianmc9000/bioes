@@ -19,11 +19,11 @@ $maxCaracteresPassword = "60";
 
 //Si los input son de mayor tamaño, se "muere" el resto del código y muestra la respuesta correspondiente
 if(strlen($userPOST) > $maxCaracteresUsername) {
-	die('<script>$("#modal1").openModal();</script> El nombre de usuario no puede superar los '.$maxCaracteresUsername.' caracteres');
+	die('<script>$("#modal1").modal("open");</script> El nombre de usuario no puede superar los '.$maxCaracteresUsername.' caracteres');
 };
 
 if(strlen($passPOST) > $maxCaracteresPassword) {
-	die('<script>$("#modal1").openModal();</script> La contraseña no puede superar los '.$maxCaracteresPassword.' caracteres');
+	die('<script>$("#modal1").modal("open");</script> La contraseña no puede superar los '.$maxCaracteresPassword.' caracteres');
 };
 
 
@@ -60,7 +60,7 @@ if($userBD == $userPOST and  $passPOST == $passwordBD){
 //Si los datos no son correctos, o están vacíos, muestra un error
 //Además, hay un script que vacía los campos con la clase "acceso" (formulario)
 } else if ( $userBD != $userPOST || $userPOST == "" || $passPOST == "" || $passPOST != $passwordBD)  {
-	die ('<script>Materialize.toast("Los datos de acceso son incorrectos", 4000);</script>
+	die ('<script>M.toast({html: "Datos de acceso incorrectos."});</script>
 Los datos de acceso son incorrectos');
 } else {
 	die('Error');
