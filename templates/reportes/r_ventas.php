@@ -6,31 +6,19 @@ session_start();
 $gestion = $_GET['ges'];
 $periodo = $_GET['per'];
 
+// echo $gestion."-".$periodo;
 if ($periodo == 0) {
-	$result = $conexion->query("SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.credito, a.descuento, a.valor_peso FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.ca = b.CA AND a.estado = 1");
-}else{
-	if ($periodo == "6") {
-		$per_a = "per".$periodo;
-		$per_a = $gestion.$_SESSION[$per_a];
-		$gestion = (int)$gestion+1;
-		$per_b = "per1";
-		$per_b = $gestion.$_SESSION[$per_b];
-	}else{
-		$per_a = "per".$periodo;
-		$per_a = $gestion.$_SESSION[$per_a];
-		$periodo = (int)$periodo+1;
-		$per_b = "per".$periodo;
-		$per_b = $gestion.$_SESSION[$per_b];
-	}
-	$result = $conexion->query("SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.credito, a.descuento, a.valor_peso FROM ventas a, clientes b WHERE (a.fecha BETWEEN '".$per_a."' AND '".$per_b."') AND a.ca = b.CA AND a.estado = 1");
+	$periodo = "";
 }
+
+	$result = $conexion->query("SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.credito, a.valor_peso FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."-".$periodo."%' AND a.ca = b.CA AND a.estado = 1");
 
 	if((mysqli_num_rows($result))>0){
 	  while($arr = $result->fetch_array()){ 
-	        $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'credito'=>$arr['credito'], 'descuento'=>$arr['descuento'], 'valor'=>$arr['valor_peso']); 
+	        $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'credito'=>$arr['credito'], 'valor'=>$arr['valor_peso']); 
 	  }
 	}else{
-	        $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--', 'apellidos'=>'--', 'fecha'=>'--', 'total'=>'--', 'credito'=>'--', 'descuento'=>'--', 'valor'=>'--');
+	        $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--', 'apellidos'=>'--', 'fecha'=>'--', 'total'=>'--', 'credito'=>'--', 'valor'=>'--');
 	}
 
 ?>
@@ -58,7 +46,7 @@ if ($periodo == 0) {
 <h3 class="fuente">Reporte de ventas</h3><br>
 <div class="row">
 	<div class="col s11">
-		<table id="tabla1">
+		<table id="tabla1" class="">
 			<thead>
 				<tr>
 					<th>Código</th>
@@ -80,7 +68,7 @@ if ($periodo == 0) {
 					<td><?php echo $valor['fecha']?></td>
 					<td><?php echo $valor['total']?></td>
 					<td><?php if($valor['credito'] == '0'){echo 'contado';}else{echo 'crédito';}?></td>
-					<td><?php echo $valor['descuento']." %"?></td>
+					<td><?php echo $valor['descuento'] ?></td>
 					<td><?php echo $valor['valor']." Bs."?></td>
 				</tr>
 			    <?php } ?>
@@ -111,21 +99,21 @@ $(document).ready(function() {
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
         titleAttr:  'Exportar a Excel',
         className:  'btn-flat green',
-        title: 			'Reporte de ventas del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de ventas del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
       },
       {
         extend:     'pdfHtml5',
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
         titleAttr:  'Exportar a PDF',
         className:  'btn-flat red',
-        title: 			'Reporte de ventas del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de ventas del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
       },
       {
         extend:     'print',
         text:       '<i class="material-icons-outlined">print</i>',
         titleAttr:  'Imprimir',
         className:  'btn-flat blue',
-        title: 			'<span style="font-size:30">Reporte del ventas del periodo: <?php echo $_GET["per"] ?> </span>'
+        title: 			'<span style="font-size:30">Reporte del ventas del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?> </span>'
       }
     ]
     });

@@ -43,7 +43,7 @@ while($arr = $Busq->fetch_array())
 <div class="col s11">
 
 <span class="fuente">
-  <h3>Nueva Lider/Experta 
+  <h3>Nueva Cliente 
     <!-- Modal Trigger -->
     <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal1"><i  class="material-icons align-middle">add</i>Agregar</button>
     

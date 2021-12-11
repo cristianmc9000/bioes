@@ -46,6 +46,9 @@ while($arr = $Busq2->fetch_array())
   <link rel="icon" type="image/x-icon" href="img/logo.ico" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" >
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/datatable.css"> -->
   <!-- <link rel="stylesheet" type="text/css" href="css/materialize.css"> -->
@@ -71,6 +74,7 @@ while($arr = $Busq2->fetch_array())
 
 <title>BioEsencia - Carmina</title>
 <style>
+
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 .content-table{
   border-collapse: collapse;
@@ -159,7 +163,9 @@ body {
 #table_ini_1 tbody th, #table_ini_1 tbody td, #table_ini_2 tbody th, #table_ini_2 tbody td{
   padding: 0;
 }
-
+.accordion-item{
+  border:  none;
+}
 
 </style>
 </head>
@@ -174,8 +180,25 @@ body {
     <div class="menu">
       <span class="txt-align"><a href="#!" class="d-block p-3 text-light" onclick="location.reload();"><i class="inline-icon material-icons-outlined me-2 lead">home</i>Inicio</a></span>
       <span class="txt-align"><a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/usuarios/a_usuarios');"><i class="inline-icon material-icons-outlined me-2 lead">person</i>Usuarios</a></span>
-      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');"><i class="inline-icon material-icons-outlined me-2 lead">hail</i>Lider/Experta</a>
-      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/productos/productos');"><i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos</a>
+      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');"><i class="inline-icon material-icons-outlined me-2 lead">hail</i>Clientes</a>
+      
+      <!-- <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/productos/productos');"><i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos</a> -->
+      <!-- Productos acordión -->
+        <div  class="accordion-item">
+          <h2  class="accordion-header" id="flush-headingCero">
+            <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCero" aria-expanded="false" aria-controls="flush-collapseCero">
+              <i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos
+            </button>
+          </h2>
+          <div id="flush-collapseCero" class="accordion-collapse collapse" aria-labelledby="flush-headingCero" data-bs-parent="#accordionFlushExample">
+            <div style="background-color: #786fa6;" class="accordion-body">
+              <a class="d-block border-bottom border-top p-3 text-light" href="#!" onclick='cargar(event, "templates/productos/productos");'>Productos activos</a>
+              <a class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar(event, 'templates/productos/productos_eliminados');">Productos eliminados</a>
+            </div>
+          </div>
+        </div>
+      <!-- Fin acordión productos -->
+
       <!-- compras y ventas acordion -->
       <div <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> class="accordion accordion-flush"  id="accordionFlushExample">
         <div  class="accordion-item">
@@ -212,7 +235,7 @@ body {
 
       <!-- fin compras y ventas acordion -->
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>
-      <!-- <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a> -->
+      <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a>
     </div>
   </div>
   <!-- FIN bootstrap sidebar -->

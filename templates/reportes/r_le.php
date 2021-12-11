@@ -7,10 +7,9 @@ $gestion = $_GET['ges'];
 $periodo = $_GET['per'];
 
 if ($periodo == 0) {
-	$result = $conexion->query(" SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
-}else{
-	$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.periodo = ".$periodo." AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
+	$periodo = "";
 }
+$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."-".$periodo."%' AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
 
 	if((mysqli_num_rows($result))>0){
 	  while($arr = $result->fetch_array()){ 
@@ -88,21 +87,21 @@ $(document).ready(function() {
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
         titleAttr:  'Exportar a Excel',
         className:  'btn-flat green',
-        title: 			'Reporte de lider/experta del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de lider/experta del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
       },
       {
         extend:     'pdfHtml5',
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
         titleAttr:  'Exportar a PDF',
         className:  'btn-flat red',
-        title: 			'Reporte de lider/experta del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de lider/experta del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
       },
       {
         extend:     'print',
         text:       '<i class="material-icons-outlined">print</i>',
         titleAttr:  'Imprimir',
         className:  'btn-flat blue',
-        title: 			'<span style="font-size:30">Reporte del lider/experta de periodo: <?php echo $_GET["per"] ?> </span>'
+        title: 			'<span style="font-size:30">Reporte del lider/experta de periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?> </span>'
       }
     ]
     });
