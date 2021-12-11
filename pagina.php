@@ -249,7 +249,7 @@ body {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
      
             <img align="center" width="40px" src="img/divisas2.png" alt="">
-            <input style="width: 50px" placeholder="valor del peso en Bs." id="valor" value="0.07" type="text">
+            <input style="width: 50px" placeholder="valor del peso en Bs." id="valor" value="0.05" type="text">
           
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 

@@ -213,8 +213,8 @@ if((mysqli_num_rows($Busq))>0){
             </div>
         
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
-                <a href="#!" onclick="mod_cambio()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
+                <!-- <a href="#!" class="">Cancelar</a> -->
+                <a href="#!" onclick="mod_cambio()" class="btn btn-primary">Confirmar</a>
             </div>
         </div>
     </div>
