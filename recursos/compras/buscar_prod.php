@@ -22,7 +22,7 @@ if(isset($_GET["term"]))
        $temp_array['linea'] = $row['nombre'];
        $temp_array['codli'] = $row['linea'];
        $temp_array['value'] = $row['descripcion'];
-       $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
+       $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" /> '.$row["id"].' | '.$row['descripcion'].'';
        $temp_array['pupesos'] = $row['pupesos'];
        $temp_array['descuento'] = $row['descuento'];
        $temp_array['foto'] = $row['foto'];

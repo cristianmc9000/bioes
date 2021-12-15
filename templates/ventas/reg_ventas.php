@@ -10,10 +10,10 @@ $Busq = $conexion->query($Sql);
 if((mysqli_num_rows($Busq))>0){
     while($arr = $Busq->fetch_array()) 
         { 
-            $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'],'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'],'credito'=>$arr['credito']);
+            $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'],'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'lugar'=>$arr['lugar'],'fecha'=>$arr['fecha'],'total'=>$arr['total'],'credito'=>$arr['credito']);
         } 
 }else{
-    $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--','apellidos'=>'--','fecha'=>'--','total'=>'--','credito'=>'--');
+    $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--','apellidos'=>'--','lugar'=>'--','fecha'=>'--','total'=>'--','credito'=>'--');
 }
 ?>
 
@@ -77,6 +77,7 @@ if((mysqli_num_rows($Busq))>0){
                 <th>Ver</th>
                 <!-- <th>Pagos</th> -->
                 <th>Borrar</th>
+                <th>Imprimir</th>
             </tr>
         </thead>
         <tbody>
@@ -101,13 +102,16 @@ if((mysqli_num_rows($Busq))>0){
                     <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "<button onclick='pagos(event, ".$valor['ca'].", `".$valor['nombre']."`, `".$valor['apellidos']."`)' type='button' class='btn btn-outline-primary btn-sm'>Ver pagos</button>";} ?>
                 </td>
                 <td>
-                    <a href="#!" onclick="ver_venta('<?php echo $valor['codv']?>','<?php echo $valor['total']?>','<?php echo $valor['credito']?>','<?php echo $valor['ca']?>','<?php echo $valor['nombre'].' '.$valor['apellidos']?>','<?php echo $valor['periodo']?>')"><i class="material-icons">visibility</i></a>
+                    <a href="#!" onclick="ver_venta('<?php echo $valor['codv']?>','<?php echo $valor['total']?>','<?php echo $valor['credito']?>','<?php echo $valor['ca']?>','<?php echo $valor['nombre'].' '.$valor['apellidos']?>'   )"><i class="material-icons">visibility</i></a>
                     <!-- <a href="#!"><i class="material-icons">build</i></a> -->
                 </td>
                 <td>
                     <!-- <a href="#!" onclick="borrar_venta('<?php echo $valor['codv'] ?>');"><i class="material-icons">delete</i></a> -->
                     <a href="#modal3" data-bs-toggle="modal" data-bs-target="#modal3" onclick="$('#codv').val('<?php echo $valor['codv'] ?>')"><i class="material-icons">delete</i></a>
                     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="material-icons">delete</i></button> -->
+                </td>
+                <td>
+                    <a href="#!" onclick="imprimir_detalle('<?php echo $valor['codv']?>','<?php echo $valor['total']?>','<?php echo $valor['credito']?>', '<?php echo $valor['lugar']?>','<?php echo $valor['ca']?>','<?php echo $valor['nombre'].' '.$valor['apellidos']?>')"><i class="material-icons">print</i></a>
                 </td>
             </tr>
             <?php } ?>
@@ -132,7 +136,7 @@ if((mysqli_num_rows($Busq))>0){
                     <div class="col-sm-4" style="text-align: center;">
                         <span>Punto de venta: PRINCIPAL</span><br>
                         <span id="_credito">Forma de pago:</span><br>
-                        <span id="_periodo">Periodo:</span>
+                        <!-- <span id="_periodo">Periodo:</span> -->
                     </div>
                     <div class="col-sm-4" style="text-align:right">
                         <span>Distribuidora: CARMIÑA</span>
@@ -305,16 +309,208 @@ $(document).ready(function() {
 var mensaje = $("#mensaje");
 mensaje.hide();
 
+//FUNCION IMPRIMIR DETALLE DE VENTA
+function imprimir_detalle(codv, total, credito, lugar, ca, cliente) {
+    total = parseFloat(total).toFixed(2)
+    var date = new Date();
+    var options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+    };
+
+    date = date.toLocaleDateString("es-ES", options)
+
+
+    detalle_venta(codv).then(respuesta => {
+
+        var jsonParsedArray = JSON.parse(respuesta)
+        let cantidad = 0
+        let gan_exp = 0
+        // let auxiliares = 0
+
+        if (credito != 0) {credito = 'Crédito'}else{credito = 'Contado'}
+        
+        // $("#_periodo").html("Periodo: "+periodo)
+        $("#_credito").html("Tipo de pago: "+credito)
+        $("#_ca").html("Código Arbell: "+ca)
+        $("#lider_ex").html("Lider/experta: "+cliente)
+
+        //INSERTANDO FILAS A LA TABLA DETALLE DE VENTA 
+        let filas = ""
+        let table = document.getElementById("detalle_ven")
+ 
+        for (key in jsonParsedArray) {
+            if (jsonParsedArray.hasOwnProperty(key)) {
+
+
+                filas = filas + `
+                <tr>
+                   <td>${jsonParsedArray[key]['codp']}</td>
+                   <td>${jsonParsedArray[key]['linea']}</td>
+                   <td>${jsonParsedArray[key]['descripcion']}</td>
+                   <td>${jsonParsedArray[key]['cantidad']}</td>
+                   <td>${parseFloat(jsonParsedArray[key]['pubs']).toFixed(2)} Bs.</td>
+                   <td>${parseFloat(parseFloat(jsonParsedArray[key]['pubs_cd']).toFixed(1)).toFixed(2)}</td>
+                   <td>${((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)).toFixed(2))} Bs.</td>
+                </tr>
+                `;
+
+                gan_exp = gan_exp + (parseFloat(jsonParsedArray[key]['pubs']) * parseInt(jsonParsedArray[key]['cantidad']) - parseFloat(jsonParsedArray[key]['pubs_cd']) * parseInt(jsonParsedArray[key]['cantidad']))
+
+                cantidad += parseInt(jsonParsedArray[key]['cantidad'])
+
+                // if (jsonParsedArray[key]['codli'] == 16 || (jsonParsedArray[key]['codli'] >= 32 && jsonParsedArray[key]['codli'] <= 37)) {
+                //     auxiliares += parseInt(jsonParsedArray[key]['cantidad']) 
+                // }
+            }
+        }
+        
+    gan_exp = parseFloat(gan_exp).toFixed(1)
+    gan_exp = parseFloat(gan_exp).toFixed(2)
+
+    monto_v(codv).then(response => {
+        let _monto
+        console.log(response)
+        var jsonMonto = JSON.parse(response)
+        for (key in jsonMonto) {
+            if (jsonMonto.hasOwnProperty(key)) {
+                _monto = jsonMonto[key]['monto']
+            }
+        }
+        _monto = parseFloat(parseFloat(_monto).toFixed(1)).toFixed(2)
+
+        var miHtml = `<title>RECIBO</title>
+        <style>
+        .bod{
+          font-family: 'Consolas';
+        }
+        .detalle, .detalle th, .detalle td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+     
+      </style>
+      <div class="bod">
+      
+        <span style="float:right">${date}</span>
+        <br><br>
+
+        <table width="100%" border="0">
+          <tr>
+            <td width="33%" align="left">
+              <span>Código Arbell: ${ca}</span><br>
+              <span>Lider/Experta: ${cliente}</span><br>
+              <span>Lugar: ${lugar}</span>
+            </td>
+            <td width="33%" align="center">
+              <span>Punto de venta: Principal</span><br>
+              <span>Forma de pago: ${credito}</span><br>
+            </td>
+            <td width="33%" align="right">
+              <span>Distribuidora: CARMIÑA</span>
+            </td>
+          </tr>
+        </table>
+
+      <br>
+      
+       <h4><b>Items del comprobante</b></h4>
+       <table width="100%" class="detalle">
+        <thead>
+          <tr >
+            <th >Código<br>(producto)</th>
+            <th >Linea</th>
+            <th >Descripción</th>
+            <th >Cantidad</th>
+            <th >P. Unidad (Bs.)</th>
+            <th >P.Unidad C.D. (Bs.)</th>
+            <th >Subtotal (Bs.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filas}
+        </tbody>
+       </table>
+       <br>
+     
+      <div style="float: right">
+       <h5>Totales:</h5>
+      
+         <table class="detalle">
+          <tr>
+            <td><b>Items:</b></td>
+            <td>${cantidad} u.:</td>
+          </tr>
+          <tr>
+            <td><b>G. experta:</b></td>
+            <td>${gan_exp} Bs.</td>
+          </tr>
+          <tr>
+            <td><b>Total:</b></td>
+            <td>${_monto} Bs./${total} Bs.</td>
+          </tr>
+         </table>
+       </div>
+      </div>`;
+
+
+            // $("#total").html(total +" Bs.")
+            // $("#items").html(cantidad+"u. Incluye "+auxiliares+" auxiliares.")
+            // $("#gan_exp").html(((gan_exp).toFixed(1))+" Bs.")
+            // $("#modal1").openModal()
+
+            imprimir(miHtml);
+        })
+    })
+}
+
+//OBTENER EL DETALLE DE VENTA EN JSON
+function detalle_venta(codv) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "recursos/ventas/ver_venta.php?codv=" + codv,
+            method: "GET",
+            success: function(response) {
+                resolve(response)
+            },
+            error: function(error) {
+                console.log(error)
+                reject(error)
+            }
+        })
+    })
+}
+
+//OBTENER MONTO DE PAGOS
+function monto_v(codv) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "recursos/ventas/monto.php?codv="+codv,
+            method: "GET",
+            success: function(response) {
+                resolve(response)
+            },
+            error: function(error) {
+                console.log(error)
+                reject(error)
+            }
+        })
+    })
+}
+
 /* funcion ver venta */
-function ver_venta(codv, total, credito, ca, cliente, periodo) {
+function ver_venta(codv, total, credito, ca, cliente) {
     detalle_venta(codv).then(respuesta => {
         var jsonParsedArray = JSON.parse(respuesta)
         let cantidad = 0
         let gan_exp = 0
-        let auxiliares = 0
+        // let auxiliares = 0
         if (credito != 0) {credito = 'Crédito'}else{credito = 'Contado'}
         
-        $("#_periodo").html("Periodo: "+periodo)
+        // $("#_periodo").html("Periodo: "+periodo)
         $("#_credito").html("Tipo de pago: "+credito)
         $("#_ca").html("Código Arbell: "+ca)
         $("#lider_ex").html("Lider/experta: "+cliente)
@@ -348,14 +544,14 @@ function ver_venta(codv, total, credito, ca, cliente, periodo) {
                 gan_exp = gan_exp + (parseFloat(jsonParsedArray[key]['pubs']) * parseInt(jsonParsedArray[key]['cantidad']) - parseFloat(jsonParsedArray[key]['pubs_cd']) * parseInt(jsonParsedArray[key]['cantidad']))
 
                 cantidad += parseInt(jsonParsedArray[key]['cantidad'])
-                if (jsonParsedArray[key]['codli'] == 16 || (jsonParsedArray[key]['codli'] >= 32 && jsonParsedArray[key]['codli'] <= 37)) {
-                    auxiliares += parseInt(jsonParsedArray[key]['cantidad']) 
-                }
+                // if (jsonParsedArray[key]['codli'] == 16 || (jsonParsedArray[key]['codli'] >= 32 && jsonParsedArray[key]['codli'] <= 37)) {
+                //     auxiliares += parseInt(jsonParsedArray[key]['cantidad']) 
+                // }
             }
         }
 
         $("#total").html(total +" Bs.")
-        $("#items").html(cantidad+"u. Incluye "+auxiliares+" auxiliares.")
+        $("#items").html(cantidad+"u.")
         $("#gan_exp").html(((gan_exp).toFixed(1))+" Bs.")
         $("#modal1").modal('toggle')
     })
@@ -374,6 +570,16 @@ function detalle_venta(codv) {
                 reject(error)
             }
         })
+    })
+}
+
+function imprimir(mihtml) {
+    const $elementoParaConvertir = mihtml; // <-- Aquí puedes elegir cualquier elemento del DOM
+    var ventana = window.open();
+    ventana.document.write(mihtml);
+    $(ventana.document).ready(function() {
+        ventana.print();
+        ventana.close();
     })
 }
 

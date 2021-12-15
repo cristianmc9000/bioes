@@ -34,7 +34,7 @@ if(isset($_GET["term"]))
           $temp_array['menor'] = json_encode($res);
         }
 
-        $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
+        $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" /> '.$row["id"].' | '.$row['descripcion'].'';
         $temp_array['pupesos'] = $row['maxpupesos'];
         $output[] = $temp_array;
       }

@@ -184,6 +184,7 @@ body {
       
       <!-- <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/productos/productos');"><i class="inline-icon material-icons-outlined me-2 lead">brush</i>Productos</a> -->
       <!-- Productos acordión -->
+      <div class="accordion accordion-flush" id="accordionFlushExample">
         <div  class="accordion-item">
           <h2  class="accordion-header" id="flush-headingCero">
             <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCero" aria-expanded="false" aria-controls="flush-collapseCero">
@@ -216,14 +217,13 @@ body {
         </div>
       </div>
 
-      <div <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> class="accordion accordion-flush" id="accordionFlushExample2">
-        <div class="accordion-item">
+        <div class="accordion-item" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>>
           <h2 class="accordion-header" id="flush-headingTwo">
             <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
               <i class="inline-icon material-icons-outlined me-2 lead">shopify</i>Ventas
             </button>
           </h2>
-          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample2">
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
             <div style="background-color: #786fa6;" class="accordion-body">
               <!-- aqui va el contenido del acordion de compras -->
               <a style="" class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v('templates/ventas/a_ventas.php');">Realizar venta</a>
@@ -231,8 +231,8 @@ body {
             </div>
           </div>
         </div>
-      </div>
 
+    </div>
       <!-- fin compras y ventas acordion -->
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>
       <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a>

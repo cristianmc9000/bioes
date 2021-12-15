@@ -168,8 +168,11 @@ $(document).ready(function(){
     $('#search_data').autocomplete({
       source: "recursos/compras/buscar_prod.php",
       minLength: 1,
-      select: function(event, ui)
-      {
+      select: function(event, ui){
+        if (!ui.item.pupesos) {
+          ui.item.pupesos = 0;
+        }
+
         $("#id_").val(ui.item.id)
         $("#linea_").val(ui.item.linea)
         $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
@@ -228,10 +231,13 @@ document.getElementById("insert_row").addEventListener("submit", function (event
     pupesos_desc = pupesos - pupesos_desc
     pupesos_desc = pupesos_desc.toFixed(2)
   // PRECIO CON DESCUENTO EN BS.
+    pubs_ = parseFloat(pubs_).toFixed(1)+"0"
     pubs_desc = pubs_
     pubs_desc = parseFloat(pubs_desc) * desc_
     pubs_desc = pubs_ - pubs_desc
- 
+    pubs_desc = parseFloat(pubs_desc).toFixed(1)+"0"
+    // pubs_desc = parseFloat(pubs_desc).toFixed(2)
+    // console.log(pubs_desc)
   // }
   //Subtotal sin descuento
   precio_sd = parseFloat($("#cantidad_").val()) * pubs_
@@ -241,9 +247,9 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   precio_cd = precio_cd.toFixed(1)+"0"
   //haciendo el redondeo al final 
   __pubs = pubs_
-  pubs_desc = pubs_desc.toFixed(2)
+  pubs_desc = parseFloat(pubs_desc).toFixed(2)
   pupesos = pupesos.toFixed(2)
-  pubs_ = pubs_.toFixed(2)
+  pubs_ = parseFloat(pubs_).toFixed(2)
 
 
   let table = document.getElementById("tabla_c")
@@ -409,8 +415,8 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
 // console.log(gan_exp+"---"+totalcd)
 gan_exp = parseFloat(gan_exp).toFixed(1)
 gan_exp = gan_exp - totalcd
-
-
+gan_exp = gan_exp.toFixed(1)+"0"
+totalcd = totalcd.toFixed(1)+"0"
 
 // _descuento = $("#descuentos").val();
 _valor = $("#valor").val();

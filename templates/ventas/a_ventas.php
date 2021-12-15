@@ -218,6 +218,12 @@ $(document).ready(function() {
         minLength: 1,
         select: function(event, ui) {
 
+            // console.log(ui.item.id, ui.item.value, ui.item.linea)
+
+            if (!ui.item.pupesos) {
+                ui.item.pupesos = 0;
+            }
+
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
             if (ui.item.combo == '1') {
                 let menor = JSON.parse(ui.item.menor)
@@ -228,7 +234,7 @@ $(document).ready(function() {
                 $("#stock_").val(ui.item.stock)
             }
             
-            $('#search_producto').val(ui.item.value)
+            // $('#search_producto').val(ui.item.value)
             $('#id_').val(ui.item.id)
             $('#linea_').val(ui.item.linea)
             $('#pubs_').val(parseFloat(ui.item.pupesos).toFixed(1))
@@ -258,7 +264,7 @@ function confirmar_venta() {
     document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
         totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
     });
-    $("#monto_c").html("Total a pagar: " + totalcd.toFixed(1) + " Bs.");
+    $("#monto_c").html("Total a pagar: " + totalcd.toFixed(1)+"0"+ " Bs.");
 
     $.ajax({
         url: "recursos/ventas/control_venta.php?ca="+ca,
@@ -321,8 +327,8 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     // PRECIO CON DESCUENTO EN BS.
     pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
     pubs_desc = pubs_ - pubs_desc
-        
-    
+    pubs_desc = parseFloat(pubs_desc).toFixed(1)+"0"
+
 
     //Subtotal con descuento
     precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
@@ -332,7 +338,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     //Redondeando precios al final de los calculos
     __pubs_desc = pubs_desc
     __pubs = pubs_
-    pubs_desc = pubs_desc.toFixed(2) 
+    pubs_desc = parseFloat(pubs_desc).toFixed(2) 
     // console.log(pubs_ +"<-- Valor sin redondear")
     pubs_ = pubs_.toFixed(2)   
     // console.log(pubs_ +"<-- Valor redondeado")
@@ -480,7 +486,7 @@ let fila = `
 // })
     // console.log(gan_exp+"---"+totalcd)
     gan_exp = parseFloat(gan_exp).toFixed(1)
-    totalcd = totalcd.toFixed(1)
+    totalcd = totalcd.toFixed(1)+"0"
     gan_exp = gan_exp - totalcd
     gan_exp = gan_exp.toFixed(2)
 
@@ -498,7 +504,7 @@ let fila = `
     }
 
     let _primer_pago = $("#pago_inicial").val()
-
+    _primer_pago = parseFloat(_primer_pago).toFixed(1)+"0"
 
     var data = detalle_venta()
     data.push({total_cd: totalcd})
