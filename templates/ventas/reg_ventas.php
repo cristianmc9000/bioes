@@ -228,7 +228,7 @@ if((mysqli_num_rows($Busq))>0){
                                 <tr>
                                     <th><h5>Fecha de pago</h5></th>
                                     <th><h5>Monto</h5></th>
-                                    <th><h5>Borrar pago</h5></th>
+                                    <th><center><h5>Borrar pago</h5></center></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -633,7 +633,7 @@ function pagos(e, ca, nombre, apellidos) {
 
                 newRow = newTableRow.insertCell(2)
                 // newRow.innerHTML = '<a onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
-                newRow.innerHTML = '<button onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn btn-outline-danger btn-sm"><i class="material-icons">delete</i></button>'
+                newRow.innerHTML = '<center><button onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn btn-outline-danger btn-sm"><i class="material-icons">delete</i></button></center>'
             }
         }
     })

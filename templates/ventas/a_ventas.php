@@ -28,9 +28,33 @@ session_start();
     font-size: 0.7em;
 }
 
+.img-prod{
+      border-radius: 5px;
+      border-collapse: collapse;
+      border: solid 5px;
+      width: 65%;
+}
+.contenedor_insert{
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+}
+.contenedor_btn{
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+.contenedor_img{
+  min-width: 180px;
+  /*min-height: 200px;*/
+  max-width: 181px;
+}
+#foto_prod{
+  min-width: 181.5px;
+  max-height: 181.5px;
+}
 </style>
 <div class="fuente" style="">
-    <h4 align="">Buscar Lider/Experta</h4>
+    <h4 align=""><b>Buscar cliente:</b></h4>
     <div class="row">
         <div class="col-md-10 col-sm-12">
             <form id="insert_row">
@@ -42,12 +66,12 @@ session_start();
                     <div class="col-sm-12 col-md-3">
                         <input type="text" id="ca" placeholder="código" autocomplete="off" class="form-control" disabled required>
                     </div>
-                    <!-- <div class="col-sm-12 col-md-3">
-                        <input id="descuento_" type="number" min="0" max="100" value="0" class="form-control" placeholder="% Descuento" >
+                    <div class="col-sm-12 col-md-3">
+                        <input id="descuentos_" name="descuentos_" type="text" onkeypress="return check(event)" min="0" max="100" value="30" class="form-control" placeholder="% Descuento" >
                         <small class="helpertext" style="color: red">% Descuento</small>
                         <input type="text" id="lugar" hidden>
-                    </div> -->
-                  </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -55,43 +79,52 @@ session_start();
 
 <!-- anadir buscar -->
 <div id="form_productos" class="fuente" hidden>
-    <h5 align="">Buscar producto</h5>
+    <h4><b>Seleccionar producto:</b></h4>
     <div class="row">
-        <div class="col-md-10 col-sm-12">
+        <div class="col-sm-12">
             <form id="insert_row_producto">
-                <div class="row g-3">
-                    <div class="col-sm-12 col-md-4">
-                        <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
-                    </div>
-                    <div class="col-sm-12 col-md-2">
-                        <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
-                        <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
-                        <input type="text" id="stock_" hidden>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
-                        <input type="text" class="form-control" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
-                        <div class="input-group mb-3">
-                          <select class="form-select" name="descuentos_" id="descuentos_">
-                            <option selected value="0">Descuento...</option>
-                            <option value="1">OFERTAS-PLATA 30%</option>
-                            <option value="2">OFERTAS-ORO 30%</option>
-                            <option value="3">PLATA 35%</option>
-                            <option value="4">ORO 45%</option>
-                          </select>
+                <div class="contenedor_insert">
+                    <div class="contenedor_form">
+                        <div class="col-sm-12 mb-3">
+                            <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
                         </div>
-                    </div>  
+                        <div class="col-sm-12 mb-3">
+                            <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
+                            <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
+                            <input type="text" id="stock_" hidden>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <input type="text" class="form-control" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
+                        </div>
+                    </div>
+    <!--                     <div class="col-sm-12 col-md-2">
+                            <div class="input-group mb-3">
+                              <select class="form-select" name="descuentos_" id="descuentos_">
+                                <option selected value="0">Descuento...</option>
+                                <option value="1">OFERTAS-PLATA 30%</option>
+                                <option value="2">OFERTAS-ORO 30%</option>
+                                <option value="3">PLATA 35%</option>
+                                <option value="4">ORO 45%</option>
+                              </select>
+                            </div>
+                        </div> -->  
 
-                    <input type="text" id="id_" value="" hidden>
-                    <input type="text" id="linea_" value="" hidden>
-                    <input type="text" id="pubs_" value="" hidden>
-                    <input type="text" id="subtotal_" value="" hidden>
-                    <input type="text" id="codli_" value="" hidden>
-                    <input type="text" id="combo_" value="" hidden>
-
-                    <div class="col-sm-12 col-md-2">
-                        <button class="btn btn-primary" type="submit"><i class="material-icons align-middle">assignment</i>Insertar</button>
+                        <input type="text" id="id_" value="" hidden>
+                        <input type="text" id="linea_" value="" hidden>
+                        <input type="text" id="pubs_" value="" hidden>
+                        <input type="text" id="subtotal_" value="" hidden>
+                        <input type="text" id="codli_" value="" hidden>
+                        <input type="text" id="combo_" value="" hidden>
+                    <div class="contenedor_img">
+                        <img src="img/producto_vacio.jpg"  id="foto_prod" class="img-prod" alt="">
+                    </div>
+                    <div class="contenedor_btn">
+                        <div>
+                            <!-- holaaa -->
+                        </div>
+                        <div class="col-sm-12 col-md-11">
+                            <button class="btn btn-primary" type="submit"><i class="material-icons align-middle">assignment</i>Insertar</button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -178,11 +211,11 @@ $(document).ready(function() {
         source: "recursos/ventas/buscar_le.php",
         minLength: 1,
         select: function(event, ui) {
-            $("#descuento_").removeAttr('disabled');
+            $("#descuentos_").removeAttr('disabled');
             $("#ca").val(ui.item.ca)
-            if (ui.item.nivel == "experta") {
-                $("#descuento_").val('30')
-            }
+            // if (ui.item.nivel == "experta") {
+            //     $("#descuento_").val('30')
+            // }
             //REVISAR SI LA CLIENTA TIENE DEUDAS PENDIENTES
             $.ajax({
                 url: "recursos/ventas/control_venta.php?ca="+ui.item.ca,
@@ -227,10 +260,10 @@ $(document).ready(function() {
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
             if (ui.item.combo == '1') {
                 let menor = JSON.parse(ui.item.menor)
-                $("#stock").html("Cantidad stock: " + menor[0]['cantidad'])
+                $("#stock").html("<small>Cantidad stock: " + menor[0]['cantidad'] +"</small>")
                 $("#stock_").val(menor[0]['cantidad'])
             }else{
-                $("#stock").html("Cantidad stock: " + ui.item.stock)
+                $("#stock").html("<small>Cantidad stock: " + ui.item.stock +"</small>")
                 $("#stock_").val(ui.item.stock)
             }
             
@@ -240,11 +273,12 @@ $(document).ready(function() {
             $('#pubs_').val(parseFloat(ui.item.pupesos).toFixed(1))
             $('#codli_').val(ui.item.codli)
             $('#combo_').val(ui.item.combo)
-            if (ui.item.descuento > 0 && ui.item.descuento < 5) {
-              $('#descuentos_').val(ui.item.descuento)
-            }else{
-              $('#descuentos_').val('0')
-            }        
+            $('#foto_prod').attr("src", ui.item.foto);
+            // if (ui.item.descuento > 0 && ui.item.descuento < 5) {
+            //   $('#descuentos_').val(ui.item.descuento)
+            // }else{
+            //   $('#descuentos_').val('0')
+            // }        
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
         return $("<li class='ui-autocomplete-row'></li>")
@@ -292,7 +326,7 @@ function confirmar_venta() {
 document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
 
     event.preventDefault();
-    // $("#descuento_").prop("disabled", true);
+    $("#descuentos_").prop("disabled", true); //antes era descuento_
     if ((parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
         mtoast("La cantidad ingresada es mayor al stock", 'danger')
         return false;
@@ -302,15 +336,23 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
     //VALOR DE DESCUENTO
 
-    let descuento = $("#descuentos_ option:selected").text();
-    let id_desc = $("#descuentos_").val()
+    // let descuento = $("#descuentos_ option:selected").text();
+    let descuento = $("#descuentos_").val();
+    // let id_desc = $("#descuentos_").val()
     var desc_ = $("#descuentos_").val()
-    if (desc_ == 1) {desc_ = 30}
-    if (desc_ == 2) {desc_ = 30}
-    if (desc_ == 3) {desc_ = 35}
-    if (desc_ == 4) {desc_ = 45}
-    
-    desc_ = parseFloat(desc_) * 0.01
+    // if (desc_ == 1) {desc_ = 30}
+    // if (desc_ == 2) {desc_ = 30}
+    // if (desc_ == 3) {desc_ = 35}
+    // if (desc_ == 4) {desc_ = 45}
+    let comb_ = $("#combo_").val()
+
+    if (comb_ == 1) {
+        descuento = 20;
+        desc_ = 0.2;
+    }else{
+        desc_ = parseFloat(desc_) * 0.01
+    }
+    console.log(desc_)
 
     let codli = $("#codli_").val()
     let combo = $("#combo_").val()
@@ -360,7 +402,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     newRow.className = "_descripcion"
 
     newRow = newTableRow.insertCell(3)
-    newRow.textContent = descuento
+    newRow.textContent = descuento+" %"
     newRow.className = "_descuento"
 
     newRow = newTableRow.insertCell(4)
@@ -403,7 +445,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
     newRow = newTableRow.insertCell(13)
     newRow.hidden = true
-    newRow.textContent = id_desc
+    newRow.textContent = descuento
     newRow.className = "_id_desc"
 
     newRow = newTableRow.insertCell(14)
@@ -658,7 +700,7 @@ function delete_row(e) {
     console.log(e.target.parentNode.parentNode.parentNode.remove())
         let rows = document.getElementById('tabla_ventas').getElementsByTagName('tr')
     if (rows.length <= 1) {
-    $("#descuento_").prop('disabled', false);
+    $("#descuentos_").prop('disabled', false);
     }
 }
 

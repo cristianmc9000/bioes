@@ -34,7 +34,7 @@
     }
     .contenedor_insert{
       display: grid;
-      grid-template-columns: 1fr auto auto;
+      grid-template-columns: 1fr auto 1fr;
       gap: 20px;
     }
     .contenedor_btn{
@@ -79,6 +79,7 @@
                   <div class="input-group mb-3">
                     <select class="form-select" name="descuentos" id="descuentos">
                       <option selected value="0">Descuento...</option>
+
                       <option value="1">OFERTAS-PLATA 30%</option>
                       <option value="2">OFERTAS-ORO 30%</option>
                       <option value="3">PLATA 35%</option>

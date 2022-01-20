@@ -26,7 +26,8 @@ if(isset($_GET["term"]))
         $temp_array['codli'] = $row['linea'];
         $temp_array['value'] = $row['descripcion'];
         $temp_array['combo'] = $row['combo'];
-
+        $temp_array['foto'] = $row['foto'];
+        
         $temp_array['menor'] = "";
         if($row['combo'] == '1'){
           $res = $conexion->query("SELECT MIN(b.cantidad) as cantidad FROM combo a, invcant b WHERE id_combo = '".$row['id']."' AND b.codp = a.id_prod ");
