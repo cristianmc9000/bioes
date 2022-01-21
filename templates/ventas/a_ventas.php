@@ -27,6 +27,13 @@ session_start();
     position: relative;
     font-size: 0.7em;
 }
+.helpertext2 {
+    /*top: -5px;*/
+    /*position: absolute;*/
+    /*font-size: 0.7em;*/
+      position: absolute;
+      bottom: -1.2em;
+}
 
 .img-prod{
       border-radius: 5px;
@@ -65,11 +72,30 @@ session_start();
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <input type="text" id="ca" placeholder="código" autocomplete="off" class="form-control" disabled required>
+                        <small class="helpertext" style="color: red"><b>Código cliente</b></small>
                     </div>
                     <div class="col-sm-12 col-md-3">
-                        <input id="descuentos_" name="descuentos_" type="text" onkeypress="return check(event)" min="0" max="100" value="30" class="form-control" placeholder="% Descuento" >
-                        <small class="helpertext" style="color: red">% Descuento</small>
+
+                    <!-- <div class="col-sm-12 col-md-3"> -->
+                      <!-- <div class="input-group mb-3"> -->
+                        <!-- <span class="input-group-text">% Descuento</span> -->
+                        <select class="form-select" name="descuentos_" id="descuentos_">
+                          <!-- <option value="1">Descuento...</option> -->
+                          <option value="0">S/D 0%</option>
+                          <option value="20">20%</option>
+                          <option value="25">25%</option>
+                          <option selected value="30">30%</option>
+                          <option value="35">35%</option>
+                          <option value="40">40%</option>
+                        </select>
+                        <small class="helpertext" style="color: red"><b>% Descuento</b></small>
                         <input type="text" id="lugar" hidden>
+                      <!-- </div> -->
+                    <!-- </div> -->
+
+
+                        <!-- <input id="descuentos_" name="descuentos_" type="text" onkeypress="return check(event)" min="0" max="100" value="30" class="form-control" placeholder="% Descuento" > -->
+                        
                     </div>
                 </div>
             </form>
@@ -85,15 +111,18 @@ session_start();
             <form id="insert_row_producto">
                 <div class="contenedor_insert">
                     <div class="contenedor_form">
-                        <div class="col-sm-12 mb-3">
+                        <div class="col-sm-12 input-group mb-3">
+                            <span class="input-group-text">Buscar producto:</span>
                             <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="form-control" required />
                         </div>
-                        <div class="col-sm-12 mb-3">
+                        <div class="col-sm-12 input-group mb-3">
+                            <span class="input-group-text">Cantidad</span>
                             <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="form-control" required>
-                            <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
+                            <div class="helpertext2"><b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b></div>
                             <input type="text" id="stock_" hidden>
                         </div>
-                        <div class="col-sm-12 mb-3">
+                        <div class="col-sm-12 input-group mb-3" style="margin-top: 25px">
+                            <span class="input-group-text">Precio en pesos arg.</span>
                             <input type="text" class="form-control" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
                         </div>
                     </div>
@@ -326,9 +355,9 @@ function confirmar_venta() {
 document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
 
     event.preventDefault();
-    $("#descuentos_").prop("disabled", true); //antes era descuento_
+    
     if ((parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
-        mtoast("La cantidad ingresada es mayor al stock", 'danger')
+        mtoast("Cantidad ingresada no válida o mayor al stock.", 'danger')
         return false;
     }
     //Convertir precio en pesos a precio en Bs.
@@ -340,6 +369,10 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     let descuento = $("#descuentos_").val();
     // let id_desc = $("#descuentos_").val()
     var desc_ = $("#descuentos_").val()
+    if (desc_ == 1) {
+        return mtoast("Ingrese un descuento válido", "warning") //SI EL DESCUENTO NO TIENE VALOR...
+    }
+    $("#descuentos_").prop("disabled", true); //antes era descuento_
     // if (desc_ == 1) {desc_ = 30}
     // if (desc_ == 2) {desc_ = 30}
     // if (desc_ == 3) {desc_ = 35}
