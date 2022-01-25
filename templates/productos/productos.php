@@ -112,7 +112,7 @@ if((mysqli_num_rows($Busq2))>0){
                             <?php echo $valor["cantidad"] ?>
                         </td>
                         <td>
-                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>', '<?php echo $valor['combo'] ?>')"><i class="material-icons">build</i></a>
+                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>',`<?php echo $valor['id']?>`,`<?php echo $valor['linea'] ?>`,'<?php echo $valor['codli'] ?>',`<?php echo $valor['descripcion'] ?>`, '<?php echo $valor['combo'] ?>')"><i class="material-icons">build</i></a>
                         </td>
                         <td>
                             <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
@@ -631,7 +631,7 @@ $("#agregar_producto").on("submit", function(e){
 });
 
 function mod_producto(foto, id, linea, codli, descripcion, combo) {
-
+    // console.log(foto, id, linea, codli, descripcion, combo)
   $("#imagen_ant").val(foto)
   $("#codigo").val(id)
   $("#codigo_ant").val(id)
