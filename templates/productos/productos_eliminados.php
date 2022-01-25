@@ -98,7 +98,7 @@ if((mysqli_num_rows($Busq))>0){
                             <?php echo $valor["cantidad"] ?>
                         </td>
                         <td align="center">
-                            <a href="#!" onclick="hab_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">restore_from_trash</i></a>
+                            <a href="#!" onclick="hab_producto(`<?php echo $valor['id'] ?>`);"><i class="material-icons">restore_from_trash</i></a>
                         </td>
                     </tr>
                     <?php } ?>
