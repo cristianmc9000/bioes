@@ -258,6 +258,7 @@ if((mysqli_num_rows($Busq2))>0){
                             <input id="imagen_ant" name="imagen_ant" type="text" hidden>
                             <input name="imagen" type="file" class="form-control" id="imagen">
                             <label class="input-group-text" for="imagen">Foto</label>
+
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <label class="form-label small text-muted" for="codigo">Código:</label>
@@ -305,6 +306,14 @@ if((mysqli_num_rows($Busq2))>0){
                 </form>
             </div>
             <div class="modal-footer">
+
+                <div class="form-check izq">
+                  <input class="form-check-input" type="checkbox" value="" id="mod_combo_check">
+                  <label class="form-check-label text-muted" for="mod_combo_check">
+                    COMBO
+                  </label>
+                </div>
+
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button form="modificar_producto" type="submit" id="btn-mod_prod" class="btn btn-primary">Aceptar</button>
             </div>
@@ -344,7 +353,9 @@ if((mysqli_num_rows($Busq2))>0){
 
 <script>
 var mensaje = $("#mensaje");
+let controller = 0;
 $(document).ready(function() {
+    
     $('#tabla1').dataTable({
         "order": [[ 0, "desc" ]],
         "language": {
@@ -423,7 +434,7 @@ $(document).ready(function() {
                         newRow.className = "_nombre"
 
                         newRow = newTableRow.insertCell(2)
-                        newRow.innerHTML = '<a href="#!" onclick="delete_row(event, `'+id_combo+'`, `'+ui.item.id+'`)" class="btn-floating red"><i class="material-icons">delete</i></a>'
+                        newRow.innerHTML = '<a href="#!" onclick="mod_delete_row(event, `'+id_combo+'`, `'+ui.item.id+'`)" class="btn-floating red"><i class="material-icons">delete</i></a>'
                         // newRow.className = "_descripcion"
 
 
@@ -445,13 +456,28 @@ $(document).ready(function() {
     };
 
 });
+
+$('#modal2').on('hide.bs.modal', function (e) {
+    if (controller == 1) {
+        // $("#cuerpo").load('templates/productos/productos.php')
+        console.log("no deberia cerrar")
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        mtoast("El combo debe contener 2 productos como mínimo, caso contrario desmarcar la opción combo.", 'warning');
+        return false;
+    }
+    if (controller == 2) {
+        $("#cuerpo").load('templates/productos/productos.php')
+    }
+
+});
+
 function delete_row(e) {
   console.log(e.target.parentNode.parentNode.parentNode.remove())
   let rows = document.getElementById('tabla_combo').getElementsByTagName('tr')
 }
 
 function mod_delete_row(e, id_combo, id_prod) {
-  
 
   $.ajax({
       url: "recursos/productos/delete_combo_item.php?id_combo="+id_combo+"&id_prod="+id_prod,
@@ -459,7 +485,17 @@ function mod_delete_row(e, id_combo, id_prod) {
       success: function(response) {
             if (response == 1) {
                 console.log(e.target.parentNode.parentNode.parentNode.remove())
-                let rows = document.getElementById('mod_tabla_combo').getElementsByTagName('tr')
+                // let rows = document.getElementById('mod_tabla_combo').getElementsByTagName('tr')
+
+                if ($('#mod_combo_check').is(":checked")){
+                    let rows = document.getElementById('mod_tabla_combo').getElementsByTagName('tr')
+                    if (rows.length <= 1) {
+                        document.getElementById("mod_combo_check").checked = false;
+                        document.getElementById('mod_combo_section').hidden = true
+                        combo_status(id_combo, '0');
+                    }
+                }
+
             }else{
                 console.log(response)
             }
@@ -469,7 +505,20 @@ function mod_delete_row(e, id_combo, id_prod) {
       }
   })
 
+
+
 }
+
+function combo_status(id, status) {
+    $.ajax({
+      url: "recursos/productos/combo_status.php?id="+id+"&status="+status,
+      method: "GET",
+      success: function(response) {
+        console.log(response+" :Combo status")
+      }
+    })
+}
+
 // document.getElementById("combo_check").addEventListener("click", function(event) {
 //     alert("hola");
 // })
@@ -482,6 +531,19 @@ $("#combo_check").on("click", function () {
     }
 })
 
+$("#mod_combo_check").on("click", function () {
+    
+    let id = $("#codigo_ant").val();
+    if (!$('#mod_combo_check').is(":checked")){
+        controller = 2;
+        combo_status(id, '0')
+        document.getElementById('mod_combo_section').hidden = true
+    }else{
+        controller = 1;
+        combo_status(id, '1')
+        document.getElementById('mod_combo_section').hidden = false
+    }
+})
 
 //FUNCION PARA CARGAR LINEAS DESDE LA BASE DE DATOS
 function cargar_lineas() {
@@ -584,7 +646,7 @@ $("#agregar_producto").on("submit", function(e){
         let rows = document.getElementById('tabla_combo').getElementsByTagName('tr')
         if (rows.length <= 2) {
             console.log(rows.length)
-            return mtoast("Debe seleccionar más de un producto", 'warning')
+            return mtoast("El combo debe contener 2 productos como mínimo, caso contrario desmarcar la opción combo.", 'warning')
         }
 
         let combo_array = [];
@@ -644,11 +706,14 @@ function mod_producto(foto, id, linea, codli, descripcion, combo) {
   // $("#mod_combo_section")
   document.getElementById('mod_combo_section').hidden = true
   if (combo == '1') {
+    console.log("si es combo")
     document.getElementById('mod_combo_section').hidden = false
+    document.getElementById("mod_combo_check").checked = true;
     $.ajax({
         url: "recursos/productos/combo_content.php?id="+id,
         method: "GET",
         success: function(response) {
+            console.log(response)
             $(".dinamic_rows").remove();
             let table = $("#mod_tabla_combo tbody")[0];
             JSON.parse(response).forEach(function(element) {
@@ -668,23 +733,30 @@ function mod_producto(foto, id, linea, codli, descripcion, combo) {
                 newRow.innerHTML = '<a href="#!" onclick="mod_delete_row(event, `'+id+'`, `'+element['id_prod']+'`)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
             });
-            
-
-            
-
-
         },
         error: function(error) {
             console.log(error)
         }
     })
+  }else{
+    document.getElementById("mod_combo_check").checked = false;
   }
   $("#modal2").modal('toggle')
 }
-
+    
 $("#modificar_producto").on("submit", function(e){
-
     e.preventDefault();
+
+
+    if ($('#mod_combo_check').is(":checked")){
+        let rows = document.getElementById('mod_tabla_combo').getElementsByTagName('tr')
+        if (rows.length <= 2) {
+            console.log(rows.length)
+            return mtoast("Debe seleccionar más de un producto o desmarcar la opción combo.", 'warning')
+        }
+    }
+
+
     $("#btn-mod_prod").addClass('disabled')
     document.getElementById('btn-mod_prod').disabled = true
     var val = new FormData(document.getElementById("modificar_producto"));
