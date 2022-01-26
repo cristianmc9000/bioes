@@ -751,7 +751,7 @@ $("#modificar_producto").on("submit", function(e){
         let rows = document.getElementById('mod_tabla_combo').getElementsByTagName('tr')
         if (rows.length <= 2) {
             console.log(rows.length)
-            return mtoast("Debe seleccionar más de un producto o desmarcar la opción combo.", 'warning')
+            return mtoast("El combo debe contener 2 productos como mínimo, caso contrario desmarcar la opción combo.", 'warning')
         }
     }
 
