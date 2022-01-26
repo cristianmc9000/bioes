@@ -458,9 +458,9 @@ $(document).ready(function() {
 });
 
 $('#modal2').on('hide.bs.modal', function (e) {
-    if (controller == 1) {
-        // $("#cuerpo").load('templates/productos/productos.php')
-        console.log("no deberia cerrar")
+    let rows = document.getElementById('mod_tabla_combo').getElementsByTagName('tr')
+
+    if (controller == 1 && rows.length < 3) {
         e.preventDefault();
         e.stopImmediatePropagation();
         mtoast("El combo debe contener 2 productos como mínimo, caso contrario desmarcar la opción combo.", 'warning');
@@ -706,7 +706,6 @@ function mod_producto(foto, id, linea, codli, descripcion, combo) {
   // $("#mod_combo_section")
   document.getElementById('mod_combo_section').hidden = true
   if (combo == '1') {
-    console.log("si es combo")
     document.getElementById('mod_combo_section').hidden = false
     document.getElementById("mod_combo_check").checked = true;
     $.ajax({
