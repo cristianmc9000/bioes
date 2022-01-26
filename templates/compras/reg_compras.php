@@ -90,7 +90,7 @@ if((mysqli_num_rows($Busq))>0){
                         <a href="#!" onclick="ver_compra('<?php echo $valor['codc']?>', '<?php echo $valor['fecha'] ?>', '<?php echo $valor['totalcd'] ?>' )"><i class="material-icons">visibility</i></a>
                     </td>
                     <td>
-                        <a href="#" onclick="mod_compra(event, '<?php echo $valor['codc'] ?>','<?php echo $valor['descuento']?>','<?php echo $valor['valor_pesos']?>')"><i class="material-icons">build</i></a>
+                        <a href="#" onclick="mod_compra(event, '<?php echo $valor['codc'] ?>','<?php echo $valor['descuento']?>','<?php echo $valor['valor_pesos']?>')"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
                 <?php } ?>
