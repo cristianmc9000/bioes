@@ -87,6 +87,7 @@
                       <option selected value="2">30%</option>
                       <option value="3">35%</option>
                       <option value="4">40%</option>
+                      <option value="7">100%</option>
                     </select>
                   </div>
                 </div>
@@ -223,7 +224,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   if (parseInt($("#cantidad_").val()) < 1) {
     return mtoast("Ingrese una cantidad válida", "warning");
   }
-  if (desc_ < 1 || desc_ > 6) {
+  if (desc_ < 1 || desc_ > 7) {
     return mtoast("Seleccione el descuento.", "warning");
   }
   if (desc_ == 1) {desc_ = 30}
@@ -232,6 +233,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   if (desc_ == 4) {desc_ = 45}
   if (desc_ == 5) {desc_ = 0}
   if (desc_ == 6) {desc_ = 20}
+  if (desc_ == 7) {desc_ = 100}
   let descuento = desc_
   // let _aux_cant = 0
   // if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {

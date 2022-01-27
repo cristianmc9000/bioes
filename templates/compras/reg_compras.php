@@ -90,7 +90,7 @@ if((mysqli_num_rows($Busq))>0){
                         <a href="#!" onclick="ver_compra('<?php echo $valor['codc']?>', '<?php echo $valor['fecha'] ?>', '<?php echo $valor['totalcd'] ?>' )"><i class="material-icons">visibility</i></a>
                     </td>
                     <td>
-                        <a href="#" onclick="mod_compra(event, '<?php echo $valor['codc'] ?>','<?php echo $valor['descuento']?>','<?php echo $valor['valor_pesos']?>')"><i class="material-icons">delete</i></a>
+                        <a href="#" onclick="mod_compra(event, '<?php echo $valor['codc'] ?>','<?php echo $valor['valor_pesos']?>')"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
                 <?php } ?>
@@ -346,11 +346,12 @@ function detalle_compra(codc) {
 }
 
 //FUNCION PARA MODIFICAR LA COMPRA
-function mod_compra(e, codc, descuento, valor) {
+function mod_compra(e, codc, valor) {
+    // console.log(codc, descuento, valor)
     $("#codc").val(codc)
-    $("#descuento_mod").val(descuento)
+    // $("#descuento_mod").val(descuento)
     $("#valor_cambio").val(valor)
-    $("#descuento_ant").val(descuento)
+    // $("#descuento_ant").val(descuento)
     $("#cambio_ant").val(valor)
 
     detalle_compra(codc).then(respuesta => {
