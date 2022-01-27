@@ -320,7 +320,7 @@ function ver_compra(codc, fecha, total) {
             }
         }
         $("#fecha_com").html("<b style='font-weight: bold'>Fecha de compra: </b>"+fecha)
-        $("#items").html("<b style='font-weight: bold'>Items: </b>"+cantidad+"u. Incluye "+auxiliares+" auxiliares.")
+        $("#items").html("<b style='font-weight: bold'>Items: </b>"+cantidad+"u.")
         $("#gan_exp").html("<b style='font-weight: bold'>Ganancias: </b>"+((gan_exp).toFixed(1))+" Bs.")
         $("#total").html("<b style='font-weight: bold'>Total:</b> "+total +" Bs.")
         $("#modal1").modal('toggle')
