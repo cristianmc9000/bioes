@@ -74,13 +74,9 @@ session_start();
                         <input type="text" id="ca" placeholder="código" autocomplete="off" class="form-control" disabled required>
                         <small class="helpertext" style="color: red"><b>Código cliente</b></small>
                     </div>
-                    <div class="col-sm-12 col-md-3">
 
-                    <!-- <div class="col-sm-12 col-md-3"> -->
-                      <!-- <div class="input-group mb-3"> -->
-                        <!-- <span class="input-group-text">% Descuento</span> -->
+                    <!-- <div class="col-sm-12 col-md-3">
                         <select class="form-select" name="descuentos_" id="descuentos_">
-                          <!-- <option value="1">Descuento...</option> -->
                           <option value="0">S/D 0%</option>
                           <option value="20">20%</option>
                           <option value="25">25%</option>
@@ -90,13 +86,7 @@ session_start();
                         </select>
                         <small class="helpertext" style="color: red"><b>% Descuento</b></small>
                         <input type="text" id="lugar" hidden>
-                      <!-- </div> -->
-                    <!-- </div> -->
-
-
-                        <!-- <input id="descuentos_" name="descuentos_" type="text" onkeypress="return check(event)" min="0" max="100" value="30" class="form-control" placeholder="% Descuento" > -->
-                        
-                    </div>
+                    </div> -->
                 </div>
             </form>
         </div>
@@ -125,18 +115,21 @@ session_start();
                             <span class="input-group-text">Precio en pesos arg.</span>
                             <input type="text" class="form-control" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
                         </div>
+                        <div class="col-sm-12 input-group mb-3">
+                            <span class="input-group-text">% Descuento</span>
+                          <select class="form-select" name="descuentos_" id="descuentos_">
+                            <option selected value="5">0%</option>
+                            <option value="6">20%</option>
+                            <option value="1">25%</option>
+                            <option value="2">30%</option>
+                            <option value="3">35%</option>
+                            <option value="4">40%</option>
+                            <option value="7">100%</option>
+                          </select>
+
+                        </div>
                     </div>
-    <!--                     <div class="col-sm-12 col-md-2">
-                            <div class="input-group mb-3">
-                              <select class="form-select" name="descuentos_" id="descuentos_">
-                                <option selected value="0">Descuento...</option>
-                                <option value="1">OFERTAS-PLATA 30%</option>
-                                <option value="2">OFERTAS-ORO 30%</option>
-                                <option value="3">PLATA 35%</option>
-                                <option value="4">ORO 45%</option>
-                              </select>
-                            </div>
-                        </div> -->  
+                          
 
                         <input type="text" id="id_" value="" hidden>
                         <input type="text" id="linea_" value="" hidden>
@@ -240,7 +233,7 @@ $(document).ready(function() {
         source: "recursos/ventas/buscar_le.php",
         minLength: 1,
         select: function(event, ui) {
-            $("#descuentos_").removeAttr('disabled');
+            // $("#descuentos_").removeAttr('disabled');
             $("#ca").val(ui.item.ca)
             // if (ui.item.nivel == "experta") {
             //     $("#descuento_").val('30')
@@ -279,13 +272,10 @@ $(document).ready(function() {
         source: "recursos/ventas/buscar_producto.php",
         minLength: 1,
         select: function(event, ui) {
-
             // console.log(ui.item.id, ui.item.value, ui.item.linea)
-
             if (!ui.item.pupesos) {
                 ui.item.pupesos = 0;
             }
-
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
             if (ui.item.combo == '1') {
                 let menor = JSON.parse(ui.item.menor)
@@ -303,11 +293,13 @@ $(document).ready(function() {
             $('#codli_').val(ui.item.codli)
             $('#combo_').val(ui.item.combo)
             $('#foto_prod').attr("src", ui.item.foto);
-            // if (ui.item.descuento > 0 && ui.item.descuento < 5) {
-            //   $('#descuentos_').val(ui.item.descuento)
-            // }else{
-            //   $('#descuentos_').val('0')
-            // }        
+
+            //DEJA EL DESCUENTO EN EL ÚLTIMO VALOR REGISTRADO PARA EL PRODUCTO DE ESA VENTA
+            if (ui.item.descuento > 0 && ui.item.descuento < 5) {
+              $('#descuentos_').val(ui.item.descuento)
+            }else{
+              // $('#descuentos_').val('0')
+            }        
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
         return $("<li class='ui-autocomplete-row'></li>")
@@ -365,26 +357,36 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
     //VALOR DE DESCUENTO
 
-    // let descuento = $("#descuentos_ option:selected").text();
-    let descuento = $("#descuentos_").val();
-    // let id_desc = $("#descuentos_").val()
+    let descuento = $("#descuentos_ option:selected").text();
+    // let descuento = $("#descuentos_").val(); //para descuentos general
+    let id_desc = $("#descuentos_").val()
     var desc_ = $("#descuentos_").val()
-    if (desc_ == 1) {
-        return mtoast("Ingrese un descuento válido", "warning") //SI EL DESCUENTO NO TIENE VALOR...
-    }
-    $("#descuentos_").prop("disabled", true); //antes era descuento_
-    // if (desc_ == 1) {desc_ = 30}
-    // if (desc_ == 2) {desc_ = 30}
-    // if (desc_ == 3) {desc_ = 35}
-    // if (desc_ == 4) {desc_ = 45}
+
+    // if (desc_ == 1) {
+    //     return mtoast("Ingrese un descuento válido", "warning") //SI EL DESCUENTO NO TIENE VALOR...
+    // } para descuentos generales
+
+    // $("#descuentos_").prop("disabled", true); //antes era descuento_ // para descuentos generales
+
+    //para descuentos individuales
+      if (desc_ == 1) {desc_ = 25}
+      if (desc_ == 2) {desc_ = 30}
+      if (desc_ == 3) {desc_ = 35}
+      if (desc_ == 4) {desc_ = 40}
+      if (desc_ == 5) {desc_ = 0}
+      if (desc_ == 6) {desc_ = 20}
+      if (desc_ == 7) {desc_ = 100}
+
+
+
     let comb_ = $("#combo_").val()
 
-    if (comb_ == 1) {
-        descuento = 20;
-        desc_ = 0.2;
-    }else{
-        desc_ = parseFloat(desc_) * 0.01
-    }
+    // if (comb_ == 1) {
+    //     descuento = "20%";
+    //     desc_ = 0.2;
+    // }else{
+    desc_ = parseFloat(desc_) * 0.01
+    // }
     console.log(desc_)
 
     let codli = $("#codli_").val()
@@ -394,7 +396,6 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     let pupesos_desc = pupesos
     let pubs_desc = parseFloat(pubs_)
     let _aux_cant = 0
-
    
     // PRECIO CON DESCUENTO EN PESOS
     pupesos_desc = pupesos * desc_;
@@ -404,7 +405,6 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
     pubs_desc = pubs_ - pubs_desc
     pubs_desc = parseFloat(pubs_desc).toFixed(1)+"0"
-
 
     //Subtotal con descuento
     precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
@@ -435,7 +435,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     newRow.className = "_descripcion"
 
     newRow = newTableRow.insertCell(3)
-    newRow.textContent = descuento+" %"
+    newRow.textContent = descuento
     newRow.className = "_descuento"
 
     newRow = newTableRow.insertCell(4)
@@ -478,7 +478,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
     newRow = newTableRow.insertCell(13)
     newRow.hidden = true
-    newRow.textContent = descuento
+    newRow.textContent = id_desc //descuento
     newRow.className = "_id_desc"
 
     newRow = newTableRow.insertCell(14)
@@ -600,7 +600,8 @@ let fila = `
 
     let year = (new Date).getFullYear()
 
-
+    console.log("antes de funcion insertar_venta_detalle")
+    
     insertar_venta_detalle(json_data).then(respuesta => {
         console.log(respuesta + " respuesta de funcion promise")
         var miHtml = `<title>RECIBO</title>
@@ -720,6 +721,7 @@ function insertar_venta_detalle(json_data) {
             },
             method: "post",
             success: function(response) {
+                // console.log(response)
                 resolve(response)
             },
             error: function(error) {
@@ -733,7 +735,7 @@ function delete_row(e) {
     console.log(e.target.parentNode.parentNode.parentNode.remove())
         let rows = document.getElementById('tabla_ventas').getElementsByTagName('tr')
     if (rows.length <= 1) {
-    $("#descuentos_").prop('disabled', false);
+    // $("#descuentos_").prop('disabled', false);
     }
 }
 

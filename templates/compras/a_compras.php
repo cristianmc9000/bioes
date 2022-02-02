@@ -91,8 +91,8 @@
                     </select>
                   </div>
                 </div>
-                
             </div>
+
             <div class="contenedor_img">
               
                 <img src="img/producto_vacio.jpg"  id="foto_prod" class="img-prod" alt="">
@@ -227,10 +227,10 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   if (desc_ < 1 || desc_ > 7) {
     return mtoast("Seleccione el descuento.", "warning");
   }
-  if (desc_ == 1) {desc_ = 30}
+  if (desc_ == 1) {desc_ = 25}
   if (desc_ == 2) {desc_ = 30}
   if (desc_ == 3) {desc_ = 35}
-  if (desc_ == 4) {desc_ = 45}
+  if (desc_ == 4) {desc_ = 40}
   if (desc_ == 5) {desc_ = 0}
   if (desc_ == 6) {desc_ = 20}
   if (desc_ == 7) {desc_ = 100}
