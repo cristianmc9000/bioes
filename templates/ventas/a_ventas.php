@@ -67,7 +67,7 @@ session_start();
             <form id="insert_row">
                 <div class="row g-3">
                     <div class="col-sm-12 col-md-4">
-                        <input type="text" id="search_le" placeholder="Buscar Lider/Experta" autocomplete="off" class="form-control" required />
+                        <input type="text" id="search_le" placeholder="Buscar cliente" autocomplete="off" class="form-control" required />
                         <div id="pendientes"></div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -313,8 +313,8 @@ $(document).ready(function() {
 function confirmar_venta() {
     let ca = $("#ca").val()
     $("#pago_inicial").val("0")
-    $("#cliente_c").html("Lider/Experta: " + $("#search_le").val());
-    $("#ca_c").html("Código Arbell: " + ca);
+    $("#cliente_c").html("Cliente: " + $("#search_le").val());
+    $("#ca_c").html("Código BioEsencia: " + ca);
     let totalcd = 0;
     document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
         totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
@@ -345,10 +345,16 @@ function confirmar_venta() {
 
 /* --------------funcion insertar fila de producto---------------- */
 document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
-
     event.preventDefault();
-    
-    if ((parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
+
+    let __cant = 0;
+    document.querySelectorAll('._id').forEach(function(e) {
+        if (e.innerText == $('#id_').val()) {
+            __cant = __cant + parseInt(e.parentNode.children[5].innerText) //sumando la cantidad previamente agregada
+        }
+    });
+
+    if ( (( parseInt($("#cantidad_").val()) + __cant) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
         mtoast("Cantidad ingresada no válida o mayor al stock.", 'danger')
         return false;
     }
@@ -624,8 +630,8 @@ let fila = `
     <table width="100%" border="0">
       <tr>
         <td width="33%" align="left">
-          <span>Código Arbell: ${_ca}</span><br>
-          <span>Lider/Experta: ${_nombre_le}</span><br>
+          <span>Código BioEsencia: ${_ca}</span><br>
+          <span>Cliente: ${_nombre_le}</span><br>
           <span>Lugar: ${_lugar}</span>
         </td>
         <td width="33%" align="center">
@@ -634,7 +640,7 @@ let fila = `
           <span>Gestión: ${year}</span>
         </td>
         <td width="33%" align="right">
-          <span>Distribuidora: CARMIÑA</span>
+          <span>Distribuidora: BioEsencia Bolivia</span>
         </td>
       </tr>
     </table>

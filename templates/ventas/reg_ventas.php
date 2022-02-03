@@ -70,7 +70,7 @@ if((mysqli_num_rows($Busq))>0){
             <tr>
                 <th>Código</th>
                 <th>C.A.</th>
-                <th>Lider/Experta</th>
+                <th>Cliente</th>
                 <th>Fecha de Venta</th>
                 <th>Monto Total (Bs.)</th>
                 <th>Tipo de Venta</th>
@@ -130,8 +130,8 @@ if((mysqli_num_rows($Busq))>0){
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-4">
-                        <span id="_ca">Código arbell: </span><br>
-                        <span id="lider_ex">Lider/Experta:</span>
+                        <span id="_ca">Código BioEsencia: </span><br>
+                        <span id="lider_ex">Cliente</span>
                     </div>
                     <div class="col-sm-4" style="text-align: center;">
                         <span>Punto de venta: PRINCIPAL</span><br>
@@ -139,7 +139,7 @@ if((mysqli_num_rows($Busq))>0){
                         <!-- <span id="_periodo">Periodo:</span> -->
                     </div>
                     <div class="col-sm-4" style="text-align:right">
-                        <span>Distribuidora: CARMIÑA</span>
+                        <span>Distribuidora: BioEsencia Bolivia</span>
                     </div>
                     <div class="col-sm-12">
                         <p>
@@ -335,8 +335,8 @@ function imprimir_detalle(codv, total, credito, lugar, ca, cliente) {
         
         // $("#_periodo").html("Periodo: "+periodo)
         $("#_credito").html("Tipo de pago: "+credito)
-        $("#_ca").html("Código Arbell: "+ca)
-        $("#lider_ex").html("Lider/experta: "+cliente)
+        $("#_ca").html("Código BioEsencia: "+ca)
+        $("#lider_ex").html("Cliente: "+cliente)
 
         //INSERTANDO FILAS A LA TABLA DETALLE DE VENTA 
         let filas = ""
@@ -401,8 +401,8 @@ function imprimir_detalle(codv, total, credito, lugar, ca, cliente) {
         <table width="100%" border="0">
           <tr>
             <td width="33%" align="left">
-              <span>Código Arbell: ${ca}</span><br>
-              <span>Lider/Experta: ${cliente}</span><br>
+              <span>Código BioEsencia: ${ca}</span><br>
+              <span>Cliente: ${cliente}</span><br>
               <span>Lugar: ${lugar}</span>
             </td>
             <td width="33%" align="center">
@@ -410,7 +410,7 @@ function imprimir_detalle(codv, total, credito, lugar, ca, cliente) {
               <span>Forma de pago: ${credito}</span><br>
             </td>
             <td width="33%" align="right">
-              <span>Distribuidora: CARMIÑA</span>
+              <span>Distribuidora: BioEsencia Bolivia</span>
             </td>
           </tr>
         </table>
@@ -512,8 +512,8 @@ function ver_venta(codv, total, credito, ca, cliente) {
         
         // $("#_periodo").html("Periodo: "+periodo)
         $("#_credito").html("Tipo de pago: "+credito)
-        $("#_ca").html("Código Arbell: "+ca)
-        $("#lider_ex").html("Lider/experta: "+cliente)
+        $("#_ca").html("Código BioEsencia: "+ca)
+        $("#lider_ex").html("Cliente: "+cliente)
 
         //INSERTANDO FILAS A LA TABLA DETALLE DE VENTA 
         let table = document.getElementById("detalle_ven")
@@ -825,15 +825,15 @@ function imprimir_pago() {
     <table width="100%" border="0">
       <tr>
         <td width="33%" align="left">
-          <span>Código Arbell: ${ca}</span><br>
-          <span>Lider/Experta: ${nombres}</span><br>
+          <span>Código BioEsencia: ${ca}</span><br>
+          <span>Cliente: ${nombres}</span><br>
         </td>
         <td width="33%" align="center">
           <span>Punto de venta: Principal</span><br>
           <span>Forma de pago: Crédito</span><br>
         </td>
         <td width="33%" align="right">
-          <span>Distribuidora: CARMIÑA</span>
+          <span>Distribuidora: BioEsencia Bolivia</span>
         </td>
       </tr>
     </table>
