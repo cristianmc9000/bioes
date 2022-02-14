@@ -56,7 +56,7 @@ while($arr = $Busq->fetch_array())
     <table id="tabla1" class="content-table table table-hover">
         <thead>
           <tr>
-              <th>Codigo arbell</th>
+              <th>Codigo cliente</th>
               <th>CI</th>
               <th>Nombre</th>
               <th>Apellidos</th>
@@ -109,7 +109,7 @@ while($arr = $Busq->fetch_array())
         <form id="agregar_cliente">
             <div class="row g-3">
               <div class="col-sm-12 col-md-6">
-                <label class="form-label small text-muted" for="ca">* Codigo arbell</label>
+                <label class="form-label small text-muted" for="ca">* Codigo cliente</label>
                 <input name="ca" type="number" class="form-control" required>
               </div>
 
@@ -279,7 +279,7 @@ mensaje.hide();
 
 function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo, fecha_alta){
 
-  document.getElementById("ca").innerHTML ='<label for="ca" class="form-label small text-muted">Código Arbell:</label><input name="ca" type="number" class="form-control" value="'+ca+'">';
+  document.getElementById("ca").innerHTML ='<label for="ca" class="form-label small text-muted">Código cliente:</label><input name="ca" type="number" class="form-control" value="'+ca+'">';
   document.getElementById("ci").innerHTML ='<label for="ci" class="form-label small text-muted">CI:</label><input name="ci" type="number" class="form-control" value="'+ci+'">';
   document.getElementById("nombre").innerHTML ='<label for="nombre" class="form-label small text-muted">Nombres: </label><input name="nombre" type="text" class="form-control" value="'+nombre+'">';
   document.getElementById("apellidos").innerHTML ='<label for="apellidos" class="form-label small text-muted">Apellidos: </label><input name="apellidos" type="text" class="form-control" value="'+apellidos+'">';
