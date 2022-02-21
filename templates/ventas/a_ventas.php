@@ -124,6 +124,8 @@ session_start();
                             <option value="2">30%</option>
                             <option value="3">35%</option>
                             <option value="4">40%</option>
+                            <option value="8">45%</option> 
+                            <option value="9">50%</option>
                             <option value="7">100%</option>
                           </select>
 
@@ -382,6 +384,8 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
       if (desc_ == 5) {desc_ = 0}
       if (desc_ == 6) {desc_ = 20}
       if (desc_ == 7) {desc_ = 100}
+      if (desc_ == 8) {desc_ = 45}
+      if (desc_ == 9) {desc_ = 50}
 
 
 
