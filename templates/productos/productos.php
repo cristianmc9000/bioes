@@ -97,7 +97,7 @@ if((mysqli_num_rows($Busq2))>0){
                     <?php foreach($fila as $a  => $valor){ ?>
                     <tr>
                         <td>
-                          <img src="<?php echo $valor['foto']?>" width="50px" height="40px" alt="">
+                          <img loading="lazy" src="<?php echo $valor['foto']?>" width="50px" height="40px" alt="">
                         </td>
                         <td>
                             <?php echo $valor["id"] ?>
