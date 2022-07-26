@@ -60,6 +60,7 @@ session_start();
   max-height: 181.5px;
 }
 </style>
+
 <div class="fuente" style="">
     <h4 align=""><b>Buscar cliente:</b></h4>
     <div class="row">
