@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap');*/
+/*@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');*/
+	body{
+		background-color: #eee5e9;
+	}
+	.pacifico{
+		font-family: 'Pacifico', cursive;;
+	}
+	.rubik{
+		font-family: 'Rubik', sans-serif;
+	}
+	.nunito{
+		font-family: 'Nunito', sans-serif;
+	}
+	.mono{
+		font-weight: bold;
+		font-family: 'Roboto Mono', monospace;
+	}
+	.fuente{
+		font-family: 'Karla', sans-serif;
+		/*font-family: 'Alfa Slab One', cursive;*/
+		/*font-family: 'Dancing Script', cursive;*/
+		/*font-family: 'Roboto', sans-serif;*/
+	}
+	.roboto{
+		font-family: 'Roboto', sans-serif;
+	}
+	.macondo{
+		font-family: 'Macondo', cursive;
+	}
+	.dancing{
+		font-family: 'Dancing Script', cursive;
+	}
+	.centrar{
+		display: flex;
+		justify-content: center;
+	}
+	.tam{
+		font-size: 1.3em !important;
+	}
+
+	.btn-cancelar{
+/*	    position: absolute;
+	    bottom: 20%;
+	    left: 50%;*/
+	    /*-ms-transform: translate(-50%, -50%);*/
+	    /*transform: translate(-50%, -50%);*/
+	}
+
+
+	@media (max-width: 600px) {
+		.toolbar{
+			top: 4.5em;
+			left: 5px;
+		}
+		.btn-cancelar{
+	        position: fixed;
+	        bottom: 0;
+	        left: 0;
+	        width: 100% !important;
+	        -ms-transform: none;
+	        transform: none;
+    	}
+	  .img_querie {
+	  	/*margin-top: 30%;*/
+	  	/*margin-left: auto;*/
+	  	/*margin-right: auto;*/
+	    /*width: 70%;*/
+	  }
+	  .img_querie img{
+	  	width: 100%;
+	  }
+	  .shop{
+		width: 100%;
+	  }
+	  .modal_prod{
+	  	/*min-height: 80%;*/
+	  	width: 100%;
+	  	min-width: 100%;
+	  }
+	  .modal{
+	  	width: 100% !important;
+	  }
+	}
+
+	@media (min-width: 1350px) {
+	  .img_querie {
+
+	    width: 20% !important;
+	  }
+	  .img_querie img{
+
+	  }
+	}
+
+	.img_querie{
+		width: 40%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.img_querie img{
+		width: 100%;
+	}
+
+
+.number-container{
+
+    background-color: #fff;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+}
+
+.number-container label{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.number-container input{
+    width: 40px;
+    font-size: 20px;
+    margin: 0 10px !important;
+    padding: 10px;
+    border: none;
+    outline: none !important;
+    color: black;
+}
+
+.number-container input:hover{
+    background: #aaddff ;
+    color: #fff;
+}
+
+.nice-number button{
+	cursor: pointer;
+    background-color: #26a69a;
+    width: 40px;
+    border: none;
+    outline: none !important;
+    border-radius: 8px;
+    font-size: 20px;
+    color: black;
+}
+
+.nice-number button:hover{
+    background: #489acc;
+    color: #fff;
+}
+
+
+.shop{
+	/*border-radius: 10% !important;*/
+}
+body{
+	/*overflow-x: hidden;*/
+}
+
+
+.get_out {
+    left: 300px;
+    top: 0;
+    position: fixed;
+    z-index: 999;
+}
+
+.card__pad p {
+    margin: 0;
+    font-weight: bolder;
+}
+
+.card__pad{
+    padding:  12px;
+    /*cursor: pointer;*/
+}
+.card__img{
+    width: 96px ;
+    height: 96px ;
+}
+.img__card{
+    min-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+
+}
+
+.p_card__pad{
+    padding:  12px;
+    cursor: pointer;
+}
+.p_card__img{
+    width: 96px ;
+    height: 96px ;
+}
+.p_img__card{
+    min-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 25%;
+}
+
+/*Extraido de materialize*/
+header, main, body, footer {
+  padding-left: 300px;
+}
+#form__{
+	/*padding-top: 0% !important;*/
+}
+
+@media only screen and (max-width : 992px) {
+	header, main, body, footer {
+		padding-left: 0;
+	}
+	#form__{
+		/*padding-top: 0%;*/
+	}
+	.get_out {
+		left: 0;
+		top: 0;
+		position: fixed;
+		z-index: 999;
+	}
+}
+
