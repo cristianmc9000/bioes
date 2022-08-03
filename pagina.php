@@ -217,21 +217,34 @@ body {
         </div>
       </div>
 
-        <div class="accordion-item" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>>
-          <h2 class="accordion-header" id="flush-headingTwo">
-            <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-              <i class="inline-icon material-icons-outlined me-2 lead">shopify</i>Ventas
-            </button>
-          </h2>
-          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-            <div style="background-color: #786fa6;" class="accordion-body">
-              <!-- aqui va el contenido del acordion de compras -->
-              <a style="" class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v('templates/ventas/a_ventas.php');">Realizar venta</a>
-              <a style="" class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v('templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de ventas</a>
-            </div>
+      <div class="accordion-item" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>>
+        <h2 class="accordion-header" id="flush-headingTwo">
+          <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+            <i class="inline-icon material-icons-outlined me-2 lead">shopify</i>Ventas
+          </button>
+        </h2>
+        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+          <div style="background-color: #786fa6;" class="accordion-body">
+            <!-- aqui va el contenido del acordion de compras -->
+            <a style="" class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v('templates/ventas/a_ventas.php');">Realizar venta</a>
+            <a style="" class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v('templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de ventas</a>
           </div>
         </div>
+      </div>
 
+      <div class="accordion-item" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>>
+        <h2 class="accordion-header" id="flush-headingThree">
+          <button style="background-color: #34495e;" class="accordion-button collapsed text-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+            <i class="inline-icon material-icons-outlined me-2 lead">shopping_cart</i>Pedidos
+          </button>
+        </h2>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+          <div style="background-color: #786fa6;" class="accordion-body">
+            <a style="" class="d-block border-bottom border-top p-3 text-light" href="#!" onclick="cargar_v('templates/pedidos/pedidos.php');">Pendientes</a>
+            <a style="" class="d-block border-bottom p-3 text-light" href="#!" onclick="cargar_v('templates/pedidos/reg_pedidos.php');">Aceptados</a>
+          </div>
+        </div>
+      </div>
     </div>
       <!-- fin compras y ventas acordion -->
       <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>

@@ -37,7 +37,12 @@
 	$cred = $_GET['cred'];
 
 	$desc = ((float)$_SESSION['desc'])*100;
-	$result = $conexion->query("INSERT INTO pedidos (ca, fecha, total, total_cd, valor_peso, credito) VALUES('".$ca."', '".$fecha."',".$total.", ".$total_cd.", ".$cambio[0][0].", ".$cred.")");
+	$id_desc = 0;
+	if ($desc == 30) {
+		$id_desc = 2;
+	}
+
+	$result = $conexion->query("INSERT INTO pedidos (ca, fecha, total, total_cd, valor_peso, descuento, credito) VALUES('".$ca."', '".$fecha."',".$total.", ".$total_cd.", ".$cambio[0][0].", ".$id_desc.", ".$cred.")");
 
 	$lastid = mysqli_insert_id($conexion);
 
@@ -49,10 +54,7 @@
 	$dato = "";
 
 				// cp, np, cantp, pp, pub, pup, codli, checkbox
-	$id_desc = 0;
-	if ($desc == 30) {
-		$id_desc = 2;
-	}
+
 
 	$pubs_cd = 0;
 	foreach($a as $x){

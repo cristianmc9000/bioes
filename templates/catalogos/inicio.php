@@ -570,7 +570,7 @@ header, main, body, footer {
 						row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
 						total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 						in_cant = in_cant + parseInt(reg_pedidos[key][2]);
-						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38) || reg_pedidos[key][8] == '1') {
+						if (reg_pedidos[key][7] == '11' || reg_pedidos[key][8] == '1') {
 							total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
 						}else{
 							total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
@@ -725,7 +725,7 @@ document.getElementById('add').addEventListener('click', () => {
 						row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
 						total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 						in_cant = in_cant + parseInt(reg_pedidos[key][2]);
-						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38) || reg_pedidos[key][8] == '1') {
+						if (reg_pedidos[key][7] == '11' || reg_pedidos[key][8] == '1') {
 							total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
 						}else{
 							total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
@@ -779,7 +779,7 @@ function modal_detalle(cod, producto, pub, foto) {
 				row.insertCell(0).innerHTML = "<a href='#'>"+reg_pedidos[key][0]+"</a> ";
 				total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 				in_cant = in_cant + parseInt(reg_pedidos[key][2]);
-				if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
+				if (reg_pedidos[key][7] == '11') {
 					total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
 				}else{
 					total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);

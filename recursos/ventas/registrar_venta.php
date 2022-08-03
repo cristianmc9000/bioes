@@ -33,7 +33,6 @@ foreach($array_normal as $arr){
 		// 	"cantidad" => $arr->{'cantidad'}
 		// ];
 		// array_push($array_combo, $ac);
-
 		unset($array_normal[$cont]);
 		$respuesta = $conexion->query("SELECT id_prod FROM combo WHERE id_combo = '".$arr->{'id'}."'");
 		foreach ($respuesta as $key) {
@@ -48,9 +47,14 @@ foreach($array_normal as $arr){
 }
 
 // die(var_dump($array_combo));
-
-//insertar un nuevo registro de compra en tabla: ventas
-$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`valor_peso`,`credito`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}.")";
+// die($tipo_pago->{'_tipo_pago'});
+//insertar un nuevo registro de venta en tabla: ventas
+if (isset($array_normal[0]->{'codped'})) {
+	$codped = $array[0]->{'codped'};
+	$insertarCompra = "INSERT INTO `ventas`(`codp`,`ci_usu`,`ca`,`fecha`,`total`,`valor_peso`,`credito`) VALUES (".$codped.",".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}.")";
+}else{
+	$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`valor_peso`,`credito`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}.")";
+}
 mysqli_query($conexion, $insertarCompra);
 
 //obtener el último id autogenerado tabla: ventas
@@ -58,6 +62,7 @@ $ultimoid = var_export(mysqli_insert_id($conexion), true);
 
 /* insertar pago inicial */
 $conexion->query("INSERT INTO pagos(codv, monto, fecha_pago) VALUES(".$ultimoid.",".$pago_inicial->{'_pago_inicial'}.",'".$fecha."')");
+
 
 //insertar nuevo detalle de compra tabla: detalle_venta
 $sql = mysqli_prepare($conexion, "INSERT INTO detalle_venta (codv, codp, cantidad, descuento, pubs, pubs_cd) VALUES (?,?,?,?,?,?);");
