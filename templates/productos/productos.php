@@ -9,29 +9,17 @@ require('../../recursos/sesiones.php');
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
-$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.combo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli"; 
+// $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.combo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli"; //CONSULTA ANTERIOR... FUNCIONA
+
+$Sql = "SELECT a.id, a.foto, b.nombre as nomli, b.codli, a.descripcion, c.cantidad, a.combo, (SELECT MIN(h.cantidad) FROM combo g, invcant h WHERE g.id_combo = a.id AND h.codp = g.id_prod) as min_cant, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
+
 
 $Busq = $conexion->query($Sql); 
-
-if((mysqli_num_rows($Busq))>0){
-  while($arr = $Busq->fetch_array()){ 
-
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad'], 'combo'=>$arr['combo']); 
-
-  }
-}else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','combo'=>'--');
-}
+$fila = $Busq->fetch_all(MYSQLI_ASSOC);
   //consulta de lineas
 $Sql2 = "SELECT codli, nombre FROM lineas WHERE estado = 1";
 $Busq2 = $conexion->query($Sql2);
-if((mysqli_num_rows($Busq2))>0){
-  while($arr2 = $Busq2->fetch_array()){ 
-
-        $fila2[] = array('codli'=>$arr2['codli'], 'nombre'=>$arr2['nombre']); 
-
-  }
-}
+$fila2 = $Busq2->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <style>
@@ -89,6 +77,7 @@ if((mysqli_num_rows($Busq2))>0){
                         <th>Linea</th>
                         <th>Descripción</th>
                         <th>Cantidad</th>
+                        <th>Precio</th>
                         <th>Modificar</th>
                         <th>Borrar</th>
                     </tr>
@@ -103,16 +92,19 @@ if((mysqli_num_rows($Busq2))>0){
                             <?php echo $valor["id"] ?>
                         </td>
                         <td>
-                            <?php echo $valor["linea"]?>
+                            <?php echo $valor["nomli"]?>
                         </td>
                         <td>
                             <?php echo $valor["descripcion"]?>
                         </td>
                         <td>
-                            <?php echo $valor["cantidad"] ?>
+                            <?php if($valor['combo'] == '1') {echo $valor['min_cant'];}else{echo $valor["cantidad"];} ?>
                         </td>
                         <td>
-                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>',`<?php echo $valor['id']?>`,`<?php echo $valor['linea'] ?>`,'<?php echo $valor['codli'] ?>',`<?php echo $valor['descripcion'] ?>`, '<?php echo $valor['combo'] ?>')"><i class="material-icons">build</i></a>
+                            <?php if((((int)$valor['cantidad']) < 1) && $valor['combo'] == 0) {echo 'Agotado';}else{echo $valor["pubs"].' Bs.';}?>
+                        </td>
+                        <td>
+                            <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>',`<?php echo $valor['id']?>`,`<?php echo $valor['nomli'] ?>`,'<?php echo $valor['codli'] ?>',`<?php echo $valor['descripcion'] ?>`, '<?php echo $valor['combo'] ?>',`<?php echo $valor['pubs'] ?>`, '<?php echo $valor['checkbox'] ?>')"><i class="material-icons">build</i></a>
                         </td>
                         <td>
                             <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
@@ -167,7 +159,7 @@ if((mysqli_num_rows($Busq2))>0){
 
 <!--MODAL AGREGAR PRODUCTO-->
 <div id="modal1" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Nuevo producto</h5>
@@ -218,6 +210,7 @@ if((mysqli_num_rows($Busq2))>0){
                                 <thead>
                                     <th>Código</th>
                                     <th>Nombre</th>
+                                    <th>Stock</th>
                                     <th>Borrar</th>
                                 </thead>
                                 <tbody>
@@ -245,7 +238,7 @@ if((mysqli_num_rows($Busq2))>0){
         <!--MODAL MODIFICAR PRODUCTO-->
 
 <div id="modal2" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" >Modificar producto</h5>
@@ -260,13 +253,8 @@ if((mysqli_num_rows($Busq2))>0){
                             <label class="input-group-text" for="imagen">Foto</label>
 
                         </div>
-                        <div class="col-sm-12 col-md-6">
-                            <label class="form-label small text-muted" for="codigo">Código:</label>
-                            <input id="codigo" class="form-control" name="codigo" type="text" required>
-                            <input id="codigo_ant" name="codant" type="text" hidden>
-                        </div>
 
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-md-12">
                             <label for="linea" class="form-label small text-muted">Linea:</label>
                             <div class="input-group mb-1">
                                 <div class="input-group-prepend"></div>
@@ -279,10 +267,41 @@ if((mysqli_num_rows($Busq2))>0){
                             </div>
                         </div>
 
+                        <div class="col-sm-12 col-md-6">
+                            <label class="form-label small text-muted" for="codigo">Código:</label>
+                            <input id="codigo" class="form-control" name="codigo" type="text" required>
+                            <input id="codigo_ant" name="codant" type="text" hidden>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                            <input type="text" id="_cambio" name="_cambio" hidden>
+                            <label class="form-label small text-muted" for="precio_bs">Precio en Bs.:</label>
+                            <input id="precio_bs" class="form-control" name="precio_bs" type="text" autocomplete="off" onkeypress="return check(event)" required>
+                        </div>
+
                         <div class="col-sm-12">
                             <label class="form-label small text-muted" for="descripcion">Descripción:</label>
                             <textarea id="descripcion" name="descripcion" class="form-control" autocomplete="off" required></textarea>
                         </div>
+
+                        <div class="col-sm-12">
+                            <label for="" class="text-muted">Opciones del producto:</label>
+
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-sm-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="check_pedido" id="check_pedido" />
+                                        <label class="form-check-label text-muted" for="check_pedido">Quitar de la página de pedidos</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="check_promo" id="check_promo" />
+                                          <label class="form-check-label text-muted" for="check_promo">Agregar a promoción</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
 
                         <div id="mod_combo_section" class="col-sm-12" hidden>
                             <span>Agregar productos al combo:</span>
@@ -295,6 +314,7 @@ if((mysqli_num_rows($Busq2))>0){
                                 <thead>
                                     <th>Código</th>
                                     <th>Nombre</th>
+                                    <th>Stock</th>
                                     <th>Borrar</th>
                                 </thead>
                                 <tbody>
@@ -348,6 +368,25 @@ if((mysqli_num_rows($Busq2))>0){
     </div>
 </div>
 
+<!--MODAL BORRAR CLIENTE-->
+<div id="modal4" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Confirmar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Se eliminará el contenido del combo:</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btn_cancelar_eliminar_contenido_combo" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" id="btn_eliminar_contenido_combo" type="submit">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
     <div id="mensaje" class="modal-content" hidden></div>
 
@@ -357,7 +396,7 @@ let controller = 0;
 $(document).ready(function() {
     
     $('#tabla1').dataTable({
-        "order": [[ 0, "desc" ]],
+        "order": [[ 1, "asc" ]],
         "language": {
           "lengthMenu": "Mostrar _MENU_ registros por página",
           "zeroRecords": "Lo siento, no se encontraron datos",
@@ -376,7 +415,6 @@ $(document).ready(function() {
       select: function(event, ui)
       {
 
-        $('#search_data').val("123")
         //insertando filas a la tabla
 
         // let table = document.getElementById("tabla_combo")
@@ -394,6 +432,10 @@ $(document).ready(function() {
         newRow.className = "_nombre"
 
         newRow = newTableRow.insertCell(2)
+        newRow.textContent = ui.item.cantidad
+        newRow.className = "_cantidad"
+
+        newRow = newTableRow.insertCell(3)
         newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
         // newRow.className = "_descripcion"
 
@@ -402,10 +444,12 @@ $(document).ready(function() {
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
+
         return $("<li class='ui-autocomplete-row'></li>")
         .data("item.autocomplete", item)
         .append(item.label)
-        .appendTo(ul);
+        .appendTo(ul)
+
     };
 
     $('#mod_search_data').autocomplete({
@@ -434,9 +478,13 @@ $(document).ready(function() {
                         newRow.className = "_nombre"
 
                         newRow = newTableRow.insertCell(2)
+                        newRow.textContent = ui.item.cantidad
+                        newRow.className = "_cantidad"
+
+                        newRow = newTableRow.insertCell(3)
                         newRow.innerHTML = '<a href="#!" onclick="mod_delete_row(event, `'+id_combo+'`, `'+ui.item.id+'`)" class="btn-floating red"><i class="material-icons">delete</i></a>'
                         // newRow.className = "_descripcion"
-
+                        document.getElementById('mod_search_data').value = "";
 
                     }else{
                         console.log(response)
@@ -526,23 +574,42 @@ function combo_status(id, status) {
 $("#combo_check").on("click", function () {
     if (!$('#combo_check').is(":checked")){
         document.getElementById('combo_section').hidden = true
+        document.getElementById('tabla_combo').children[1].innerHTML = '';
     }else{
         document.getElementById('combo_section').hidden = false
     }
 })
 
-$("#mod_combo_check").on("click", function () {
-    
+
+document.getElementById('mod_combo_check').addEventListener('click', ()=>{
     let id = $("#codigo_ant").val();
     if (!$('#mod_combo_check').is(":checked")){
-        controller = 2;
-        combo_status(id, '0')
-        document.getElementById('mod_combo_section').hidden = true
+        let childs = document.getElementById('mod_tabla_combo').children[1].children.length
+        if (childs >= 2) {
+            $("#modal4").modal('toggle');
+        }else{
+            controller = 2;
+            combo_status(id, '0')
+            document.getElementById('mod_combo_section').hidden = true
+            document.getElementById('mod_tabla_combo').children[1].innerHTML = '';
+        }
     }else{
         controller = 1;
         combo_status(id, '1')
         document.getElementById('mod_combo_section').hidden = false
     }
+})
+
+document.getElementById('btn_eliminar_contenido_combo').addEventListener('click', ()=>{
+    let id = $("#codigo_ant").val();
+    controller = 2;
+    combo_status(id, '0')
+    document.getElementById('mod_combo_section').hidden = true
+    document.getElementById('mod_tabla_combo').children[1].innerHTML = '';
+    $("#modal4").modal('toggle');
+})
+document.getElementById('btn_cancelar_eliminar_contenido_combo').addEventListener('click', ()=>{
+    document.getElementById('mod_combo_check').checked = true;
 })
 
 //FUNCION PARA CARGAR LINEAS DESDE LA BASE DE DATOS
@@ -692,11 +759,36 @@ $("#agregar_producto").on("submit", function(e){
     });
 });
 
-function mod_producto(foto, id, linea, codli, descripcion, combo) {
+function mod_producto(foto, id, linea, codli, descripcion, combo, pubs, checkbox) {
     // console.log(foto, id, linea, codli, descripcion, combo)
+
+    if (checkbox == '0') {
+        document.getElementById('check_promo').checked = false;
+        document.getElementById('check_pedido').checked = false;
+    }
+    if (checkbox == '1') {
+        document.getElementById('check_promo').checked = true;
+        document.getElementById('check_pedido').checked = false;
+    }
+    if (checkbox == '2') {
+        document.getElementById('check_promo').checked = false;
+        document.getElementById('check_pedido').checked = true;
+    }
+
   $("#imagen_ant").val(foto)
   $("#codigo").val(id)
   $("#codigo_ant").val(id)
+
+    if (pubs || (combo == '1')) {
+        $("#precio_bs").val(pubs)
+        $("#_cambio").val($("#valor").val());
+        document.getElementById('precio_bs').disabled = false;
+    }else{
+        // $("#precio_bs").val('Agotado')
+        document.getElementById('precio_bs').value = "Agotado";
+        document.getElementById('precio_bs').disabled = true;
+    }
+
   //PARA SELECCIONAR LINEA 
   $("#lin_prev").val(codli)
   $("#lin_prev").html(linea)
@@ -729,6 +821,10 @@ function mod_producto(foto, id, linea, codli, descripcion, combo) {
                 newRow.className = "_nombre"
 
                 newRow = newTableRow.insertCell(2)
+                newRow.textContent = element['cantidad']
+                newRow.className = "_cantidad"
+
+                newRow = newTableRow.insertCell(3)
                 newRow.innerHTML = '<a href="#!" onclick="mod_delete_row(event, `'+id+'`, `'+element['id_prod']+'`)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
             });
@@ -768,6 +864,7 @@ $("#modificar_producto").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
+        // return console.log(echo)
       if (echo !== "") {
         $("#btn-mod_prod").removeClass('disabled')
         document.getElementById('btn-mod_prod').disabled = false
@@ -831,6 +928,19 @@ $("#agregar_linea").on("submit", function(e){
         }
       })
     });
+
+document.getElementById('check_promo').addEventListener('change', ()=>{
+  let check_promo = document.getElementById('check_promo').checked
+  if (check_promo) {
+    document.getElementById('check_pedido').checked = false;
+  }
+})
+document.getElementById('check_pedido').addEventListener('change', ()=>{
+  let check_pedido = document.getElementById('check_pedido').checked
+  if (check_pedido) {
+    document.getElementById('check_promo').checked = false;
+  }
+})
 
 function convertira() {
   pesos = $("#pupesos").val()

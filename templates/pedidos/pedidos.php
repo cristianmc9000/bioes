@@ -1,7 +1,6 @@
 <?php
 require('../../recursos/conexion.php');
-require('../../recursos/sesiones.php');
-session_start();
+
 date_default_timezone_set("America/La_Paz");
 $year = date('Y');
 if (isset($_GET["ges"])) {
@@ -13,18 +12,8 @@ $result = $result->fetch_all(MYSQLI_ASSOC);
 
 $Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.total_cd, a.descuento, a.valor_peso, a.credito FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 1 AND a.fecha LIKE '".$year."%'";
 
-// $_SESSION['periodo'] = $per;
-//consulta tabla inventario
-
 $Busq = $conexion->query($Sql); 
-
-if((mysqli_num_rows($Busq))>0){
-    while($arr = $Busq->fetch_array()){ 
-        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['ca'], 'cliente'=>$arr['cliente'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'total_cd'=>$arr['total_cd'], 'descuento'=>$arr['descuento'], 'valor_peso'=>$arr['valor_peso'], 'credito'=>$arr['credito']); 
-    }
-}else{
-        $fila[] = array('id'=>'---', 'ca'=>'---', 'cliente'=>'---', 'fecha'=>'---', 'total'=>'---', 'total_cd'=>'---', 'descuento'=>'---', 'valor_peso'=>'---', 'credito'=>'---');
-}
+$fila = $Busq->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <style>
@@ -256,7 +245,7 @@ $(document).ready(function() {
         "order": [[ 0, "desc" ]],
         "language": {
         "lengthMenu": "Mostrar _MENU_ registros por página",
-        "zeroRecords": "Lo siento, no se encontraron datos",
+        "zeroRecords": "No hay pedidos pendientes...",
         "info": "Página _PAGE_ de _PAGES_",
         "infoEmpty": "No hay datos disponibles",
         "infoFiltered": "(filtrado de _MAX_ resultados)",
@@ -527,10 +516,14 @@ document.getElementById('reg_ped').addEventListener('click', () => {
     }
 
 
+    console.log(id[0])
+
             $.ajax({
                 url: "recursos/pedidos/check_stock.php?id="+id[0],
                 method: "GET",
                 success: function(item) {
+
+                    // return console.log(item)
                     if (item != '1') {
                         item = JSON.parse(item)
                         return mtoast("Cantidad del producto: "+item.codpro+" insuficiente en stock, "+item.stock+" disponibles.", 'warning')
@@ -559,7 +552,6 @@ document.getElementById('reg_ped').addEventListener('click', () => {
                                 },
                                 method: "post",
                                 success: function(response) {
-                                    return console.log(response)
                                     $("#modal1").modal('toggle')
                                     $("#cuerpo").load("templates/pedidos/pedidos.php")
                                     mtoast("El pedido fué registrado.", 'success')

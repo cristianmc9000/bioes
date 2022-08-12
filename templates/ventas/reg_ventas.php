@@ -7,14 +7,7 @@ require('../../recursos/conexion.php');
 
 $Sql = "SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
 $Busq = $conexion->query($Sql); 
-if((mysqli_num_rows($Busq))>0){
-    while($arr = $Busq->fetch_array()) 
-        { 
-            $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'],'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'lugar'=>$arr['lugar'],'fecha'=>$arr['fecha'],'total'=>$arr['total'],'credito'=>$arr['credito']);
-        } 
-}else{
-    $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--','apellidos'=>'--','lugar'=>'--','fecha'=>'--','total'=>'--','credito'=>'--');
-}
+$fila = $Busq->fetch_all(MYSQLI_ASSOC);
 ?>
 
     <style>
@@ -26,10 +19,6 @@ if((mysqli_num_rows($Busq))>0){
     #tabla_pagos{
         width: 100%;
     }
-/*    table.highlight>tbody>tr:hover {
-        background-color: #a0aaf0 !important;
-    }*/
-
     .borde_tabla {
         border: 1px solid;
         border-collapse: collapse !important;

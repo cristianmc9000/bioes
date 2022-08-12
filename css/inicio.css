@@ -54,7 +54,7 @@
 	position: absolute;
 	right: 5px;
 }
-.p_card__pad:hover{
+.card:hover{
 
 	transform:  scale(1.03);
 	box-shadow: 4px 4px 8px 2px rgba(0,0,0,0.4);

@@ -8,7 +8,7 @@ session_start();
     // $Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1 AND b.periodo = ".$per; 
 // }else{
 $per = "";
-$Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1";
+$Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND b.combo = 0 AND a.estado = 1";
 // }
 
 // $per = $_GET["mes"];
@@ -73,7 +73,7 @@ if((mysqli_num_rows($Busq))>0){
                 <th>Descripcion</th>
                 <th>P.U.<br>(arg.)</th>
                 <th>P.U.<br>(Bs.)</th>
-                <th>Stock inicial <br>adquirido</th>
+                <th>Stock</th>
                 <th>Fecha de <br> Registro </th>
                 <th>Fecha de <br> Vencimiento </th>
                 <th>Modificar</th>
@@ -266,16 +266,13 @@ function eliminar_inventario() {
 $("#pup").on("keydown input", function(e){
     pesos = $("#pup").val()
     bs = pesos * parseFloat($("#valor").val());
-    $("#pub").val(bs.toFixed(1));
+    $("#pub").val(Number(bs.toFixed(1)));
+})
 
-
-    // console.log(e.keyCode)
-    // if ((e.keyCode > 48 && e.keyCode < 57) || e.keyCode == 190 || e.keyCode == 46) {
-    //     return true
-    // }else{
-    //     return false
-    // }
-
+$("#pub").on("keydown input", function(e){
+    bs = $("#pub").val()
+    pesos = bs / parseFloat($("#valor").val());
+    $("#pup").val(Number(pesos.toFixed(1)));
 })
 
 //funcion periodo

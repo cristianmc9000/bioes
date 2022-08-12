@@ -57,13 +57,16 @@
 
 
 	$pubs_cd = 0;
+
 	foreach($a as $x){
 		// $dato = $dato."--".$x[0];
 		// die($x[0]."--".$x[1]."--".$x[2]."--".$x[3]."--".$x[4]."--".$x[5]."--".$x[6]."--".$x[7]);
 		if ($x[6] == 11 || $x[7] == 1) {
 			$pubs_cd = $x[4];
+			$id_desc = 5;
 		}else{
 			$pubs_cd = round((((float)($x[4]))-(((float)($x[4]))*((float)$_SESSION['desc']))), 1);
+			$id_desc = 2;
 		}
 
 		$result = $conexion->query("INSERT INTO `detalle_pedido`(`codped`, `codpro`, `cant`, `descuento`, `pubs`, `pubs_cd`) VALUES (".$lastid.",'".$x[0]."',".$x[2].", ".$id_desc.", '".$x[4]."','".$pubs_cd."')");

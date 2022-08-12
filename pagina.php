@@ -247,7 +247,7 @@ body {
       </div>
     </div>
       <!-- fin compras y ventas acordion -->
-      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>
+      <a href="#!" class="d-block p-3 text-light" onclick="cargar(event, 'templates/inventarios/a_inventarios');"><i class="inline-icon material-icons-outlined me-2 lead">inventory_2</i>Inventario</a>
       <a href="#!" class="d-block p-3 text-light" <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?> onclick="cargar(event, 'templates/reportes/sel_fecha');"><i class="inline-icon material-icons-outlined me-2 lead">summarize</i>Reportes</a>
     </div>
   </div>
@@ -404,17 +404,28 @@ function mtoast(text, color) {
 }
 
   function cargar(e, x){
-
-    if(x.includes("templates/inventarios")){
-      $("#cuerpo").load(x);
-    }else{
-    var y=".php";
-          $("#cuerpo").load(x+y);
-        }
+    fetch('recursos/session_status.php')
+    .then(response => response.text())
+    .then(data =>{
+      if (data != 'Autenticado') {
+        window.location.replace("index.php");
+      }else{
+        var y=".php";
+        $("#cuerpo").load(x+y);
+      }
+    })
   }
   //PARA CARGAR LAS VENTAS 
   function cargar_v(x){
-    $("#cuerpo").load(x);    
+    fetch('recursos/session_status.php')
+    .then(response => response.text())
+    .then(data =>{
+      if (data != 'Autenticado') {
+        window.location.replace("index.php");
+      }else{
+        $("#cuerpo").load(x);   
+      } 
+    })
   }
 
 

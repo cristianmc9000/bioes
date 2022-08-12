@@ -28,8 +28,6 @@ if ($json_combo != "") {
 
 
 
-
-
 if(!empty($archivo)){
 	$ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR A 000WEBHOST
 	// $ruta = $_SERVER['DOCUMENT_ROOT']."/bioes/images/fotos_prod"; //PARA USAR IMAGENES LOCALMENTE
@@ -65,6 +63,7 @@ if(strlen($descripcion) > $maxCaracteres) {
 			$sql = "INSERT INTO `combo`(`id_combo`, `id_prod`) VALUES ('".$cod."','".$arr->{'id'}."')";
 			$result = mysqli_query($conexion, $sql) or die(mysqli_error($conexion));
 		}
+		$result = $conexion->query('INSERT INTO `inventario`(`codp`) VALUES ("'.$cod.'")');
 	}
 
 	//Consulta para agregar la cantidad del nuevo producto

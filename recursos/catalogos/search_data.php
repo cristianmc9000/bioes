@@ -4,7 +4,7 @@ include('../conexion.php');
 if(isset($_GET["term"]))
 {
     // $result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre FROM productos a, lineas b WHERE a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC");
-    $result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox,(SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 0 AND a.linea = b.codli AND a.id = f.codp AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC LIMIT 10");
+    $result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, a.combo, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 0 AND a.linea = b.codli AND a.id = f.codp AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC LIMIT 12");
 
     $total_row = mysqli_num_rows($result); 
     $output = array();
@@ -19,6 +19,7 @@ if(isset($_GET["term"]))
        $temp_array['foto'] = $row['foto'];
        $temp_array['cant'] = $row['cantidad'];
        $temp_array['checkbox'] = $row['checkbox'];
+       $temp_array['combo'] = $row['combo'];
        // $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="60" /> '.$row['descripcion'].'';
        $temp_array['pupesos'] = $row['pupesos'];
 

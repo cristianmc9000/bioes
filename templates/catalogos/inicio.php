@@ -6,20 +6,20 @@
 	}else{
 		$pageno = 1;
 	}
-	$indice = ($pageno -1)*10;
+	$indice = ($pageno -1)*12;
 
 	$total_pages_sql = "SELECT COUNT(*) FROM productos WHERE estado = 1";
 	$result_pages = mysqli_query($conexion,$total_pages_sql);
 	$total_rows = mysqli_fetch_array($result_pages)[0];
-	$total_pages = ceil($total_rows / 10);
+	$total_pages = ceil($total_rows / 12);
 
-	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 0 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
+	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, a.combo,(SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox =0 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 12");
 	$res = $result->fetch_all(MYSQLI_ASSOC);
 
 	$result2 = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
 	$res2 = $result2->fetch_all(MYSQLI_ASSOC);
 
-	$result3 = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 1 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
+	$result3 = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, a.combo,(SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox =1 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC");
 	$res3 = $result3->fetch_all(MYSQLI_ASSOC);
 
 ?>
@@ -43,7 +43,7 @@
 		background-color: #eee5e9;
 	}
 	.pacifico{
-		font-family: 'Pacifico', cursive;;
+		font-family: 'Pacifico', cursive;
 	}
 	.rubik{
 		font-family: 'Rubik', sans-serif;
@@ -242,6 +242,15 @@ header, main, body, footer {
 	/*padding-top: 0% !important;*/
 }
 
+.img__card{
+	max-height: 187.85px;
+}
+.card{
+	max-height: 275px;
+	height: 275px;
+	min-height: 275px;
+	cursor: pointer;
+}
 @media only screen and (max-width : 992px) {
 	header, main, body, footer {
 		padding-left: 0;
@@ -255,16 +264,48 @@ header, main, body, footer {
 		position: fixed;
 		z-index: 999;
 	}
+	.img__card{
+		max-height: 134.783px;
+	}
+	.card{
+		max-height: 220.283px;
+		height: 220.283px;
+		min-height: 220.283px;
+	}
 }
 
+.indicator{
+	background: #9575cd !important;
+}
+.card-content{
+	padding-top: 5px !important;
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+	padding-bottom: 20px !important;
+}
+.card-title{
+	/*padding-left: 0px !important;*/
+	/*padding-right: 0px !important;*/
+	margin-bottom: 0px !important;
+
+}
+.capit { 
+	text-transform: capitalize;
+} 
+.card_title{
+	background-color: #424242; 
+	color:white; 
+	text-align: center; 
+	line-height: 1;
+}
 
 </style>
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
   <div class="row" id="tabs_catalogo">
-  	<ul id="tabs-swipe-demo" class="tabs">
-	    <li class="tab col s6"><a class="active" href="#test-swipe-1">&#128214 Catálogo</a></li>
-	    <li class="tab col s6"><a href="#test-swipe-2">&#x2B50 Ofertas </a></li>
+  	<ul id="tabs-swipe-demo" class="tabs deep-purple lighten-5">
+	    <li class="tab col s6"><a class="active purple-text" href="#test-swipe-1">&#128214 Catálogo</a></li>
+	    <li class="tab col s6"><a class="purple-text" href="#test-swipe-2">&#x2B50 Ofertas </a></li>
 	</ul>
 	<div id="test-swipe-1" class="col s12">
 	  	<div id="form__" style="padding-top: 0 !important;">
@@ -277,22 +318,27 @@ header, main, body, footer {
 					</div>
 				</div>
 
-				<div class="col s12" id="cards_body">
+				<div class="row" id="cards_body">
+
 				  <?php foreach($res as $key  => $valor){ ?>
-				  <div class="col s12 m6 roboto" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>', '<?php echo $valor['checkbox'] ?>')">
-				      <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
-				          <div class="card-stacked">
-				              <div class="" >
-				                  <span><p style="line-height: 0 "><b><?php echo $valor['id'] ?></b></p></span>
-				                  <span><small><p style="line-height: 1 "><?php echo $valor['descripcion']?></p></small></span><br>
-				                  <span style="position: absolute; bottom: 0px;"><b><?php echo round($valor['pupesos']*$res2[0]['valor'], 1)." Bs."?></b></span>
-				              </div>
-				          </div>
-				          <div class="p_card__img">
-				              <img loading="lazy" class="p_img__card" src="<?php echo $valor['foto'] ?>">
-				          </div>
-				      </div>
-				  </div>
+
+				  	<div class="col s6 m3" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>', '<?php echo $valor['checkbox'] ?>', '<?php echo $valor['combo'] ?>')">
+					      <div class="card">
+					      	<div class="card_title">
+					      		<span class="card-title rubik"><small><?php echo $valor['id'] ?></small></span>
+					      	</div>
+					        <div class="card-image" >
+					          <img loading="lazy" class="img__card" src="<?php echo $valor['foto'] ?>" >
+					          
+					        </div>
+					        <div class="card-content">
+					        	<!-- <span class="card-title rubik"><small><b><?php echo $valor['id'] ?></b></small></span> -->
+					          	<small><p class="rubik" style="line-height: 1;"><?php echo ucfirst(strtolower($valor['descripcion']))?></p></small>
+					          	<span style="position: absolute; bottom: 0px;" class="rubik"><small><b><?php echo round($valor['pupesos']*$res2[0]['valor'], 1)." Bs."?></b></small></span>
+					        </div>
+					    </div>
+					</div>
+
 				  <?php } ?>
 				</div>
 			</div>
@@ -321,26 +367,27 @@ header, main, body, footer {
 					</div>
 				</div> -->
 
-				<div class="col s12" id="cards_body_promo">
-				<?php if (mysqli_num_rows($result3) < 1) {
-					echo "<span class='roboto'><h5>Actualmente no existen ofertas.</h5></span>";
-				}?>
-				  <?php foreach($res3 as $key  => $valor){ ?>
-				  <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>', '<?php echo $valor['checkbox'] ?>')">
-				      <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
-				          <div class="card-stacked">
-				              <div class="" >
-				                  <span><p style="line-height: 0 "><b><?php echo $valor['id'] ?></b></p></span>
-				                  <span><small><p style="line-height: 1 "><?php echo $valor['descripcion']?></p></small></span><br>
-				                  <span style="position: absolute; bottom: 0px;"><b><?php echo round($valor['pupesos']*$res2[0]['valor'], 1)." Bs."?></b></span>
-				              </div>
-				          </div>
-				          <div class="p_card__img">
-				              <img loading="lazy" class="p_img__card" src="<?php echo $valor['foto'] ?>">
-				          </div>
-				      </div>
-				  </div>
-				  <?php } ?>
+				<div class="row" id="cards_body_promo">
+
+				  <?php $ckb = 0; foreach($res3 as $key  => $valor){ $ckb = 1;?>
+			
+					<div class="col s6 m3" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>', '<?php echo $valor['checkbox'] ?>', '<?php echo $valor['combo'] ?>')">
+					    <div class="card">
+					    	<div class="card_title">
+					      		<span class="card-title rubik"><small><b><?php echo $valor['id'] ?></b></small></span>
+					      	</div>
+					        <div class="card-image" >
+					          <img loading="lazy" class="img__card" src="<?php echo $valor['foto'] ?>" >
+					          
+					        </div>
+					        <div class="card-content">
+					          	<small><p class="rubik" style="line-height: 1;"><?php echo ucfirst(strtolower($valor['descripcion']))?></p></small>
+					          	<span style="position: absolute; bottom: 0px;" class="rubik"><small><b><?php echo round($valor['pupesos']*$res2[0]['valor'], 1)." Bs."?></b></small></span>
+					        </div>
+					   	</div>
+					</div>
+				  
+				  <?php } if($ckb == 0){echo "<span class='roboto'><h5>Actualmente no existen ofertas.</h5></span>";}?>
 				</div>
 	  </div>
 	</div>
@@ -385,11 +432,11 @@ header, main, body, footer {
 
 <div class="container">
 	<div class="row " id="cart_row" hidden>
-		<div class="row get_out">
-			<div class="left">
-				<a href="#!" class="btn-large red lighten-2" id="return"><i class="material-icons">keyboard_return</i></a>
-			</div>
-		</div>
+		<!-- <div class="row get_out"> -->
+			<!-- <div class="left"> -->
+				<!-- <a href="#!" class="btn-large red lighten-2" id="return"><i class="material-icons">keyboard_return</i></a> -->
+			<!-- </div> -->
+		<!-- </div> -->
 
 		<div class="col s12" id="div_tabla_pedidos"> 
 
@@ -608,20 +655,22 @@ document.getElementById('search_data').addEventListener('input', () =>{
         			cad = "No se encontraron coincidencas."
         		}else{
 	            res.forEach(function(item, index, arr){
-					      cad = cad + `<div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('${item.value}','${item.id}','${item.pupesos}','${item.foto}', '${item.cant}', '${item.codli}', '${item.checkbox}')">
-									          <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
-									              <div class="card-stacked">
-									                  <div class="" >
-									                      <span><p style="line-height: 0 "><b>${item.value}</b></p></span>
-									                      <span><small><p style="line-height: 1 ">${item.id}</p></small></span><br>
-									                      <span style="position: absolute; bottom: 0px;">${(item.pupesos*parseFloat("<?php echo $res2[0]['valor']; ?>")).toFixed(1)} Bs.</b></span>
-									                  </div>
-									              </div>
-									              <div class="p_card__img">
-									                  <img loading="lazy" class="p_img__card" src="${item.foto}">
-									              </div>
-									          </div>
-							      		</div>`
+
+	            		cad = cad + `<div class="col s6 m3" loading="lazy" onclick="cantidad_prod('${item.value}','${item.id}','${item.pupesos}','${item.foto}', '${item.cant}', '${item.codli}', '${item.checkbox}', '${item.combo}')">
+					      	<div class="card">
+						      	<div class="card_title">
+						      		<span class="card-title rubik"><small><b>${item.value}</b></small></span>
+						      	</div>
+						        <div class="card-image" >
+						          <img loading="lazy" class="img__card" src="${item.foto}" >
+						        </div>
+						        <div class="card-content">
+						          	<small><p class="rubik" style="line-height: 1;">${capitalize(item.id)}</p></small>
+						          	<span style="position: absolute; bottom: 0px;" class="rubik"><small><b>${(item.pupesos*parseFloat("<?php echo $res2[0]['valor']; ?>")).toFixed(1)} Bs.</b></small></span>
+						        </div>
+					    	</div>
+						</div>`
+
 	            })
 	          }              
             cards_body.innerHTML = cad;
@@ -629,7 +678,7 @@ document.getElementById('search_data').addEventListener('input', () =>{
     })
 })
 
-function cantidad_prod(id, descripcion, precio, foto, stock, codli, checkbox) {
+function cantidad_prod(id, descripcion, precio, foto, stock, codli, checkbox, combo) {
 
 	console.log(id)
 
@@ -641,7 +690,7 @@ function cantidad_prod(id, descripcion, precio, foto, stock, codli, checkbox) {
 	document.getElementById("cant_desc").innerHTML = descripcion;
 	document.getElementById("cant_precio").innerHTML = precio_bs+" Bs.";
 
-	document.getElementById('__datosprod').innerHTML = "<input id='__datosp' cp='"+id+"' np='"+descripcion+"' pp='"+precio+"' fp='"+foto+"' st='"+stock+"' cl='"+codli+"' cb='"+checkbox+"'/>";
+	document.getElementById('__datosprod').innerHTML = "<input id='__datosp' cp='"+id+"' np='"+descripcion+"' pp='"+precio+"' fp='"+foto+"' st='"+stock+"' cl='"+codli+"' cb='"+checkbox+"' combo='"+combo+"'/>";
 	
 	fetch('recursos/catalogos/checkbox.php?id='+id)
 	.then(response => response.text())
@@ -674,82 +723,96 @@ document.getElementById('add').addEventListener('click', () => {
 	var pub = $("#__datosp").attr("pp");
 	var pup = $("#__datosp").attr("pp");
 	var cb = $("#__datosp").attr("cb");
+	var combo = $("#__datosp").attr("combo");
 	// console.log(pp)
+	
+	es_combo(cp, combo, st).then(respuesta => {
 
+		st = respuesta;
 
-				if (parseFloat(pp) < 1) {
-					return M.toast({html: "<span style='color:#ffeb3b'>Producto agotado.</span>", displayLength: 3000})
+		if (parseFloat(pp) < 1) {
+			return M.toast({html: "<span style='color:#ffeb3b'>Producto agotado.</span>", displayLength: 3000})
+		}
+
+		if (parseInt(cantp) > parseInt(st)) {
+			if (parseInt(st) < 1) {
+				return M.toast({html: "<span style='color:#ffeb3b'>Producto agotado.</span>", displayLength: 3000})
+			}else{
+				return M.toast({html: "<span style='color:#ffeb3b'>Cantidad insuficiente en stock, "+st+" disponibles.</span>", displayLength: 3000})
+			}
+			
+		}
+
+		if (parseInt(cantp) > 50 || cantp == "") {M.toast({html: "El pedido no puede superar las 50 unidades", displayLength: 3000})}
+			else{
+		if (parseInt(cantp) < 1 || cantp == "") { M.toast({html: "Ingresa una cantidad válida.", displayLength: 3000})}
+		else{
+			
+
+			let _cambio = parseFloat(`<?php echo $res2[0]['valor'] ?>`);
+			pp = ((parseFloat(pp)*_cambio).toFixed(1))*parseInt(cantp);
+			pp = parseFloat(pp.toFixed(1))
+
+			pub = (parseFloat(pub)*_cambio).toFixed(1);
+			// console.log(pub)
+			//cp: código producto, np: nombre producto, cantp: cantidad, pp: precio total, fp: foto, pub: precio Bs., pup: precio unitario pesos, cl: código linea, cb: checkbox ofertas
+			reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl, cb, combo];
+
+			$("#pedidos_cliente tbody").html("")
+			var table = $("#pedidos_cliente tbody")[0];
+			let total =  0;
+			let in_cant = 0;
+			let total_aux = 0;
+			let total_ped_cd = 0;
+			Object.keys(reg_pedidos).forEach(function(key) {
+				var row = table.insertRow(-1);
+				row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
+				row.insertCell(0).innerHTML = reg_pedidos[key][3];
+				row.insertCell(0).innerHTML = reg_pedidos[key][2];
+				row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
+				total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
+				in_cant = in_cant + parseInt(reg_pedidos[key][2]);
+				if (reg_pedidos[key][7] == '11' || reg_pedidos[key][8] == '1') {
+					total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
+				}else{
+					total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
 				}
-				// if (cp === 0) {
-				// 	$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
-				// 	return M.toast({html: "Producto agotado."})
-				// }
-				// if (cp === 1) {
-				// 	return M.toast({html: "<span style='color:#ffeb3b'>Debe seleccionar un producto.</span>"})
-				// }
-				if (parseInt(cantp) > parseInt(st)) {
-					if (parseInt(st) < 1) {
-						return M.toast({html: "<span style='color:#ffeb3b'>Producto agotado.</span>", displayLength: 3000})
-					}else{
-						return M.toast({html: "<span style='color:#ffeb3b'>Cantidad insuficiente en stock, "+st+" disponibles.</span>", displayLength: 3000})
-					}
-					
-				}
+			});
+			total_ped_cd = ((parseFloat(total_ped_cd)*(1-parseFloat('<?php echo $_SESSION['desc']; ?>')))+parseFloat(total_aux)).toFixed(1)
+			$("#total_ped").html(total +" Bs.");
+			$("#total_ped_cd").html(total_ped_cd+" Bs.");
+			$("#input_total").val(total);
+			$("#input_total_cd").val(total_ped_cd);
+			$("#input_cant").val(in_cant);
+			// $("#shop_button").addClass('pulse');
+			// $("#modal2").modal('close');
+		}}
 
-				if (parseInt(cantp) > 50 || cantp == "") {M.toast({html: "El pedido no puede superar las 50 unidades", displayLength: 3000})}
-					else{
-				if (parseInt(cantp) < 1 || cantp == "") { M.toast({html: "Ingresa una cantidad válida.", displayLength: 3000})}
-				else{
-					
-
-					let _cambio = parseFloat(`<?php echo $res2[0]['valor'] ?>`);
-					pp = ((parseFloat(pp)*_cambio).toFixed(1))*parseInt(cantp);
-					pp = parseFloat(pp.toFixed(1))
-
-					pub = (parseFloat(pub)*_cambio).toFixed(1);
-					// console.log(pub)
-					//cp: código producto, np: nombre producto, cantp: cantidad, pp: precio total, fp: foto, pub: precio Bs., pup: precio unitario pesos, cl: código linea, cb: checkbox ofertas
-					reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl, cb];
-
-					$("#pedidos_cliente tbody").html("")
-					var table = $("#pedidos_cliente tbody")[0];
-					let total =  0;
-					let in_cant = 0;
-					let total_aux = 0;
-					let total_ped_cd = 0;
-					Object.keys(reg_pedidos).forEach(function(key) {
-						var row = table.insertRow(-1);
-						row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
-						row.insertCell(0).innerHTML = reg_pedidos[key][3];
-						row.insertCell(0).innerHTML = reg_pedidos[key][2];
-						row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
-						total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
-						in_cant = in_cant + parseInt(reg_pedidos[key][2]);
-						if (reg_pedidos[key][7] == '11' || reg_pedidos[key][8] == '1') {
-							total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
-						}else{
-							total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
-						}
-					});
-					total_ped_cd = ((parseFloat(total_ped_cd)*(1-parseFloat('<?php echo $_SESSION['desc']; ?>')))+parseFloat(total_aux)).toFixed(1)
-					$("#total_ped").html(total +" Bs.");
-					$("#total_ped_cd").html(total_ped_cd+" Bs.");
-					$("#input_total").val(total);
-					$("#input_total_cd").val(total_ped_cd);
-					$("#input_cant").val(in_cant);
-					// $("#shop_button").addClass('pulse');
-					// $("#modal2").modal('close');
-				}}
-
-				$("#cart i").html('<img style="max-height: 40px;" src="images/icons/lleno.png"/>');
-				M.toast({html: "<span style='color:#1de9b6'><b>Agregado al carrito de compra.</b></span>", displayLength: 2500})
-				$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
-				$('#search_data').val("")
-				$('#__cantidad').val(1)
-				$("#mod_con").removeClass("disabled") 
-				$("#modal3").modal('close');
-
+		$("#cart i").html('<img style="max-height: 40px;" src="images/icons/lleno.png"/>');
+		M.toast({html: "<span style='color:#1de9b6'><b>Agregado al carrito de compra.</b></span>", displayLength: 2500})
+		$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
+		// $('#search_data').val("")
+		$('#__cantidad').val(1)
+		$("#mod_con").removeClass("disabled") 
+		$("#modal3").modal('close');
+	})
 });
+
+function es_combo(cp, combo, st) {
+	return new Promise((resolve, reject) => {
+		if(combo == '1'){
+			fetch('recursos/catalogos/combo_detalle.php?cp='+cp)
+			.then(response => response.text())
+			.then(data => {
+				st = data;
+				resolve(st);
+			})
+		}
+		else{
+			resolve(st);
+		}
+	})
+}
 
 function modal_detalle(cod, producto, pub, foto) {
 	document.getElementById("modal_title").innerHTML = producto;
@@ -950,14 +1013,29 @@ function modal_detalle(cod, producto, pub, foto) {
 		}
 	}
 
-	document.getElementById('return').addEventListener('click', () => {
+	// document.getElementById('return').addEventListener('click', () => {
+	// 	document.getElementsByClassName('div_paginador')[0].hidden = false;
+	// 	document.getElementById('cart').hidden = false
+	// 	// document.getElementById('form__').hidden = false
+	// 	document.getElementById('tabs_catalogo').hidden = false
+	// 	document.getElementById('cart_row').hidden = true
+	// 	document.getElementById('menu').hidden = false
+	// });
+
+	document.getElementById('back_catalogo').addEventListener('click', () => {
 		document.getElementsByClassName('div_paginador')[0].hidden = false;
 		document.getElementById('cart').hidden = false
 		// document.getElementById('form__').hidden = false
 		document.getElementById('tabs_catalogo').hidden = false
 		document.getElementById('cart_row').hidden = true
 		document.getElementById('menu').hidden = false
+		document.getElementById('back_catalogo').hidden = true;
 	});
+
+	function capitalize(str){
+		const lower = str.toLowerCase();
+		return str.charAt(0).toUpperCase()+lower.slice(1)
+	}
 
 	function pageno(page) {
 		$("#cuerpo").load('templates/catalogos/inicio.php?pageno='+page)
