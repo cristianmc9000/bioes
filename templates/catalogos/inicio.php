@@ -40,7 +40,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
 
 	body{
-		background-color: #eee5e9;
+		background-color: #ede7f6 ;
 	}
 	.pacifico{
 		font-family: 'Pacifico', cursive;
@@ -167,7 +167,7 @@
 
 .nice-number button{
 	cursor: pointer;
-    background-color: #26a69a;
+    background-color: #9575cd;
     width: 40px;
     border: none;
     outline: none !important;
@@ -298,12 +298,26 @@ header, main, body, footer {
 	text-align: center; 
 	line-height: 1;
 }
+.modal_title{
+	background-color: #424242; 
+	color:white; 
+	text-align: center; 
+	line-height: 1;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+.modal_title h5{
+	margin: 5px 0;
+}
+
 
 </style>
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
   <div class="row" id="tabs_catalogo">
-  	<ul id="tabs-swipe-demo" class="tabs deep-purple lighten-5">
+  	<ul id="tabs-swipe-demo" class="tabs deep-purple lighten-4">
 	    <li class="tab col s6"><a class="active purple-text" href="#test-swipe-1">&#128214 Catálogo</a></li>
 	    <li class="tab col s6"><a class="purple-text" href="#test-swipe-2">&#x2B50 Ofertas </a></li>
 	</ul>
@@ -398,10 +412,14 @@ header, main, body, footer {
 <div id="modal3" class="modal fuente modal_prod">
 
 <div class="modal-content" id="modal3-content" style="padding-top: 3px; padding-bottom: 0px;">
+    <div class="modal_title">
+  		<h5><b><span id="cant_cod"></span></b></h5>
+  	</div>
 	<div class="row">
       <div class="center col s12">
       	<!-- <h6 id="modal_title"  style=" font-weight: bold;"></h6> -->
-      	<div id="cant_contenedor_foto" style="margin: auto">
+
+      	<div id="cant_contenedor_foto" style="margin: auto; padding-top: 35px">
       		<img id="cant_foto" src="images/fotos_prod/defecto.png" width="100%" alt="">
       	</div>
       </div>
@@ -409,7 +427,7 @@ header, main, body, footer {
   <div class="row div_cantidad_">
       <div style="line-height: 1" class="col s7">
       	<h6>
-      		<b><p id="cant_cod"></p></b>
+      		<!-- <b><p id="cant_cod"></p></b> -->
       		<small><b><p id="cant_desc"></p></b></small>
       		<b><p id="cant_precio"></p></b>
       	</h6>
@@ -424,7 +442,7 @@ header, main, body, footer {
 
 <div class="modal-footer">
 	<a href="#!" class="modal-close rubik waves-effect red waves-light btn left">Cancelar</a>
-  <a href="#!" class="rubik waves-effect waves-light btn right" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar</a>
+  <a href="#!" class="rubik waves-effect waves-light btn right deep-purple lighten-1" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar</a>
 </div>
 
 </div>
@@ -476,7 +494,7 @@ header, main, body, footer {
 	    </p>
 		</div>
 		<div class="center">
-			<a class="waves-effect waves-light btn btn-large disabled" id="mod_con">PEDIR!</a>
+			<a class="waves-effect waves-light btn btn-large disabled deep-purple lighten-1" id="mod_con">PEDIR!</a>
 		</div>
 	</div>
 </div>
@@ -561,7 +579,7 @@ header, main, body, footer {
 	</div>
 	<div class="modal-footer">
 	  <a href="#!" class="modal-close waves-effect waves-light btn red left">Cancelar</a>
-	  <a href="#!" id="conf_ped" class="waves-effect waves-light btn right">Confirmar pedido</a>
+	  <a href="#!" id="conf_ped" class="waves-effect waves-light btn right deep-purple lighten-1">Confirmar pedido</a>
 	</div>
 </div>
 

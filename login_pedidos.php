@@ -25,18 +25,18 @@
     <title>Ingreso</title>
 </head>
 
-<body id="cuerpo">
+<body id="cuerpo" style="background-color: #ede7f6">
     <div id="section_1">
         <div class="container">
             <div class="row">
-                <h2 class="fuente center">Distribuidora Carmina</h2>
+                <h2 class="rubik center" style="color: #632480">Distribuidora Carmina</h2>
             </div>
         </div>
 
         <div class="container">
             <div class="row">
                 <div class="center img_querie">
-                    <img width="" src="images/logos/logo1.png" alt="">
+                    <img width="" src="img/logo_bio_2.png" alt="">
                 </div>
             </div>
         </div>
@@ -56,12 +56,12 @@
                         <div class="input-field">
                             <i class="material-icons prefix">account_circle</i>
                             <input inputmode="numeric" class=" tam validate" type="text" id="codigo" name="codigo" />
-                            <label for="codigo" class="tam active">Código Arbell</label>
+                            <label for="codigo" class="tam active" style="color: #616161">Código Arbell</label>
                         </div>
                         <div class="input-field">
                             <i class="material-icons prefix">lock</i>
                             <input inputmode="numeric" class=" tam validate" type="password" id="pass" name="pass" />
-                            <label for="pass" class="tam active">Contraseña</label>
+                            <label for="pass" class="tam active" style="color: #616161">Contraseña</label>
                         </div>
                     </form>
                 </div>
@@ -75,7 +75,7 @@
             </div>
             <div class="row">
                 <div class="center">
-                    <button class="btn btn-large waves-effect waves-light red" form="acceso"><i
+                    <button class="btn btn-large waves-effect waves-light deep-purple lighten-1" form="acceso"><i
                             class="material-icons-outlined right">lock</i>Ingresar</button>
                 </div>
             </div>
