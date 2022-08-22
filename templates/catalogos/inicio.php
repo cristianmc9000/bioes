@@ -710,7 +710,7 @@ function cantidad_prod(id, descripcion, precio, foto, stock, codli, checkbox, co
 
 	document.getElementById('__datosprod').innerHTML = "<input id='__datosp' cp='"+id+"' np='"+descripcion+"' pp='"+precio+"' fp='"+foto+"' st='"+stock+"' cl='"+codli+"' cb='"+checkbox+"' combo='"+combo+"'/>";
 	
-	fetch('recursos/catalogos/checkbox.php?id='+''+id+'')
+	fetch(`recursos/catalogos/checkbox.php?id=${id}`)
 	.then(response => response.text())
 	.then(data => {
 		if (inst.index == 1 && data == '1') {
