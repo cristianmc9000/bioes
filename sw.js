@@ -2,6 +2,9 @@
 const CACHE_NAME = 'v1_cache_dist_arbell',
 urlsToCache = [
 	'templates/catalogos',
+	'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap',
+	'https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap',
+	'script.js',
 	'css/pedidos.css'
 ]
 

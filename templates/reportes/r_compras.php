@@ -1,24 +1,11 @@
 <?php 
-require("../../recursos/sesiones.php");
 require("../../recursos/conexion.php");
-session_start();
 
-$gestion = $_GET['ges'];
-$periodo = $_GET['per'];
+$fecha1 = $_GET['fecha1'];
+$fecha2 = $_GET['fecha2'];
 
-if ($periodo == 0) {
-	$periodo = "";
-	
-}
-$result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fecha, a.totalsd, a.totalcd, a.valor_pesos FROM compras a, usuarios b WHERE a.fecha LIKE '".$gestion."-".$periodo."%' AND a.ci_usu = b.CI AND a.estado = 1");
-
-	if((mysqli_num_rows($result))>0){
-	  while($arr = $result->fetch_array()){ 
-	        $fila[] = array('codc'=>$arr['codc'], 'ci_usu'=>$arr['ci_usu'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'fecha'=>$arr['fecha'], 'totalsd'=>$arr['totalsd'], 'totalcd'=>$arr['totalcd'], 'valor'=>$arr['valor_pesos']); 
-	  }
-	}else{
-	        $fila[] = array('codc'=>'--', 'ci_usu'=>'--', 'nombre'=>'--', 'apellidos'=>'--', 'fecha'=>'--', 'totalsd'=>'--', 'totalcd'=>'--', 'valor'=>'--');
-	}
+$result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fecha, a.totalsd, a.totalcd, a.valor_pesos FROM compras a, usuarios b WHERE (a.fecha BETWEEN '".$fecha1."' AND '".$fecha2."') AND a.ci_usu = b.CI AND a.estado = 1");
+$fila = $result->fetch_all(MYSQLI_ASSOC);
 
 ?>
 <style>
@@ -66,7 +53,7 @@ $result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fe
 					<td><?php echo $valor['totalsd']?></td>
 					<td><?php echo $valor['totalcd']?></td>
 					<!-- <td><?php echo $valor['descuento']." %"?></td> -->
-					<td><?php echo $valor['valor']." Bs."?></td>
+					<td><?php echo $valor['valor_pesos']." Bs."?></td>
 				</tr>
 			    <?php } ?>
 			</tbody>
@@ -96,21 +83,21 @@ $(document).ready(function() {
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
         titleAttr:  'Exportar a Excel',
         className:  'btn-flat green',
-        title: 			'Reporte de compras del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
+        title: 			'Reporte de compras del periodo: <?php echo $fecha1." - ".$fecha2?>'
       },
       {
         extend:     'pdfHtml5',
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
         titleAttr:  'Exportar a PDF',
         className:  'btn-flat red',
-        title: 			'Reporte de compras del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
+        title: 			'Reporte de compras del periodo: <?php echo $fecha1." - ".$fecha2?>'
       },
       {
         extend:     'print',
         text:       '<i class="material-icons-outlined">print</i>',
         titleAttr:  'Imprimir',
         className:  'btn-flat blue',
-        title: 			'<span style="font-size:30">Reporte del compras de periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?> </span>'
+        title: 			'<span style="font-size: 18">Reporte del compras de periodo: <?php echo $fecha1." - ".$fecha2?> </span>'
       }
     ]
     });

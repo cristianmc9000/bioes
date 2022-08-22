@@ -12,9 +12,17 @@ $lugarPOST = $_POST["lugar"];
 $correoPOST = $_POST["correo"];
 $tipoPOST = $_POST["nivel"];
 $fecha_alta = $_POST["fecha_alta_mod"];
+$id_lider = $_POST["id_lider"];
 
 $ca_ant = $_POST['ca_ant'];
 $ci_ant = $_POST['ci_ant'];
+
+
+if (strlen($_POST["id_lider"])>=1) {
+	$str = ', lider = '.$id_lider;
+}else{
+	$str = ', lider = NULL';
+}
 
 // die('<script>Materialize.toast("'.$idPOST.'"); $("#modal3").closeModal();</script>');
 
@@ -44,7 +52,7 @@ if ($tipoPOST == '1') {
 
 	// die('<script>Materialize.toast("hasta aqui llega"); $("#modal3").closeModal();</script>');
 
-	$consultaMC ="UPDATE clientes SET CA='".$caPOST."', CI='".$ciPOST."', nombre ='".strtoupper($nombrePOST)."', apellidos= '".strtoupper($apellidosPOST)."', telefono = '".$telefonoPOST."', lugar = '".$lugarPOST."', correo = '".$correoPOST."', nivel = '".$tipoPOST."', fecha_alta = '".$fecha_alta."' WHERE id='".$idPOST."'";
+	$consultaMC ="UPDATE clientes SET CA='".$caPOST."', CI='".$ciPOST."', nombre ='".strtoupper($nombrePOST)."', apellidos= '".strtoupper($apellidosPOST)."', telefono = '".$telefonoPOST."', lugar = '".$lugarPOST."', correo = '".$correoPOST."', nivel = '".$tipoPOST."' ".$str.", fecha_alta = '".$fecha_alta."' WHERE id='".$idPOST."'";
 
 	if(mysqli_query($conexion, $consultaMC) or die(mysql_error())){
 		die('success');

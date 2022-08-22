@@ -62,7 +62,7 @@
 </style>
 <br>
 <div class="container">
-    <div class="col s12 m12 l12 xl12">
+    <div class="row">
         <select onchange="enviarfecha()" class="browser-default" name="ges" id="ges">
             <option value="<?php echo $year ?>" selected disabled><?php echo $year?></option>
             <option value="2022">2022</option>

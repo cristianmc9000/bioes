@@ -30,16 +30,18 @@
 </style>
 <br>
 <div class="container">
-    <div class="input-field col s12 m6">
-        <i class="material-icons prefix">search</i> 
-        <input type="text" id="buscar_experta">
-        <label for="buscar_experta">Buscar experta...</label>
+    <div class="row">
+        <div class="input-field col s12 m6 offset-m3">
+            <i class="material-icons prefix">search</i> 
+            <input type="text" id="buscar_experta">
+            <label for="buscar_experta">Buscar experta...</label>
+        </div>
     </div>
-    <div class="col s12 m12 l12 xl12" id="cards_body">
+    <div class="row" id="cards_body">
         <span><?php echo $texto ?></span>
         <?php foreach($result as $key  => $valor){ ?>
-        <div class="col s12 m6 l6 xl6 roboto">
-            <div class="z-depth-4 card horizontal card__pad" style="background-color: #eee5e9; border-radius: 20px; border-color: #ccc3c7; border-style: solid;">
+        <div class="col s12 m6 roboto">
+            <div class="z-depth-4 card horizontal card__pad" style="background-color: #ede7f6; border-radius: 3px; border-color: #d1c4e9; border-style: solid;">
                 <div class="card-stacked">
                         <div><span><b>Nombre: </b><small><?php echo $valor['nombre'].' '.$valor['apellidos']?></small></span></div>
                         <div><span><b>Celular: </b><?php echo $valor['telefono']?></span></div>
@@ -49,11 +51,11 @@
                 <div class="card__img" style="margin-left: 5px;">
                     <div>
                         <a onclick="historial('<?php echo $valor['CA'] ?>')" style="float: right"
-                            class="btn-small waves-effect waves-light ">Historial</a>
+                            class="btn-small waves-effect waves-light white black-text">Historial</a>
                     </div>
                     <div>
                         <a onclick="bloquear('<?php echo $valor['CA'] ?>', event)" style="float: right"
-                            class="btn-small waves-effect waves-light red lighten-2 "><?php if($valor['block'] == '1'){echo 'Bloquear';}else{echo 'Desbloquear';}?></a>
+                            class="btn-small waves-effect waves-light red lighten-1 "><?php if($valor['block'] == '1'){echo 'Bloquear';}else{echo 'Desbloquear';}?></a>
                     </div>
                 </div>
             </div>

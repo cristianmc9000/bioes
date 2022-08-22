@@ -1,23 +1,12 @@
 <?php 
-require("../../recursos/sesiones.php");
 require("../../recursos/conexion.php");
-session_start();
 
-$gestion = $_GET['ges'];
-$periodo = $_GET['per'];
+$fecha1 = $_GET['fecha1'];
+$fecha2 = $_GET['fecha2'];
 
-if ($periodo == 0) {
-	$periodo = "";
-}
-$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."-".$periodo."%' AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
+$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE (a.fecha BETWEEN '".$fecha1."' AND '".$fecha2."') AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
 
-	if((mysqli_num_rows($result))>0){
-	  while($arr = $result->fetch_array()){ 
-	        $fila[] = array('ca'=>$arr['ca'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'monto'=>$arr['monto']); 
-	  }
-	}else{
-	        $fila[] = array('ca'=>'--', 'nombre'=>'--', 'apellidos'=>'--', 'monto'=>'--');
-	}
+$fila = $result->fetch_all(MYSQLI_ASSOC);
 
 ?>
 <style>
@@ -87,21 +76,21 @@ $(document).ready(function() {
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
         titleAttr:  'Exportar a Excel',
         className:  'btn-flat green',
-        title: 			'Reporte de lider/experta del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
+        title: 			'Reporte de lider/experta del periodo: <?php echo $fecha1.' - '.$fecha2 ?>'
       },
       {
         extend:     'pdfHtml5',
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
         titleAttr:  'Exportar a PDF',
         className:  'btn-flat red',
-        title: 			'Reporte de lider/experta del periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?>'
+        title: 			'Reporte de lider/experta del periodo: <?php echo $fecha1.' - '.$fecha2 ?>'
       },
       {
         extend:     'print',
         text:       '<i class="material-icons-outlined">print</i>',
         titleAttr:  'Imprimir',
         className:  'btn-flat blue',
-        title: 			'<span style="font-size:30">Reporte del lider/experta de periodo: <?php if ($periodo == '0') {echo $gestion;}else{echo $gestion."-".$periodo;} ?> </span>'
+        title: 			'<span style="font-size:18">Reporte del lider/experta de periodo: <?php echo $fecha1.' - '.$fecha2 ?> </span>'
       }
     ]
     });

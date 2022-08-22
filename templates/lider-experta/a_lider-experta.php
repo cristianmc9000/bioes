@@ -5,10 +5,7 @@ require('../../recursos/conexion.php');
 $_SESSION['filas'] = array(); 
 $Sql = "SELECT * FROM clientes WHERE estado=1"; 
 $Busq = $conexion->query($Sql); 
-while($arr = $Busq->fetch_array()) 
-    { 
-        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['CA'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'], 'lugar'=>$arr['lugar'], 'correo'=>$arr['correo'], 'fecha_alta'=>$arr['fecha_alta'], 'nivel'=>$arr['nivel']); 
-    } 
+$fila = $Busq->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +32,21 @@ while($arr = $Busq->fetch_array())
   }
 */
 
+.ui-autocomplete-row {
+    padding: 8px;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.ui-autocomplete-row:hover {
+    background-color: #ddd;
+}
+
+
+.ui-menu{
+  z-index: 9999;
+}
 </style>
 
 </head>
@@ -74,8 +86,8 @@ while($arr = $Busq->fetch_array())
         <tbody>
         <?php foreach($fila as $a  => $valor){ ?>
           <tr>
-            <td><?php echo $valor["ca"] ?></td>
-            <td><?php echo $valor["ci"] ?></td>
+            <td><?php echo $valor["CA"] ?></td>
+            <td><?php echo $valor["CI"] ?></td>
             <td><?php echo $valor["nombre"] ?></td>
             <td><?php echo $valor["apellidos"] ?></td>
             <td><?php echo $valor["telefono"] ?></td>
@@ -84,7 +96,7 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["fecha_alta"] ?></td>
             <td><?php echo $valor["nivel"] ?></td>
        
-            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>','<?php echo $valor['fecha_alta'] ?>');">
+            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['CA'] ?>','<?php echo $valor['CI'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>','<?php echo $valor['lider'] ?>','<?php echo $valor['fecha_alta'] ?>');">
             <i class="material-icons">build</i></a></td>
             <!--HASTA AQUI-->
             <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a></td>
@@ -143,23 +155,32 @@ while($arr = $Busq->fetch_array())
                 <input name="correo" type="email" class="form-control" required>
               </div>
 
-              <div class="col-sm-12 col-md-6">
+              <!-- <div class="col-sm-12 col-md-6">
                   <label class="form-label small text-muted" for="fecha_alta">* Fecha de alta:</label>
                   <input name="fecha_alta" id="fecha_alta" type="date" value="" class="form-control" required>
-              </div>
+              </div> -->
 
-              <div class="col-sm-12">
-                <div class="input-group mb-1">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Nivel</label>
-                  </div>
-                  <select name="nivel" class="form-select" id="inputGroupSelect01">
-                    <option value="1" selected>Experta</option>
-                    <option value="2">Lider</option>
-                  </select>
-                </div>
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="nivel">Nivel: </label>
+                <select name="nivel" class="form-select" id="_nivel" onchange="mostrar_lider()">
+                  <option value="1" selected>Experta</option>
+                  <option value="2">Lider</option>
+                </select>
               </div> 
-
+              <div class="row g-3" id="row_seleccionar_lider">
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <input type="text" id="id_lider" name="id_lider" value="" hidden>
+                    <span class="input-group-text" id="basic-addon3">Lider a cargo</span>
+                    <input type="text" class="form-control" id="search_lider" placeholder="Buscar lider" placaria-describedby="basic-addon3">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                    <!-- <div class="input-group mb-3"> -->
+                      <button id="btn_eliminar_lider" type="button" class="btn btn-outline-danger ">❌</button>
+                    <!-- </div> -->
+                </div> 
+              </div>
             </div>
         </form>
       </div>
@@ -198,18 +219,29 @@ while($arr = $Busq->fetch_array())
                         <!-- DATOS ANTERIORES -->
                         <div class="col-sm-12 col-md-6" id="datos_anteriores" hidden></div>
                         <!-- FIN DATOS ANTERIORES -->
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-6" hidden>
                             <label class="form-label small text-muted" for="fecha_alta_mod">Fecha de alta:</label>
-                            <input name="fecha_alta_mod" id="fecha_alta_mod" type="date" value="" class="form-control" required>
+                            <input name="fecha_alta_mod" id="fecha_alta_mod" type="date" value="" class="form-control">
                         </div>
 
-                        <div class="col-sm-12">
-                            <div class="input-group mb-1">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="tipo">Nivel</label>
-                                </div>
-                                <select id="tipo" class="form-select" name="nivel"></select>
+                        <div class="col-sm-6">
+                          <label class="form-label small text-muted" for="tipo">Nivel</label>
+                          <select id="tipo" class="form-select" onchange="mod_mostrar_lider()" name="nivel"><option value="x"></option></select>
+                        </div>
+
+                        <div class="row g-3" id="mod_row_seleccionar_lider">
+                          <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                              <input type="text" id="mod_id_lider" name="id_lider" value="" hidden>
+                              <span class="input-group-text" id="basic-addon3">Lider a cargo</span>
+                              <input type="text" class="form-control" id="mod_search_lider" placeholder="Buscar líder" placaria-describedby="basic-addon3">
                             </div>
+                          </div>
+                          <div class="col-sm-2">
+                              <!-- <div class="input-group mb-3"> -->
+                                <button id="mod_btn_eliminar_lider" type="button" class="btn btn-outline-danger ">❌</button>
+                              <!-- </div> -->
+                          </div> 
                         </div>
                     </div>
                 </form>
@@ -270,14 +302,49 @@ $(document).ready(function() {
       }
     });
 
-    let today = new Date().toISOString().slice(0, 10)
-    document.getElementById('fecha_alta').value = today
+    // let today = new Date().toISOString().slice(0, 10)
+    // document.getElementById('fecha_alta').value = today
 
+    $('#search_lider').autocomplete({
+    source: "recursos/lider-experta/buscar_lider.php",
+    minLength: 3,
+    select: function(event, ui) {
+        $('#search_lider').val(ui.item.value)
+        document.getElementById('search_lider').disabled = true;
+        document.getElementById('search_lider').style.color = '#7f8fa6';
+        // document.getElementById('btn_eliminar_lider').hidden = false;
+        document.getElementById('id_lider').value = ui.item.ca;
+        // document.getElementById('search_lider').style = "background-color: #27ae60; color: white;"
+        // $('#boton_agregar_lider').attr("hidden", false)
+    }
+    }).data('ui-autocomplete')._renderItem = function(ul, item) {
+        return $("<li class='ui-autocomplete-row'></li>")
+            .data("item.autocomplete", item)
+            .append(item.label)
+            .appendTo(ul);
+    };
+
+    $('#mod_search_lider').autocomplete({
+    source: "recursos/lider-experta/buscar_lider.php",
+    minLength: 1,
+    select: function(event, ui) {
+        $('#mod_search_lider').val(ui.item.value)
+        document.getElementById('mod_search_lider').disabled = true;
+        document.getElementById('mod_search_lider').style.color = '#7f8fa6';
+        document.getElementById('mod_id_lider').value = ui.item.ca;
+    }
+    }).data('ui-autocomplete')._renderItem = function(ul, item) {
+        return $("<li class='ui-autocomplete-row'></li>")
+            .data("item.autocomplete", item)
+            .append(item.label)
+            .appendTo(ul);
+    };
 });
 var mensaje = $("#mensaje");
 mensaje.hide();
 
-function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo, fecha_alta){
+
+function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo, lider, fecha_alta){
 
   document.getElementById("ca").innerHTML ='<label for="ca" class="form-label small text-muted">Código cliente:</label><input name="ca" type="number" class="form-control" value="'+ca+'">';
   document.getElementById("ci").innerHTML ='<label for="ci" class="form-label small text-muted">CI:</label><input name="ci" type="number" class="form-control" value="'+ci+'">';
@@ -286,13 +353,16 @@ function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo
   document.getElementById("telefono").innerHTML ='<label for="telefono" class="form-label small text-muted">Teléfono: </label><input name="telefono" type="number" class="form-control" value="'+telefono+'">';
   document.getElementById("lugar").innerHTML ='<label for="lugar" class="form-label small text-muted">Lugar: </label><input name="lugar" type="text" class="form-control" value="'+lugar+'">';
   document.getElementById("correo").innerHTML ='<label for="correo" class="form-label small text-muted">Correo: </label><input name="correo" type="email" class="form-control" value="'+correo+'">';
+  document.getElementById('mod_btn_eliminar_lider').click();
 
 sel1 = ''
 sel2 = ''
 
  if(tipo == 'experta'){
+  document.getElementById('mod_row_seleccionar_lider').hidden = false;
   sel1 = 'selected'
  }else{
+  document.getElementById('mod_row_seleccionar_lider').hidden = true;
   sel2 = 'selected'
  }
 
@@ -302,9 +372,26 @@ sel2 = ''
 
 $("#datos_anteriores").html('<input name="ca_ant" type="text" value="'+ca+'" hidden><input name="ci_ant" type="text" value="'+ci+'" hidden><input name="id" type="text" value="'+id+'" hidden>');
 
-  $('#modal3').modal('show');
+
+//obteniendo NOMBRE Y APELLIDOS de lider 
+  fetch('recursos/lider-experta/get_lider.php?id='+lider)
+  .then(response => {
+    response.text().then(function(res) {
+      if (res == 'nodata') {
+        return $('#modal3').modal('show');
+      }
+      document.getElementById('mod_id_lider').value = lider;
+      document.getElementById('mod_search_lider').value = res;
+      document.getElementById('mod_search_lider').disabled = true;
+      document.getElementById('mod_search_lider').style.color = '#7f8fa6';
+      $('#modal3').modal('show');
+    })
+  })
 }
+
+  
 $("#modificar_cliente").on("submit", function(e){
+    console.log('qweqwe')
     e.preventDefault();
 
     var val = new FormData(document.getElementById("modificar_cliente"));
@@ -317,6 +404,7 @@ $("#modificar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
+      console.log(echo)
     	mensaje.html(echo);
       if (echo.includes('success')) {
         $("#modal3").modal('toggle')
@@ -373,6 +461,45 @@ $("#agregar_cliente").on("submit", function(e){
       }
     });
 });
+
+
+function mostrar_lider() {
+  let nivel = document.getElementById('_nivel').value;
+  if (nivel == '2') {
+    document.getElementById('btn_eliminar_lider').click();
+    document.getElementById('row_seleccionar_lider').hidden = true;
+  }else{
+    document.getElementById('row_seleccionar_lider').hidden = false;
+    document.getElementById('btn_eliminar_lider').click();
+  }
+}
+
+function mod_mostrar_lider() {
+  let nivel = document.getElementById('tipo').value;
+
+  if (nivel == '2') {
+    document.getElementById('mod_btn_eliminar_lider').click();
+    document.getElementById('mod_row_seleccionar_lider').hidden = true;
+  }else{
+    document.getElementById('mod_row_seleccionar_lider').hidden = false;
+    document.getElementById('mod_btn_eliminar_lider').click();
+  }
+}
+document.getElementById('btn_eliminar_lider').onclick = function() {
+  // document.getElementById('btn_eliminar_lider').hidden = true;
+  document.getElementById('search_lider').disabled = false;
+  document.getElementById('search_lider').style.color = '#000';
+  document.getElementById('search_lider').value = '';
+  document.getElementById('id_lider').value = "";
+}
+document.getElementById('mod_btn_eliminar_lider').onclick = function() {
+  // document.getElementById('mod_btn_eliminar_lider').hidden = true;
+  document.getElementById('mod_search_lider').disabled = false;
+  document.getElementById('mod_search_lider').style.color = '#000';
+  document.getElementById('mod_search_lider').value = '';
+  document.getElementById('mod_id_lider').value = "";
+}
+
 
   // $(document).ready(function() {
   //   $('select').material_select();
