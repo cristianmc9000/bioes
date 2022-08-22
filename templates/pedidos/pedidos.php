@@ -438,7 +438,7 @@ function restore_row(codp, id, pubs, pubs_cd, cant, e) {
             url: "recursos/pedidos/mod_item.php?codp="+codp+"&id="+id+"&estado=1",
             method: "GET",
             success: function(response) {
-                console.log(response)
+                // console.log(response)
                 if (response) {
                     let row = e.target.parentNode.parentNode.parentNode;
                     for (var i = 0; i < row.cells.length-1; i++) {
@@ -486,7 +486,7 @@ document.getElementById('set_value').addEventListener('click', () => {
         url: "recursos/pedidos/cambio.php?valor="+cambio,
         method: "GET",
         success: function(response) {
-            console.log(response)
+            // console.log(response)
             $("#modal3").modal('toggle');
             $("#cuerpo").load("templates/pedidos/pedidos.php");
         },
