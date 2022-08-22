@@ -50,7 +50,7 @@ $fila = $result->fetch_all(MYSQLI_ASSOC);
 		<table id="tabla1">
 			<thead>
 				<tr>
-					<th>Código Arbell</th>
+					<th>Código Bio</th>
 					<th>Nombres y apellidos</th>
 					<th>Valor de compras en Bs.</th>
 				</tr>

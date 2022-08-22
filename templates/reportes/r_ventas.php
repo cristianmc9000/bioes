@@ -38,7 +38,7 @@ $fecha2 = $_GET['fecha2'];
 			<thead>
 				<tr>
 					<th>Código</th>
-					<th>Código Arbell</th>
+					<th>Código Bio</th>
 					<th>Nombres y apellidos</th>
 					<th>Fecha de <br>venta</th>
 					<th>Total (Bs.)</th>
