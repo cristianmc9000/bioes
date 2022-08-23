@@ -22,10 +22,10 @@
         $res[0]['codv'] = '';
     }
 
-    $result2 = $conexion->query("SELECT * FROM ventas WHERE estado = 1 AND ca=".$ca."  AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
+    $result2 = $conexion->query("SELECT * FROM ventas WHERE estado = 1 AND ca= '".$ca."'  AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
     // SELECT * FROM ventas WHERE estado = 1 AND codp != 'NULL' AND ca=".$ca."  AND fecha LIKE '%".$year."%' ORDER BY fecha DESC
     $res2 = $result2->fetch_all(MYSQLI_ASSOC);
-
+    echo $conexion->error;
     if ($result2) {
 
         $arr = array();
