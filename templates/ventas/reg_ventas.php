@@ -58,7 +58,7 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
         <thead>
             <tr>
                 <th>Código</th>
-                <th>C.A.</th>
+                <th>CI</th>
                 <th>Cliente</th>
                 <th>Fecha de Venta</th>
                 <th>Monto Total (Bs.)</th>

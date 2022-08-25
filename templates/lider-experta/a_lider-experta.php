@@ -65,9 +65,9 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
 <!-- TABLA -->
 <div class="row">
   <div class="col-md-11">
-    <table id="tabla1" class="content-table table table-hover">
-        <thead>
-          <tr>
+    <table id="tabla1" class="content-table table table-hover text-center">
+        <thead >
+          <tr class="text-center">
               <th>Codigo cliente</th>
               <th>CI</th>
               <th>Nombre</th>
@@ -75,7 +75,7 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
               <th>Teléfono</th>
               <th>Lugar</th>
               <th>Correo</th>
-              <th>Fecha alta</th>
+
               <th>Nivel</th>
               <th>Modificar</th>
               <th>Borrar</th>
@@ -93,7 +93,7 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
             <td><?php echo $valor["telefono"] ?></td>
             <td width="8%"><?php echo $valor["lugar"] ?></td>
             <td><?php echo $valor["correo"] ?></td>
-            <td><?php echo $valor["fecha_alta"] ?></td>
+
             <td><?php echo $valor["nivel"] ?></td>
        
             <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['CA'] ?>','<?php echo $valor['CI'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>','<?php echo $valor['lider'] ?>','<?php echo $valor['fecha_alta'] ?>');">
@@ -120,9 +120,16 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
       <div class="modal-body">
         <form id="agregar_cliente">
             <div class="row g-3">
+
+              <div class="col-sm-12 col-md-6">
+                <label class="form-label small text-muted" for="ci">* CI:</label>
+                <input id="agregar_cliente_cedula" name="ci" type="number" onkeypress="return check(event)" class="form-control" required>
+              </div>
+
               <div class="col-sm-12 col-md-6">
                 <label class="form-label small text-muted" for="ca">* Codigo cliente</label>
-                <input name="ca" type="number" class="form-control" required>
+                <input id="agregar_cliente_codigo_hidden" name="ca" hidden>
+                <input id="agregar_cliente_codigo" name="ca_" type="number" class="form-control" disabled>
               </div>
 
               <div class="col-sm-12 col-md-6">
@@ -135,14 +142,11 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
                 <input name="apellidos" type="text" class="form-control" required>
               </div>
 
-              <div class="col-sm-12 col-md-6">
-                <label class="form-label small text-muted" for="ci">* CI:</label>
-                <input name="ci" type="number" class="form-control" required>
-              </div>
+              
 
             <div  class="col-sm-12 col-md-6">
               <label class="form-label small text-muted" for="telefono">* Teléfono: </label>
-              <input name="telefono" class="form-control" type="number" required>
+              <input name="telefono" class="form-control" type="number" onkeypress="return check(event)" required>
             </div>
 
               <div class="col-sm-12 col-md-6">
@@ -205,12 +209,15 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
             <div class="modal-body">
                 <form id="modificar_cliente">
                     <div class="row g-3">
+                        <div id="ci" class="col-sm-12 col-md-6">
+                          <label for="ci" class="form-label small text-muted">CI:</label>
+                          <input id="mod_cliente_ci" name="ci" type="number" class="form-control" onkeypress="return check(event)">
+                        </div>
                         <div id="ca" class="col-sm-12 col-md-6"></div>
+                        
                         <div id="nombre" class="col-sm-12 col-md-6"></div>
-
                         <div id="apellidos" class="col-sm-12 col-md-6"></div>
-                        <div id="ci" class="col-sm-12 col-md-6"></div>
-
+                        
                         <div id="telefono" class="col-sm-12 col-md-6"></div>
                         <div id="lugar" class="col-sm-12 col-md-6"></div>
 
@@ -345,12 +352,11 @@ mensaje.hide();
 
 
 function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo, lider, fecha_alta){
-
-  document.getElementById("ca").innerHTML ='<label for="ca" class="form-label small text-muted">Código cliente:</label><input name="ca" type="number" class="form-control" value="'+ca+'">';
-  document.getElementById("ci").innerHTML ='<label for="ci" class="form-label small text-muted">CI:</label><input name="ci" type="number" class="form-control" value="'+ci+'">';
+  document.getElementById("mod_cliente_ci").value = ci;
+  document.getElementById("ca").innerHTML ='<label for="ca" class="form-label small text-muted">Código cliente:</label><input name="ca_" type="number" class="form-control" value="'+ca+'" id="mod_cliente_ca" disabled><input type="text" name="ca" id="mod_cliente_ca_hidden" value="'+ca+'" hidden>';
   document.getElementById("nombre").innerHTML ='<label for="nombre" class="form-label small text-muted">Nombres: </label><input name="nombre" type="text" class="form-control" value="'+nombre+'">';
   document.getElementById("apellidos").innerHTML ='<label for="apellidos" class="form-label small text-muted">Apellidos: </label><input name="apellidos" type="text" class="form-control" value="'+apellidos+'">';
-  document.getElementById("telefono").innerHTML ='<label for="telefono" class="form-label small text-muted">Teléfono: </label><input name="telefono" type="number" class="form-control" value="'+telefono+'">';
+  document.getElementById("telefono").innerHTML ='<label for="telefono" class="form-label small text-muted">Teléfono: </label><input name="telefono" type="number" class="form-control" onkeypress="return check(event)" value="'+telefono+'">';
   document.getElementById("lugar").innerHTML ='<label for="lugar" class="form-label small text-muted">Lugar: </label><input name="lugar" type="text" class="form-control" value="'+lugar+'">';
   document.getElementById("correo").innerHTML ='<label for="correo" class="form-label small text-muted">Correo: </label><input name="correo" type="email" class="form-control" value="'+correo+'">';
   document.getElementById('mod_btn_eliminar_lider').click();
@@ -404,7 +410,6 @@ $("#modificar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      console.log(echo)
     	mensaje.html(echo);
       if (echo.includes('success')) {
         $("#modal3").modal('toggle')
@@ -451,7 +456,7 @@ $("#agregar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      console.log(echo)
+      // console.log(echo)
       if (echo.includes('reg')){
       	mtoast('<b>'+echo+'</b>', 'success')
       	$("#modal1").modal('toggle')
@@ -500,7 +505,16 @@ document.getElementById('mod_btn_eliminar_lider').onclick = function() {
   document.getElementById('mod_id_lider').value = "";
 }
 
-
+document.getElementById('agregar_cliente_cedula').addEventListener('input', ()=>{ 
+  let cod = document.getElementById('agregar_cliente_cedula').value
+  document.getElementById('agregar_cliente_codigo_hidden').value = cod;
+  document.getElementById('agregar_cliente_codigo').value = cod;
+})
+document.getElementById('mod_cliente_ci').addEventListener('input', ()=>{ 
+  let cod = document.getElementById('mod_cliente_ci').value
+  document.getElementById('mod_cliente_ca_hidden').value = cod;
+  document.getElementById('mod_cliente_ca').value = cod;
+})
   // $(document).ready(function() {
   //   $('select').material_select();
   // });

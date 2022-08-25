@@ -55,8 +55,8 @@
                     <form id="acceso">
                         <div class="input-field">
                             <i class="material-icons prefix">account_circle</i>
-                            <input inputmode="numeric" class=" tam validate" type="text" id="codigo" name="codigo" />
-                            <label for="codigo" class="tam active" style="color: #616161">Código Arbell</label>
+                            <input inputmode="numeric" class=" tam validate" type="password" id="codigo" name="codigo" />
+                            <label for="codigo" class="tam active" style="color: #616161">Código BioEsencia</label>
                         </div>
                         <div class="input-field">
                             <i class="material-icons prefix">lock</i>

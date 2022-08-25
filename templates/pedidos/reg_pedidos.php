@@ -53,7 +53,7 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
     <thead>
         <tr class="text-center">
             <th>Código</th>
-            <th>CA</th>
+            <th>CI</th>
             <th>Cliente</th>
             <th>Fecha</th>
             <th>Tipo pago</th>
