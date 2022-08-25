@@ -69,13 +69,11 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
         <thead >
           <tr class="text-center">
               <th>Codigo cliente</th>
-              <th>CI</th>
               <th>Nombre</th>
               <th>Apellidos</th>
               <th>Teléfono</th>
               <th>Lugar</th>
               <th>Correo</th>
-
               <th>Nivel</th>
               <th>Modificar</th>
               <th>Borrar</th>
@@ -87,15 +85,13 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
         <?php foreach($fila as $a  => $valor){ ?>
           <tr>
             <td><?php echo $valor["CA"] ?></td>
-            <td><?php echo $valor["CI"] ?></td>
+
             <td><?php echo $valor["nombre"] ?></td>
             <td><?php echo $valor["apellidos"] ?></td>
             <td><?php echo $valor["telefono"] ?></td>
             <td width="8%"><?php echo $valor["lugar"] ?></td>
             <td><?php echo $valor["correo"] ?></td>
-
             <td><?php echo $valor["nivel"] ?></td>
-       
             <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['CA'] ?>','<?php echo $valor['CI'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>','<?php echo $valor['lider'] ?>','<?php echo $valor['fecha_alta'] ?>');">
             <i class="material-icons">build</i></a></td>
             <!--HASTA AQUI-->
