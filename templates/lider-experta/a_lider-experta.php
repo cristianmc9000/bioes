@@ -211,7 +211,7 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
                     <div class="row g-3">
                         <div id="ci" class="col-sm-12 col-md-6">
                           <label for="ci" class="form-label small text-muted">CI:</label>
-                          <input id="mod_cliente_ci" name="ci" type="number" class="form-control" onkeypress="return check(event)">
+                          <input id="mod_cliente_ci" name="ci" type="number" class="form-control" onkeypress="return check(event)" required>
                         </div>
                         <div id="ca" class="col-sm-12 col-md-6"></div>
                         
