@@ -294,9 +294,9 @@ body {
               </div>
 
               <div class="col-md-12">
-                <table id="table_ini_1" class="datatable tabla1 table content-table table-hover">
+                <table id="table_ini_1" class="datatable tabla1 table content-table table-hover text-center">
                   <thead>
-                    <tr>
+                    <tr class="text-center">
                       <th>Código <br> (Producto)</th>
                       <th>Linea</th>
                       <th>Descripción</th>
@@ -307,10 +307,10 @@ body {
                   <tbody>
                   <?php foreach($fila as $a  => $valor){ ?>
                     <tr>
-                      <td><?php echo $valor["id"] ?></td>
+                      <td width="5%"><?php echo $valor["id"] ?></td>
                       <td><?php echo $valor["linea"] ?></td>
                       <td><?php echo $valor["descripcion"] ?></td>
-                      <td><?php echo $valor["cantidad"] ?></td>
+                      <td width="5%"><?php echo $valor["cantidad"] ?></td>
                     </tr>
                     <?php }?>
                   </tbody>
