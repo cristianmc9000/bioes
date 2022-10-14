@@ -222,17 +222,27 @@ $fila = $Busq->fetch_all(MYSQLI_ASSOC);
   </div>
 
 
-<div class="row">
-    <div id="modal4" class="modal roboto col s4 offset-s4">
-        <div class="modal-content">
-          <h4>Se rechazará el pedido seleccionado.</h4>
+
+
+<!--MODAL MODIFICAR INVENTARIO-->
+<div id="modal4" class="modal fade roboto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"><b>Rechazar pedido</b></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Se rechazará el pedido seleccionado.</p>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-light btn red left">Cerrar</a>
-            <a href="#!" id="del_ped" class="waves-effect waves-light btn">Aceptar</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button href="#!" id="del_ped" class="btn btn-primary">Confirmar</button>
         </div>
     </div>
 </div>
+</div>
+
 
 </div>
 </div>
@@ -574,24 +584,19 @@ document.getElementById('reg_ped').addEventListener('click', () => {
 });
 function rechazar_pedido(id) {
     document.getElementById('id_ped').value = id
-    $("#modal4").openModal()
+    $("#modal4").modal('toggle')
 }
 
 document.getElementById('del_ped').addEventListener('click', () => {
     let id = document.getElementById('id_ped').value
-    $.ajax({
-        url: "recursos/pedidos/rechazar.php?id="+id,
-        method: "GET",
-        success: function(response) {
-            // console.log(response)
-            $("#modal4").closeModal();
-            Materialize.toast("El pedido fué rechazado.", 4000);
-            $("#cuerpo").load("templates/pedidos/pedidos.php");
-        },
-        error: function(error) {
-            console.log(error)
-        }
-    });    
+    fetch("recursos/pedidos/rechazar.php?id="+id)
+    .then(response => response.text())
+    .then(data => {
+        $("#modal4").modal('toggle');
+        mtoast("El pedido fué rechazado.", 'warning');
+        $("#cuerpo").load("templates/pedidos/pedidos.php");
+    })
+   
 })
 
 //funcion periodo
