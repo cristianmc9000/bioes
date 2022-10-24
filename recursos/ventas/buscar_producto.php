@@ -8,10 +8,10 @@ if(isset($_GET["term"]))
 {
 
     //NUEVA CONSULTA, RECOGE PRECIO DE ÚLTIMA VENTA REALIZADA... TEST
-    $result = $conexion->query("SELECT a.id, a.combo, (SELECT f.descuento FROM detalle_compra f WHERE f.codp = a.id ORDER BY f.codc DESC LIMIT 1) AS descuento,(SELECT d.pubs FROM detalle_venta d WHERE d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY d.codv DESC LIMIT 1) AS maxpupesos, c.cantidad AS stock, a.linea, a.descripcion, a.foto, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY a.id ASC");
+    // $result = $conexion->query("SELECT a.id, a.combo, (SELECT f.descuento FROM detalle_compra f WHERE f.codp = a.id ORDER BY f.codc DESC LIMIT 1) AS descuento,(SELECT d.pubs FROM detalle_venta d WHERE d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY d.codv DESC LIMIT 1) AS maxpupesos, c.cantidad AS stock, a.linea, a.descripcion, a.foto, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY a.id ASC");
 
     //CONSULTA FUNCIONAL, RECOGE PRECIO DE INVENTARIO
-    // $result = $conexion->query("SELECT a.id, a.combo, (SELECT f.descuento FROM detalle_compra f WHERE f.codp = a.id ORDER BY f.codc DESC LIMIT 1) AS descuento,(SELECT d.pupesos FROM inventario d WHERE d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY d.id DESC LIMIT 1) AS maxpupesos, c.cantidad AS stock, a.linea, a.descripcion, a.foto, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY a.id ASC");
+    $result = $conexion->query("SELECT a.id, a.combo, (SELECT f.descuento FROM detalle_compra f WHERE f.codp = a.id ORDER BY f.codc DESC LIMIT 1) AS descuento,(SELECT d.pubs FROM inventario d WHERE d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY d.id DESC LIMIT 1) AS maxpupesos, c.cantidad AS stock, a.linea, a.descripcion, a.foto, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY a.id ASC");
 
     //modificar consulta para que salga nombre de la linea ...
     // $result = $conexion->query("SELECT a.id, a.periodo, (SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS maxpupesos,c.cantidad AS stock, a.linea, a.descripcion, a.foto, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY a.id ASC");<-- consulta anterior
@@ -50,4 +50,3 @@ if(isset($_GET["term"]))
  echo json_encode($output);
 }
 ?>
-
