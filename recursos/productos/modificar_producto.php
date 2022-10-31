@@ -30,7 +30,7 @@ if ($check_pedido == 'on') {
 }
 
 
-if (!empty($pubs)) {
+if (!empty($pubs) || $pubs == '0') {
 	$cambio = $_POST['_cambio'];
 	$pup = ((float)$pubs) / ((float)$cambio);
 	$pup = round($pup, 1);
