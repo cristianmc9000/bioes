@@ -864,7 +864,7 @@ $("#modificar_producto").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-        return console.log(echo)
+        // return console.log(echo)
       if (echo !== "") {
         $("#btn-mod_prod").removeClass('disabled')
         document.getElementById('btn-mod_prod').disabled = false
